@@ -20,7 +20,6 @@ function mb_str_word_count($string, $format = 0, $charlist = '[]') {
     }
 }
 // دالة بترجع عنوان الـ IP بتاع المستخدم
-
 function getClientIP(){
   if (!empty($_SERVER['HTTP_CLIENT_IP'])){
       $ip_address = $_SERVER['HTTP_CLIENT_IP'];

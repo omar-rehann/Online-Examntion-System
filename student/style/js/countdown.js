@@ -1,5 +1,3 @@
-// دالة لبدء التايمر التنازلي وعرض الوقت المتبقي
-
 function startTimer(duration, display) {
     var timer = duration,
         minutes, seconds;
@@ -12,10 +10,32 @@ function startTimer(duration, display) {
 
         display.textContent = minutes + ":" + seconds;
 
-        if (--timer < 0) {
-            timer = duration;
-        }
-        if (timer == (4 * 60)) {
+        console.log("Timer value:", timer); // تصحيح
+        if (timer === 1) {
+            console.log("Timer reached 00:01, attempting to save answers...");
+            clearInterval(t);
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Submitting Your Answers',
+                timerProgressBar: true,
+                showConfirmButton: false,
+                timer: 500
+            });
+            try {
+                saveAnswer();
+                submitAnswers().catch(error => {
+                    console.error("Error in submitAnswers:", error);
+                });
+            } catch (error) {
+                console.error("Error in saveAnswer or submitAnswers:", error);
+            }
+            setTimeout(() => {
+                console.log("Redirecting to home page...");
+                window.location.href = "http://localhost/test/student/?home";
+            }, 500);
+        } else if (timer === 4 * 60) { // تحذير عند 4 دقايق
+            console.log("Showing warning at 4 minutes");
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top-end',
@@ -23,26 +43,22 @@ function startTimer(duration, display) {
                 timer: 3000,
                 timerProgressBar: true,
                 onOpen: (toast) => {
-                    toast.addEventListener('mouseenter', Swal.stopTimer)
-                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
                 }
-            })
+            });
 
             Toast.fire({
                 icon: 'warning',
                 title: 'You are running out of time'
-            })
+            });
         }
-        if (timer == 0) {
-            saveAnswer();
-            clearInterval(t);
-            submitAnswers();
-        }
+
+        --timer; // تقليل التايمر بعد الفحص
     }, 1000);
 }
-// دالة لضبط التايمر وبدء العداد بناءً على المدة المعطاة
 
 function setTimer(time) {
-    display = document.querySelector('#timer');
+    var display = document.querySelector('#timer');
     startTimer(time, display);
-};
+}

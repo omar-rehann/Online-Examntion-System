@@ -191,76 +191,82 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
     }
 
     // دالة لتقديم الإجابات
-    public function submitAnswers($answers) {
-        try {
-            $resultID = $this->getLastResult()->id; // جلب معرف آخر نتيجة
-            $query = 'INSERT INTO result_answers(resultID, questionID, answerID, isTrue, textAnswer) VALUES ';
-            foreach ($answers as $answer) {
-                $query .= '(' . $resultID . ',';
-                $query .= $answer['questionID'] . ',';
-                $query .= (($answer['answerID']) ? $answer['answerID'] : 'NULL') . ',';
-                $query .= (($answer['isTrue']) ? 1 : 0) . ',';
-                $query .= (($answer['textAnswer']) ? '"' . $answer['textAnswer'] . '"' : 'NULL') . '),';
-                
-                // التحقق من الإجابة الصحيحة
-                $is_correct = false;
-                if ($answer['answerID']) {
-                    // استعلام للتحقق إذا كانت الإجابة صحيحة
-                    $checkQuery = "SELECT isCorrect FROM question_answers WHERE id = :answerID";
-                    $checkStatement = $this->connect()->prepare($checkQuery);
-                    $checkStatement->bindParam(":answerID", $answer['answerID']);
-                    $checkStatement->execute();
-                    $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
-                    $is_correct = $result && $result['isCorrect'] == 1;
-                } elseif ($answer['isTrue'] !== null) {
-                    // للأسئلة الصح/غلط
-                    $checkQuery = "SELECT isTrue FROM question WHERE id = :questionID";
-                    $checkStatement = $this->connect()->prepare($checkQuery);
-                    $checkStatement->bindParam(":questionID", $answer['questionID']);
-                    $checkStatement->execute();
-                    $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
-                    $is_correct = $result && $result['isTrue'] == $answer['isTrue'];
-                }
-                
-                // إضافة إجابة في جدول answers
-                $this->insertOrUpdateAnswer(
-                    $_SESSION['CurrentTest']->id, // exam_id
-                    $answer['questionID'],        // question_id
-                    $_SESSION['student']->id,    // student_id
-                    $is_correct                  // is_correct
-                );
-            }
-            $query = rtrim($query, ","); // إزالة الفاصلة الأخيرة
-            $query .= '; INSERT INTO result_answers(resultID, questionID, answerID, isTrue, textAnswer) 
-                       SELECT resultID, questionID, NULL, NULL, NULL 
-                       FROM tempquestions 
-                       WHERE resultID = ' . $resultID . '
-                       AND questionID NOT IN (SELECT questionID FROM result_answers WHERE resultID = ' . $resultID . ')';
+  public function submitAnswers($answers) {
+    try {
+        $resultID = $this->getLastResult()->id; // جلب معرف آخر نتيجة
+        $query = 'INSERT INTO result_answers(resultID, questionID, answerID, isTrue, textAnswer) VALUES ';
+        foreach ($answers as $answer) {
+            $query .= '(' . $resultID . ',';
+            $query .= $answer['questionID'] . ',';
+            $query .= (($answer['answerID']) ? $answer['answerID'] : 'NULL') . ',';
+            $query .= (($answer['isTrue']) ? 1 : 0) . ',';
+            $query .= (($answer['textAnswer']) ? '"' . $this->connect()->quote($answer['textAnswer']) . '"' : 'NULL') . '),';
             
-            $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-            $statement->execute(); // تنفيذ الاستعلام
-    
-            // تحديث نقاط الإجابات
-            $this->reviewAnswers();
-    
-            // حساب الدرجة وتحديث score
-            $scoreQuery = "SELECT getResultGrade(:resultID) AS score";
-            $scoreStatement = $this->connect()->prepare($scoreQuery);
-            $scoreStatement->bindParam(":resultID", $resultID);
-            $scoreStatement->execute();
-            $score = $scoreStatement->fetch(PDO::FETCH_ASSOC)['score'] ?? 0;
-    
-            $updateQuery = "UPDATE result SET score = :score WHERE id = :resultID";
-            $updateStatement = $this->connect()->prepare($updateQuery);
-            $updateStatement->bindParam(":score", $score);
-            $updateStatement->bindParam(":resultID", $resultID);
-            $updateStatement->execute();
-    
-            return 'success'; // إرجاع نجاح العملية
-        } catch (PDOException $error) {
-            return $error->getMessage(); // إرجاع رسالة الخطأ إذا حدث
+            // التحقق من الإجابة الصحيحة
+            $is_correct = false;
+            if ($answer['answerID']) {
+                $checkQuery = "SELECT isCorrect FROM question_answers WHERE id = :answerID";
+                $checkStatement = $this->connect()->prepare($checkQuery);
+                $checkStatement->bindParam(":answerID", $answer['answerID']);
+                $checkStatement->execute();
+                $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
+                $is_correct = $result && $result['isCorrect'] == 1;
+            } elseif ($answer['isTrue'] !== null) {
+                $checkQuery = "SELECT isTrue FROM question WHERE id = :questionID";
+                $checkStatement = $this->connect()->prepare($checkQuery);
+                $checkStatement->bindParam(":questionID", $answer['questionID']);
+                $checkStatement->execute();
+                $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
+                $is_correct = $result && $result['isTrue'] == $answer['isTrue'];
+            }
+            
+            // إضافة إجابة في جدول answers
+            $this->insertOrUpdateAnswer(
+                $_SESSION['CurrentTest']->id,
+                $answer['questionID'],
+                $_SESSION['student']->id,
+                $is_correct
+            );
         }
+        $query = rtrim($query, ","); // إزالة الفاصلة الأخيرة
+        $query .= '; INSERT INTO result_answers(resultID, questionID, answerID, isTrue, textAnswer) 
+                   SELECT resultID, questionID, NULL, NULL, NULL 
+                   FROM tempquestions 
+                   WHERE resultID = ' . $resultID . '
+                   AND questionID NOT IN (SELECT questionID FROM result_answers WHERE resultID = ' . $resultID . ')';
+        
+        $statement = $this->connect()->prepare($query);
+        $statement->execute();
+    
+        // تحديث نقاط الإجابات
+        $this->reviewAnswers();
+    
+        // حساب الدرجة وتحديث score
+        $scoreQuery = "SELECT getResultGrade(:resultID) AS score";
+        $scoreStatement = $this->connect()->prepare($scoreQuery);
+        $scoreStatement->bindParam(":resultID", $resultID);
+        $scoreStatement->execute();
+        $score = $scoreStatement->fetch(PDO::FETCH_ASSOC)['score'] ?? 0;
+    
+        $updateQuery = "UPDATE result SET score = :score WHERE id = :resultID";
+        $updateStatement = $this->connect()->prepare($updateQuery);
+        $updateStatement->bindParam(":score", $score);
+        $updateStatement->bindParam(":resultID", $resultID);
+        $updateStatement->execute();
+    
+        // إنهاء الاختبار
+        $finishResult = $this->FinishTest();
+        if ($finishResult !== true) {
+            error_log("Failed to finish test: " . $finishResult);
+            return "Failed to finish test: " . $finishResult;
+        }
+    
+        return 'success';
+    } catch (PDOException $error) {
+        error_log("Error in submitAnswers: " . $error->getMessage());
+        return $error->getMessage();
     }
+}
     // دالة لمراجعة الإجابات
     public function reviewAnswers() {
         // استعلام لتحديث حالة الإجابات ونقاطها
@@ -314,45 +320,42 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
 
     // دالة لإنهاء الاختبار
     public function FinishTest() {
-        try {
-            $ip_address = getClientIP(); // جلب عنوان IP للطالب
-            $hostname = gethostbyaddr($ip_address); // جلب اسم المضيف
-            $resultID = $this->getLastResult()->id; // جلب معرف النتيجة الأخيرة
-            
-            // تحديث نقاط الإجابات
-            $this->reviewAnswers();
-    
-            // حساب الدرجة النهائية
-            $scoreQuery = "SELECT getResultGrade(:resultID) AS score";
-            $scoreStatement = $this->connect()->prepare($scoreQuery);
-            $scoreStatement->bindParam(":resultID", $resultID);
-            $scoreStatement->execute();
-            $score = $scoreStatement->fetch(PDO::FETCH_ASSOC)['score'] ?? 0; // score (Dynamic Question )
-    
-            // تحديث حالة الاختبار والدرجة
-            $query = "UPDATE result 
-                      SET isTemp = 0, 
-                          endTime = convert_tz(NOW(), @@session.time_zone, '+02:00'), 
-                          hostname = :hostname, 
-                          ipaddr = :ipaddr,
-                          score = :score
-                      WHERE studentID = :studID AND isTemp 
-                      ORDER BY id DESC 
-                      LIMIT 1;
-                      DELETE FROM tempquestions 
-                      WHERE resultID = (SELECT MAX(id) FROM result WHERE studentID = :studID)";
-            
-            $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-            $statement->bindParam(":studID", $_SESSION['student']->id); // ربط معرف الطالب
-            $statement->bindParam(":hostname", $hostname); // ربط اسم المضيف
-            $statement->bindParam(":ipaddr", $ip_address); // ربط عنوان IP
-            $statement->bindParam(":score", $score); // ربط الدرجة
-            $statement->execute(); // تنفيذ الاستعلام
-            return true; // إرجاع نجاح العملية
-        } catch (PDOException $error) {
-            return $error->getMessage(); // إرجاع رسالة الخطأ إذا حدث
-        }
+    try {
+        $ip_address = $this->getClientIP(); // تعديل هنا
+        $hostname = gethostbyaddr($ip_address);
+        $resultID = $this->getLastResult()->id;
+        
+        $this->reviewAnswers();
+        
+        $scoreQuery = "SELECT getResultGrade(:resultID) AS score";
+        $scoreStatement = $this->connect()->prepare($scoreQuery);
+        $scoreStatement->bindParam(":resultID", $resultID);
+        $scoreStatement->execute();
+        $score = $scoreStatement->fetch(PDO::FETCH_ASSOC)['score'] ?? 0;
+        
+        $query = "UPDATE result 
+                  SET isTemp = 0, 
+                      endTime = convert_tz(NOW(), @@session.time_zone, '+02:00'), 
+                      hostname = :hostname, 
+                      ipaddr = :ipaddr,
+                      score = :score
+                  WHERE studentID = :studID AND isTemp 
+                  ORDER BY id DESC 
+                  LIMIT 1;
+                  DELETE FROM tempquestions 
+                  WHERE resultID = (SELECT MAX(id) FROM result WHERE studentID = :studID)";
+        
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":studID", $_SESSION['student']->id);
+        $statement->bindParam(":hostname", $hostname);
+        $statement->bindParam(":ipaddr", $ip_address);
+        $statement->bindParam(":score", $score);
+        $statement->execute();
+        return true;
+    } catch (PDOException $error) {
+        return $error->getMessage();
     }
+}
 
     // دالة لجلب جميع نتائج الطالب
     public function getMyResults() {
@@ -553,6 +556,15 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
             return false;
         }
     }
+    public function getClientIP() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        return $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        return $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        return $_SERVER['REMOTE_ADDR'];
+    }
+}
 }
 
 ?>
