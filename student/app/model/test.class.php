@@ -29,7 +29,6 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
 
     // دالة لجلب تفاصيل اختبار معين
     public function getTest($testID) {
-        // استعلام لجلب تفاصيل الاختبار المتاح
         $query = "SELECT t.id, t.name, c.name AS course, i.name AS instructor, 
                   getQuestionsInTest(t.id) AS questions, ts.startTime, ts.duration, 
                   ts.passPercent, ts.endTime, ts.prevQuestion, ts.id AS settingID, g.id AS groupID
@@ -43,14 +42,13 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
                   AND t.id NOT IN (SELECT testID FROM result WHERE studentID = gs.studentID) 
                   AND t.id = :tID";
         
-        $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-        $statement->bindParam(":studID", $_SESSION['student']->id); // ربط معرف الطالب
-        $statement->bindParam(":tID", $testID); // ربط معرف الاختبار
-        $statement->execute(); // تنفيذ الاستعلام
-        $results = $statement->fetchAll(PDO::FETCH_OBJ); // جلب النتائج
-        return $results[0]; // إرجاع أول نتيجة (كائن واحد)
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":studID", $_SESSION['student']->id);
+        $statement->bindParam(":tID", $testID);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_OBJ);
+        return $results[0];
     }
-
     // دالة للتحقق مما إذا تم أخذ الاختبار من قبل
     public function checkTestTaken() {
         // استعلام للتحقق من وجود نتيجة للاختبار
