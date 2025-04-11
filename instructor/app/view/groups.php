@@ -27,6 +27,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 								<button type="button" class="btn btn-warning float-right w-100"  data-toggle="modal" data-target="#addstudent">
 									<i class="fa fa-plus"></i> Add Students
 								</button>
+								<!-- Modal add Student to Group  -->
 
 							<div class="modal fade" id="addstudent" tabindex="-1" role="dialog">
 							  <div class="modal-dialog" role="document">
@@ -65,6 +66,8 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 						    }, delayMs);
 						});
 						</script>
+
+						<!-- Message After Succses Add Memebr -->
 
 						<div class="modal fade" id="addReport">
 						      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -109,6 +112,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 					unset($_SESSION['valid']);
 					unset($_SESSION['nonValid']);
 					} ?>
+					<!-- Member Group  -->
 						<div class="card">
 							<div class="card-header">
 								<strong class="card-title">Group Members</strong>
@@ -153,6 +157,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 							</div>
 						</div>
 					<?php }else{ ?>
+						<!-- Home Page Group  -->
             <div class="card">
               <div class="card-header">
                 <strong class="card-title">Groups</strong>
@@ -199,6 +204,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                           <button type="button" data-toggle="modal" data-target="#editgroup" data-gname="<?php echo $group->name ?>" data-gid="<?php echo $group->id ?>" class="btn btn-outline-primary btn-block"><i class="fa fa-magic"></i>Update</button>
                         </td>
 											</tr>
+											<!-- Detial Assigned Test (تفاصيل الامتحان بتاعتي ال انا حددتها ) -->
 											<?php if($group->assignedTest){ ?>
 											<tr>
 												<td colspan="10"  style="padding-left:20px">
@@ -242,6 +248,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                 </table>
               </div>
             </div>
+			<!-- Modal Add Group -->
 						<div class="modal fade" id="addnewgroup" tabindex="-1" role="dialog" aria-labelledby="addnewgroupLabel" aria-hidden="true">
 				      <div class="modal-dialog modal-dialog-centered  modal-sm" role="document">
 				        <div class="modal-content">
@@ -268,6 +275,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
+			<!-- Modal Edit Group -->
 
 				    <div class="modal fade" id="editgroup" tabindex="-1" role="dialog" aria-labelledby="editgroupLabel" aria-hidden="true">
 				      <div class="modal-dialog modal-dialog-centered  modal-sm" role="document">
@@ -296,6 +304,9 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
+					
+						<!-- Modal Edit Update Informtion Test -->
+
 
 						<div class="modal fade" id="updateAssignedTest" tabindex="-1" role="dialog" aria-labelledby="updateAssignedTestLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered " role="document">

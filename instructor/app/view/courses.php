@@ -95,7 +95,7 @@ require_once 'navbar.php';
 
 
     <!-- .animated -->
-
+     <!-- Modal Course  -->
     <div class="modal fade" id="addnewcourse" tabindex="-1" role="dialog" aria-labelledby="addnewcourseLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -120,7 +120,7 @@ require_once 'navbar.php';
           </div>
         </div>
       </div>
-
+<!-- Modal Topic -->
     <div class="modal fade" id="addnewtopic" tabindex="-1" role="dialog" aria-labelledby="addnewtopicLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
@@ -157,7 +157,7 @@ require_once 'navbar.php';
           </div>
         </div>
       </div>
-
+<!-- Modal Edit Course  -->
     <div class="modal fade" id="editcourse" tabindex="-1" role="dialog" aria-labelledby="editcourseLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
