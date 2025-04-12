@@ -2,7 +2,7 @@
 
 class admin extends dbh {
   
-  // الحصول على جميع المدربين ( Only Admin)
+  // الحصول على جميع المدربين ( Only Instructor)
   public function getAllInstructors() {
     $db = $this->connect();
     $query = "SELECT * FROM instructor WHERE !isAdmin";
