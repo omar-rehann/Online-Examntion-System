@@ -2,7 +2,7 @@
 class dbh {
     // معلومات الاتصال بقاعدة البيانات
     private $host = "localhost";  // عنوان السيرفر
-    private $port = "3306";       // منفذ الاتصال
+   private $port = "3306";       // منفذ الاتصال
     private $username = "root";   // اسم المستخدم
     private $password = "";       // كلمة المرور
     private $dbName = "final";    // اسم قاعدة البيانات
