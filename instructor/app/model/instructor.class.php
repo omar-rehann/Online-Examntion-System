@@ -2,7 +2,7 @@
 
 class Instructor extends dbh {
 
-    // الحصول  كل الدكاترة 
+    // الحصول علي  كل الدكاترة 
     public function getAll() {
         $sql = "SELECT id, name, password, email, phone, isAdmin FROM instructor";
         $stmt = $this->connect()->query($sql);
