@@ -16,10 +16,10 @@ $myGroups = $grp->getMyGroups();
       <strong class="card-title">Groups</strong>
     </div>
     <div class="card-body">
-        <table class="table">
+        <table class="table ">
           <thead>
             <tr>
-              <th scope="col">Test</th>
+              <th scope="col">Name Group</th>
               <th scope="col">Instructor</th>
               <th scope="col">End date</th>
               <th scope="col">-</th>
