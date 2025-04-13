@@ -87,11 +87,11 @@ define('ContainsPagination', true);
                                 <span class="badge badge-success pull-right"><?php echo date("Y-m-d h:i a", strtotime($myTest->endTime)); ?></span>
                             </div>
                         </li>
-                        <li class="list-group-item">
-                            <div> <i class="fa fa-th-list"></i> No. Of Questions 
-                                <span class="badge badge-primary pull-right"><?php echo $myTest->questions ?></span>
-                            </div>
-                        </li>
+                                        <li class="list-group-item">
+                    <div> <i class="fa fa-th-list"></i> No. Of Questions 
+                        <span class="badge badge-primary pull-right"><?php echo $myTest->questions ?></span>
+                    </div>
+                </li>
                         <li class="list-group-item">
                             <div> <i class="fa fa-clock-o"></i> Test Duration 
                                 <span class="badge badge-danger pull-right"><?php echo $myTest->duration ?> Minutes</span>

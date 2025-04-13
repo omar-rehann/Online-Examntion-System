@@ -74,13 +74,13 @@ if (isset($_GET['uploadImage'])) {
     header('Location: ../../?questions=add&topic=' . $course);exit;
 } elseif (isset($_GET['deleteQuestion'])) {
     $qst = new question;
-    $qst->setQuestionDelete($_GET['deleteQuestion']);
+    $qst->setQuestionDelete($_GET['deleteQuestion']); // حذف مؤقت 
     header('Location: ../../?questions');
 } elseif (isset($_GET['restoreQuestion'])) {
     $qst = new question;
     $qst->restoreQuestion($_GET['restoreQuestion']);
     header('Location: ' . $_SERVER['HTTP_REFERER']);
-} elseif (isset($_GET['PDeleteQuestion'])) {
+} elseif (isset($_GET['PDeleteQuestion'])) { //  الحذف الدائم
     $qst = new question;
     $qst->pDeleteQuestion($_GET['PDeleteQuestion']);
     header('Location: ' . $_SERVER['HTTP_REFERER']);

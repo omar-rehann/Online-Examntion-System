@@ -1,11 +1,15 @@
+// عند تحميل الصفحة بالكامل، يتم إخفاء شاشة التحميل ببطء
 $(window).load(function() {
     $('.preloader').fadeOut('slow');
 });
+
+// عند النقر على عنصر lightbox، يتم منع السلوك الافتراضي وفتح المعرض
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {
     event.preventDefault();
     $(this).ekkoLightbox();
 });
 
+// دالة لعرض نافذة تأكيد مخصصة باستخدام SweetAlert
 function customConfirm(lnk, conf, succ) {
     Swal.fire({
         title: 'Are you sure?',
@@ -25,47 +29,63 @@ function customConfirm(lnk, conf, succ) {
                     window.location.href = lnk;
                 }
             })
-
         }
     })
 }
 
+// تنفيذ الكود عند تحميل jQuery
 (function($) {
+    // عند عرض تبويب المطابقة، إخفاء مجموعة النقاط
     $('.matchingTab').on('show.bs.tab', function() {
         $('.points-group').addClass('d-none');
     });
+
+    // عند إخفاء تبويب المطابقة، إظهار مجموعة النقاط
     $('.matchingTab').on('hide.bs.tab', function() {
         $('.points-group').removeClass('d-none');
     });
 
+    // التحقق من صحة السؤال قبل الإضافة
     $('#AddQuestion').click(function(e) {
         var answerExist = 0;
         var qtype = -1;
+
+        // التحقق من الأسئلة المقالية و الصح/خطأ
         $('#TF.tab-pane.fade.active.show').each(function() {
             answerExist = 1;
         });
         $('#essay.tab-pane.fade.active.show').each(function() {
             answerExist = 1;
         });
+
+        // التحقق من أسئلة الاختيار المتعدد
         $('#MCQ.tab-pane.fade.active.show .mcqTextarea').each(function() {
             qtype = 0;
             if ((!$(this).summernote('isEmpty')) && $(this).closest("li").find("input[type=radio]").prop("checked")) {
                 answerExist += 1;
             }
         });
+
+        // التحقق من أسئلة الاختيار المتعدد المتعدد
         $('#MSQ.tab-pane.fade.active.show .msqTextarea').each(function() {
             qtype = 3;
             if ((!$(this).summernote('isEmpty')) && $(this).closest("li").find("input[type=checkbox]").prop("checked")) {
                 answerExist += 1;
             }
         });
+
+        // التحقق من أسئلة الإكمال
         $('#COMPLETE.tab-pane.fade.active.show .Completelist input').each(function() {
             if ($(this).val() != '') answerExist = 1;
         });
+
+        // التحقق من أسئلة المطابقة
         $('#matching.tab-pane.fade.active.show #MatchingAnswers li').each(function() {
             if ($(this).find('.matchInp').val() != '' && $(this).find('.matchAnswerInp').val() != '')
                 answerExist = 1;
         });
+
+        // التحقق من وجود نص السؤال
         if ($('#textarea-input').summernote('isEmpty')) {
             Swal.fire({
                 icon: 'error',
@@ -74,12 +94,14 @@ function customConfirm(lnk, conf, succ) {
             });
             return false;
         }
+
+        // التحقق من وجود إجابات صحيحة حسب نوع السؤال
         if (qtype == 0) {
             if (answerExist == 0) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed..',
-                    text: 'Multiple Choise question must have at least one correct answer!'
+                    text: 'Multiple Choice question must have at least one correct answer!'
                 });
                 return false;
             }
@@ -88,7 +110,7 @@ function customConfirm(lnk, conf, succ) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed..',
-                    text: 'Multiple Select question must have at least two correct answer!'
+                    text: 'Multiple Select question must have at least two correct answers!'
                 });
                 return false;
             }
@@ -97,14 +119,14 @@ function customConfirm(lnk, conf, succ) {
                 Swal.fire({
                     icon: 'error',
                     title: 'Failed..',
-                    text: 'Question Must have at least one valid answer!'
+                    text: 'Question must have at least one valid answer!'
                 });
                 return false;
             }
         }
-
     });
 
+    // التحقق من وجود أسئلة قبل تعيين الاختبار
     $('#assignButton').click(function(e) {
         var questions = $(this).data('questions');
 
@@ -119,6 +141,7 @@ function customConfirm(lnk, conf, succ) {
         return true;
     });
 
+    // التحقق من صحة وقت الاختبار
     $('.submitAssign').on('click', function(e) {
         var start = moment($('input[name="startTime"]').val(), "MM/DD/YYYY h:mm a");
         var end = moment($('input[name="endTime"]').val(), "MM/DD/YYYY h:mm a");
@@ -127,29 +150,40 @@ function customConfirm(lnk, conf, succ) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'The test duration is bigger then the difference between start and end times!'
+                text: 'The test duration is longer than the time between start and end times!'
             });
             return false;
         } else {
             return true;
         }
     })
+
+    // تهيئة أداة نسخ النص
     new ClipboardJS('.btn');
 
+    // تهيئة عناصر اختيار التاريخ والوقت
     $('#startTimePicker').datetimepicker();
     $('#endTimePicker').datetimepicker({
         useCurrent: false
     });
+
+    // تحديث الحد الأدنى للتاريخ النهائي عند تغيير التاريخ الأولي
     $("#startTimePicker").on("change.datetimepicker", function(e) {
         $('#endTimePicker').datetimepicker('minDate', e.date);
     });
+
+    // تحديث الحد الأقصى للتاريخ الأولي عند تغيير التاريخ النهائي
     $("#endTimePicker").on("change.datetimepicker", function(e) {
         $('#startTimePicker').datetimepicker('maxDate', e.date);
     });
+
+    // تهيئة حقول التاريخ والوقت الموجودة مسبقاً
     $('.datetimepicker-input').each(function() {
         var date = moment($(this).data('datetime'), 'YYYY-MM-DD hh:mm a').toDate();
         $(this).datetimepicker({ date: date });
     });
+
+    // إدارة اختيار الإجابة الصحيحة في الأسئلة متعددة الخيارات
     $(document).on('click', '.mcqCheckInput', function() {
         $('.mcqCheckInput').each(function() {
             $(this).prop('checked', false);
@@ -157,23 +191,28 @@ function customConfirm(lnk, conf, succ) {
         });
         $(this).prop('checked', true);
         $(this).closest('li').addClass('correctAnswer');
-
     });
+
+    // عرض اسم الملف عند اختياره
     $('.custom-file-input').on('change', function() {
         var fileName = $(this).val().replace('C:\\fakepath\\', "");
         $(this).next('.custom-file-label').html(fileName);
     })
+
+    // إدارة اختيار الإجابات الصحيحة في الأسئلة متعددة الإجابات
     $(document).on('click', '.msqCheckInput', function() {
         $(this).closest('li').toggleClass('correctAnswer');
-
     });
+
+    // تغيير نوع الإدخال حسب نوع السؤال
     $('ul').on('change', '#qtype', function() {
         if ($(this).val() == 0)
             $('.mcqCheckInput').attr('type', 'radio');
         else if ($(this).val() == 3)
             $('.mcqCheckInput').attr('type', 'checkbox');
     })
-    "use strict";
+
+    // عرض بيانات الطالب في نافذة منبثقة
     $('.showStudentData').click(function(e) {
         e.preventDefault();
         var id = $(this).data('id');
@@ -188,9 +227,9 @@ function customConfirm(lnk, conf, succ) {
                 '<div class="form-group"><label>Phone Number</label><input type="text" class="form-control" value="' + phone + '" disabled></div>',
             focusConfirm: false,
         })
-
     });
 
+    // حذف الإجابة مع طلب التأكيد
     $(document).on('click', '.deleteAnswer', function(e) {
         e.preventDefault();
         var completeanswer = $(this).closest('.completeanswer');
@@ -219,6 +258,8 @@ function customConfirm(lnk, conf, succ) {
             li.remove();
         }
     });
+
+    // تحديث بيانات الاختبار المعين عند عرض النافذة
     $('#updateAssignedTest').on('show.bs.modal', function(e) {
         var gID = $(e.relatedTarget).data('id');
         var tID = $(e.relatedTarget).data('testid');
@@ -240,6 +281,7 @@ function customConfirm(lnk, conf, succ) {
         }
     });
 
+    // حذف الاختبار المعين مع طلب التأكيد
     $('.deleteAssignedTest').on('click', function(e) {
         var gID = $(this).data('gid');
         Swal.fire({
@@ -256,6 +298,8 @@ function customConfirm(lnk, conf, succ) {
             }
         })
     });
+
+    // تحديث بيانات المقرر عند عرض النافذة
     $('#editcourse').on('show.bs.modal', function(e) {
         var name = $(e.relatedTarget).data('cname');
         var courseid = $(e.relatedTarget).data('cid');
@@ -266,12 +310,16 @@ function customConfirm(lnk, conf, succ) {
         $(e.currentTarget).find('select[name="course"]').prop("disabled", disabled);
         $(e.currentTarget).find('select[name="course"]').val(parentid);
     });
+
+    // تحديث بيانات المجموعة عند عرض النافذة
     $('#editgroup').on('show.bs.modal', function(e) {
         var name = $(e.relatedTarget).data('gname');
         var groupid = $(e.relatedTarget).data('gid');
         $(e.currentTarget).find('input[name="groupName"]').val(name);
         $(e.currentTarget).find('input[name="id"]').val(groupid);
     });
+
+    // تحديث بيانات الاختبار عند عرض النافذة
     $('#editTest').on('show.bs.modal', function(e) {
         var name = $(e.relatedTarget).data('tname');
         var testid = $(e.relatedTarget).data('tid');
@@ -281,9 +329,13 @@ function customConfirm(lnk, conf, succ) {
         $(e.currentTarget).find('input[name="oldtestName"]').val(name);
         $(e.currentTarget).find('select[name="Course"]').val(course);
     });
+
+    // تبديل حالة القائمة الجانبية
     $('#menuToggle').on('click', function(event) {
         $('body').toggleClass('open');
     });
+
+    // إضافة خيار جديد لأسئلة الاختيار المتعدد
     $("#MCQaddChoise").click(function() {
         var qtype = document.getElementById("qtype").value;
         var lastAnswer = ++document.getElementById("MCQlastAnswer").value;
@@ -296,13 +348,13 @@ function customConfirm(lnk, conf, succ) {
             '	<hr>' +
             '	<textarea rows="4" placeholder="Answer ' + lastAnswer + '..." name="MCQanswer[' + lastAnswer + '][answertext]" class="form-control mcqTextarea moreansmcq' + lastAnswer + '"></textarea>' +
             '<br>' +
-            '	</div></div>'
-
-            +
+            '	</div></div>' +
             '	</li><br>');
         $('.moreansmcq' + lastAnswer).summernote();
         document.getElementById("MCQlastAnswer").value = lastAnswer;
     })
+
+    // إضافة خيار جديد للأسئلة متعددة الخيارات
     $("#addChoise").click(function() {
         var qtype = document.getElementById("qtype").value;
         var lastAnswer = ++document.getElementById("MCQlastAnswer").value;
@@ -315,13 +367,13 @@ function customConfirm(lnk, conf, succ) {
             '	<hr>' +
             '	<textarea rows="2" placeholder="Answer ' + lastAnswer + '..." name="Qanswer[' + lastAnswer + '][answertext]" class="form-control moreansmcq' + lastAnswer + '"></textarea>' +
             '<br>' +
-            '</div>'
-
-            +
+            '</div>' +
             '</li><br>');
         $('.moreansmcq' + lastAnswer).summernote();
         document.getElementById("MCQlastAnswer").value = lastAnswer;
     })
+
+    // إضافة خيار جديد للأسئلة متعددة الإجابات
     $("#MSQaddChoise").click(function() {
         var qtype = document.getElementById("qtype").value;
         var lastAnswer = ++document.getElementById("MSQlastAnswer").value;
@@ -339,6 +391,7 @@ function customConfirm(lnk, conf, succ) {
         document.getElementById("MSQlastAnswer").value = lastAnswer;
     })
 
+    // إضافة إجابة جديدة لأسئلة الإكمال
     $("#addComAnswer").click(function() {
         var lastCompleteAnswer = ++document.getElementById("lastCompleteAnswer").value;
         $('.Completelist').append('<div class="row form-group completeanswer">' +
@@ -348,6 +401,7 @@ function customConfirm(lnk, conf, succ) {
         document.getElementById("lastCompleteAnswer").value = document.getElementById("lastCompleteAnswer").value++;
     })
 
+    // إضافة زوج مطابقة جديد
     $("#addMatch").click(function() {
         $('#MatchingAnswers').append('<li class="list-group-item">' +
             '<div class="row">' +
@@ -368,6 +422,7 @@ function customConfirm(lnk, conf, succ) {
 
 })(jQuery);
 
+// قراءة وعرض معاينة الصورة المحددة
 function readURL(input, dist) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -381,17 +436,20 @@ function readURL(input, dist) {
     }
 }
 
+// حذف عنصر بواسطة معرفه وإضافة حقل مخفي للإشارة إلى الحذف
 function RemoveById(input, i, id) {
     document.getElementById(input).remove();
     $('.choiseslist').append('<input type="hidden" name="Qanswer[' + i + '][Delete]" value="' + id + '">')
 }
 
-
-
+// دالات إنشاء المخططات الدائرية:
+// ----------------------------
+// حساب حجم الشريحة بناء على القيمة والنسبة
 function sliceSize(dataNum, dataTotal) {
     return (dataNum / dataTotal) * 360;
 }
 
+// إضافة شريحة جديدة إلى المخطط الدائري
 function addSlice(id, sliceSize, pieElement, offset, sliceID, color) {
     $(pieElement).append("<div class='slice " + sliceID + "'><span></span></div>");
     var offset = offset - 1;
@@ -407,6 +465,7 @@ function addSlice(id, sliceSize, pieElement, offset, sliceID, color) {
     });
 }
 
+// تكرار إضافة الشرائح حسب الحاجة
 function iterateSlices(id, sliceSize, pieElement, offset, dataCount, sliceCount, color) {
     var
         maxSize = 179,
@@ -420,6 +479,7 @@ function iterateSlices(id, sliceSize, pieElement, offset, dataCount, sliceCount,
     }
 }
 
+// إنشاء المخطط الدائري بالكامل
 function createPie(id) {
     var
         listData = [],
@@ -434,15 +494,17 @@ function createPie(id) {
         "#dc3545"
     ];
 
-
+    // جمع البيانات من العناصر
     $(dataElement + " span").each(function() {
         listData.push(Number($(this).html()));
     });
 
+    // حساب المجموع الكلي
     for (i = 0; i < listData.length; i++) {
         listTotal += listData[i];
     }
 
+    // إنشاء كل شريحة في المخطط
     for (i = 0; i < listData.length; i++) {
         var size = sliceSize(listData[i], listTotal);
         iterateSlices(id, size, pieElement, offset, i, 0, color[i]);
@@ -451,6 +513,7 @@ function createPie(id) {
     }
 }
 
+// خلط عناصر المصفوفة عشوائياً
 function shuffle(a) {
     var j, x, i;
     for (i = a.length; i; i--) {
@@ -459,31 +522,29 @@ function shuffle(a) {
         a[i - 1] = a[j];
         a[j] = x;
     }
-
     return a;
 }
 
+// إنشاء المخططات الدائرية المطلوبة
 function createPieCharts() {
     createPie('.pieID--micro-skills');
     createPie('.pieID--categories');
     createPie('.pieID--operations');
 }
 
+// تنفيذ إنشاء المخططات عند تحميل الصفحة
 createPieCharts();
-//Charts End
 
-
+// تهيئة دائرة التقدم عند تحميل الصفحة
 $(function() {
     $('#progress').circliful();
 });
 
-/* PROGRESS CIRCLE COMPONENT */
+/* مكون دائرة التقدم */
 (function($) {
-
     $.fn.circliful = function(options, callback) {
-
+        // الإعدادات الافتراضية
         var settings = $.extend({
-            // These are the defaults.
             startdegree: 0,
             fgcolor: "#556b2f",
             bgcolor: "#eee",
@@ -501,9 +562,8 @@ $(function() {
         }, options);
 
         return this.each(function() {
-
+            // تهيئة المتغيرات
             var customSettings = ["fgcolor", "bgcolor", "fill", "width", "dimension", "fontsize", "animationstep", "endPercent", "icon", "iconcolor", "iconsize", "border", "startdegree", "bordersize"];
-
             var customSettingsObj = {};
             var icon = '';
             var endPercent = 0;
@@ -513,8 +573,47 @@ $(function() {
 
             obj.addClass('circliful');
 
+            // التحقق من سمات البيانات المخصصة
+            function checkDataAttributes(obj) {
+                $.each(customSettings, function(index, attribute) {
+                    if (obj.data(attribute) != undefined) {
+                        customSettingsObj[attribute] = obj.data(attribute);
+                    } else {
+                        customSettingsObj[attribute] = $(settings).attr(attribute);
+                    }
+
+                    if (attribute == 'fill' && obj.data('fill') != undefined) {
+                        fill = true;
+                    }
+                });
+            }
+
+            // إضافة نص داخل الدائرة
+            function addCircleText(obj, cssClass, lineHeight) {
+                $("<span></span>")
+                    .appendTo(obj)
+                    .addClass(cssClass)
+                    .text(text)
+                    .prepend(icon)
+                    .css({
+                        'line-height': lineHeight + 'px',
+                        'font-size': customSettingsObj.fontsize + 'px'
+                    });
+            }
+
+            // إضافة نص المعلومات
+            function addInfoText(obj, factor) {
+                $('<span></span>')
+                    .appendTo(obj)
+                    .addClass('circle-info-half')
+                    .css('line-height', (customSettingsObj.dimension * factor) + 'px')
+                    .text(info);
+            }
+
+            // التحقق من سمات البيانات
             checkDataAttributes(obj);
 
+            // إعداد النص والأيقونة إذا وجدت
             if (obj.data('text') != undefined) {
                 text = obj.data('text');
 
@@ -527,9 +626,9 @@ $(function() {
                         });
                 }
 
+                // تحديد نمط الدائرة (كاملة أو نصفية)
                 if (obj.data('type') != undefined) {
                     type = $(this).data('type');
-
                     if (type == 'half') {
                         addCircleText(obj, 'circle-text-half', (customSettingsObj.dimension / 1.45));
                     } else {
@@ -540,9 +639,9 @@ $(function() {
                 }
             }
 
+            // حساب النسبة المئوية بناء على البيانات
             if ($(this).data("total") != undefined && $(this).data("part") != undefined) {
                 var total = $(this).data("total") / 100;
-
                 percent = (($(this).data("part") / total) / 100).toFixed(3);
                 endPercent = ($(this).data("part") / total).toFixed(3)
             } else {
@@ -554,12 +653,11 @@ $(function() {
                 }
             }
 
+            // إضافة نص المعلومات إذا وجد
             if ($(this).data('info') != undefined) {
                 info = $(this).data('info');
-
                 if ($(this).data('type') != undefined) {
                     type = $(this).data('type');
-
                     if (type == 'half') {
                         addInfoText(obj, 0.9);
                     } else {
@@ -570,8 +668,10 @@ $(function() {
                 }
             }
 
+            // تعيين أبعاد العنصر
             $(this).width(customSettingsObj.dimension + 'px');
 
+            // إنشاء عنصر canvas للرسم
             var canvas = $('<canvas></canvas>').attr({
                 width: customSettingsObj.dimension,
                 height: customSettingsObj.dimension
@@ -595,9 +695,9 @@ $(function() {
             var fireCallback = true;
             var additionalAngelPI = (customSettingsObj.startdegree / 180) * Math.PI;
 
+            // تحديد نوع الدائرة (كاملة أو نصفية)
             if ($(this).data('type') != undefined) {
                 type = $(this).data('type');
-
                 if (type == 'half') {
                     startAngle = 2.0 * Math.PI;
                     endAngle = 3.13;
@@ -606,62 +706,28 @@ $(function() {
                 }
             }
 
-            function addCircleText(obj, cssClass, lineHeight) {
-                $("<span></span>")
-                    .appendTo(obj)
-                    .addClass(cssClass)
-                    .text(text)
-                    .prepend(icon)
-                    .css({
-                        'line-height': lineHeight + 'px',
-                        'font-size': customSettingsObj.fontsize + 'px'
-                    });
-            }
-
-            function addInfoText(obj, factor) {
-                $('<span></span>')
-                    .appendTo(obj)
-                    .addClass('circle-info-half')
-                    .css(
-                        'line-height', (customSettingsObj.dimension * factor) + 'px'
-                    )
-                    .text(info);
-            }
-
-            function checkDataAttributes(obj) {
-                $.each(customSettings, function(index, attribute) {
-                    if (obj.data(attribute) != undefined) {
-                        customSettingsObj[attribute] = obj.data(attribute);
-                    } else {
-                        customSettingsObj[attribute] = $(settings).attr(attribute);
-                    }
-
-                    if (attribute == 'fill' && obj.data('fill') != undefined) {
-                        fill = true;
-                    }
-                });
-            }
-
+            // دالة لرسم الحركة المتحركة للدائرة
             function animate(current) {
-
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
+                // رسم الدائرة الخلفية
                 context.beginPath();
                 context.arc(x, y, radius, endAngle, startAngle, false);
-
                 context.lineWidth = customSettingsObj.bordersize + 1;
-
                 context.strokeStyle = customSettingsObj.bgcolor;
                 context.stroke();
 
+                // تعبئة الدائرة إذا مطلوب
                 if (fill) {
                     context.fillStyle = customSettingsObj.fill;
                     context.fill();
                 }
 
+                // رسم الجزء الأمامي المتحرك
                 context.beginPath();
                 context.arc(x, y, radius, -(quart) + additionalAngelPI, ((circ) * current) - quart + additionalAngelPI, false);
 
+                // تحديد عرض الحد حسب النوع
                 if (customSettingsObj.border == 'outline') {
                     context.lineWidth = customSettingsObj.width + 13;
                 } else if (customSettingsObj.border == 'inline') {
@@ -671,6 +737,7 @@ $(function() {
                 context.strokeStyle = customSettingsObj.fgcolor;
                 context.stroke();
 
+                // متابعة الحركة إذا لم تصل للنهاية
                 if (curPerc < endPercent) {
                     curPerc += curStep;
                     requestAnimationFrame(function() {
@@ -678,17 +745,17 @@ $(function() {
                     }, obj);
                 }
 
+                // تنفيذ رد النداء عند اكتمال الحركة
                 if (curPerc == endPercent && fireCallback && typeof(options) != "undefined") {
                     if ($.isFunction(options.complete)) {
                         options.complete();
-
                         fireCallback = false;
                     }
                 }
             }
 
+            // بدء الحركة المتحركة
             animate(curPerc / 100);
-
         });
     };
 }(jQuery));

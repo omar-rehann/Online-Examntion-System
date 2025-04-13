@@ -30,8 +30,9 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
     // دالة لجلب تفاصيل اختبار معين
     public function getTest($testID) {
         $query = "SELECT t.id, t.name, c.name AS course, i.name AS instructor, 
-                  getQuestionsInTest(t.id) AS questions, ts.startTime, ts.duration, 
-                  ts.passPercent, ts.endTime, ts.prevQuestion, ts.id AS settingID, g.id AS groupID
+                  ts.startTime, ts.duration, ts.passPercent, ts.endTime, ts.prevQuestion, 
+                  ts.id AS settingID, g.id AS groupID,
+                  (SELECT count(*) FROM tests_has_questions WHERE testID = t.id) AS questions
                   FROM groups g
                   INNER JOIN groups_has_students gs ON gs.studentID = :studID AND g.id = gs.groupID
                   INNER JOIN test t ON t.id = g.assignedTest
@@ -69,9 +70,7 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
 
     // دالة لجلب الاختبار النشط حاليًا
     public function getActiveTest() {
-        // استعلام لجلب تفاصيل الاختبار النشط
         $query = "SELECT t.id, t.name, ts.passPercent, ts.endTime, ts.duration, ts.viewAnswers, ts.prevQuestion,
-                  getQuestionsInTest(t.id) AS questions,
                   (CASE 
                       WHEN ((ts.duration * 60) - TIMESTAMPDIFF(SECOND, r.startTime, convert_tz(NOW(), @@session.time_zone, '+02:00'))) < 
                            TIMESTAMPDIFF(SECOND, convert_tz(NOW(), @@session.time_zone, '+02:00'), ts.endTime) 
@@ -83,20 +82,20 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
                   INNER JOIN test_settings ts ON ts.id = r.settingID
                   WHERE r.isTemp";
         
-        $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-        $statement->bindParam(":studID", $_SESSION['student']->id); // ربط معرف الطالب
-        $statement->execute(); // تنفيذ الاستعلام
-        $results = $statement->fetchAll(PDO::FETCH_OBJ); // جلب النتائج
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":studID", $_SESSION['student']->id);
+        $statement->execute();
+        $results = $statement->fetchAll(PDO::FETCH_OBJ);
         
         if (!empty($results)) {
             if ($results[0]->remainingTime < 0) {
-                $this->FinishTest(); // إنهاء الاختبار إذا انتهى الوقت
+                $this->FinishTest();
                 return false;
             } else {
-                return $results[0]; // إرجاع تفاصيل الاختبار النشط
+                return $results[0];
             }
         } else {
-            return false; // إرجاع فشل إذا لم يكن هناك اختبار نشط
+            return false;
         }
     }
 

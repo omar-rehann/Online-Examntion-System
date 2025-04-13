@@ -31,6 +31,7 @@ $question = new question;
           <div class="card-header">
             Add New <strong>Question</strong>
           </div>
+          <!-- Topic Exam -->
           <div class="card-body card-block">
             <form action="app/controller/question.inc.php?addQuestion" method="post" enctype="multipart/form-data" class="form-horizontal">
               <div class="row form-group">
@@ -58,6 +59,7 @@ $question = new question;
                   </select>
                 </div>
               </div>
+              <!-- Question Text -->
               <div class="row form-group">
                 <div class="col col-md-3">
                   <label for="textarea-input" class=" form-control-label">Question Text</label>
@@ -66,6 +68,7 @@ $question = new question;
                   <textarea name="questionText" id="textarea-input" rows="4" placeholder="Write Your Question..." class="form-control summernote"></textarea>
                 </div>
               </div>
+              <!-- Question Type  -->
               <div class="row form-group">
                 <div class="col col-md-3">
                   <label for="type" class=" form-control-label">
@@ -198,13 +201,16 @@ $question = new question;
                         <li class="list-group-item">
                           <div class="row">
                             <div class="col-4">
+                            <!-- الجزء الأول (السؤال) -->
                               <input type="text" class="form-control matchInp" placeholder="Clue <?php echo $i ?>" name="match[]">
                             </div>
                             <i class="fa fa-arrow-right mt-2" aria-hidden="true"></i>
                             <div class="col-4">
+                            <!-- الجزء الثاني (الإجابة) -->
                               <input type="text" class="form-control matchAnswerInp" placeholder="Match <?php echo $i ?>" name="matchAnswer[]">
                             </div>
                             <div class="col-2">
+                              <!-- الدرجات  -->
                               <input type="number" class="form-control" placeholder="Points" value="1" name="matchPoints[]">
                             </div>
                             <i class="fa fa-trash deleteAnswer float-right mb-3 text-danger"></i>
@@ -246,6 +252,7 @@ $question = new question;
                   </div>
 
                 </div>
+                
                 <div class="tab-pane fade" id="COMPLETE" role="tabpanel" aria-labelledby="pills-contact-tab">
                   <div class="row form-group">
                     <div class="col col-md-3">
@@ -254,6 +261,8 @@ $question = new question;
                     <div class="col-12 col-md-9 text-left">
                       <input type="hidden" id="lastCompleteAnswer" value="2">
                       <div class="Completelist">
+                      <!-- يتم إنشاء إجابتين افتراضيتين عند تحميل الصفحة: -->
+
                         <div class="row form-group completeanswer">
                           <div class="col-12 col-md-9">
                             <input type="text" id="answer1" name="Canswer[0][answertext]" placeholder="Answer 1" class="form-control">
@@ -277,6 +286,7 @@ $question = new question;
 
                 </div>
               </div>
+              <!-- difficulty Question  -->
 
               <div class="row form-group">
                 <div class="col col-md-3">
@@ -291,6 +301,7 @@ $question = new question;
                 </div>
               </div>
               <br>
+              <!-- Point Question  -->
               <div class="row form-group points-group">
                 <div class="col col-md-3">
                   <label class=" form-control-label">Points</label>
@@ -774,13 +785,16 @@ $question = new question;
                   <li class="list-group-item">
                     <div class="row">
                       <div class="col-4">
+                        <!-- السوال -->
                         <input type="text" class="form-control matchInp" disabled value="<?php echo $answer->answer; ?>">
                       </div>
                       <i class="fa fa-arrow-right mt-2" aria-hidden="true"></i>
                       <div class="col-4">
+                        <!-- الاجابه  -->
                         <input type="text" class="form-control matchAnswerInp" disabled value="<?php echo $answer->matchAnswer; ?>">
                       </div>
                       <div class="col-2">
+                        <!-- الدرجه  -->
                         <input type="text" class="form-control" disabled value="<?php echo $answer->points; ?> Points">
                       </div>
                     </div>
