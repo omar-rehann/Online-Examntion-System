@@ -22,21 +22,7 @@ SET time_zone = "+00:00";
 --
 
 DELIMITER $$
---
--- Procedures
---
-CREATE DEFINER=`root`@`localhost` PROCEDURE `generateInstructorInvites` (IN `count` INT)   BEGIN
-  DECLARE i INT DEFAULT 0;
-  WHILE i < count DO
-    INSERT INTO instructor_invitations(`code`) VALUES (
-      CRC32(CONCAT(NOW(), RAND()))
-    );
-    SET i = i + 1;
-  END WHILE;
 
-END$$
-
---
 -- Functions
 --
 CREATE DEFINER=`root`@`localhost` FUNCTION `checkAnswer` (`resID` INT, `qID` INT) RETURNS TINYINT(1)  BEGIN
@@ -93,16 +79,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `checkAnswer` (`resID` INT, `qID` INT
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` FUNCTION `generateGroupInvites` (`groupID` INT, `count` INT, `pf` VARCHAR(50)) RETURNS INT(11)  BEGIN
-  DECLARE i INT DEFAULT 0;
-  WHILE i < count DO
-    INSERT INTO group_invitations(groupID,`code`) VALUES (
-      groupID,CONCAT(COALESCE(pf,''),CRC32(CONCAT(NOW(), RAND())))
-    );
-    SET i = i + 1;
-  END WHILE;
-	RETURN 0;
-END$$
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `getQuestionRightAnswers` (`qid` INT) RETURNS VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci  BEGIN
 DECLARE C VARCHAR(255);
