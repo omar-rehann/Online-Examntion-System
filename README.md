@@ -3,9 +3,9 @@ This project is a comprehensive online examination platform designed specificall
 The platform was developed to streamline the student assessment process in an organized and secure manner, providing a smooth user experience for both instructors and students.
 
 ## Team
-1-Omar Rehan        2-Bassem  Ibrahiem              3-Mahmoud Elzonfoly
+1-Omar Rehan                   2-Bassem  Ibrahiem                              3-Mahmoud Elzonfoly
 
-4-Maryam Rabei      5-Reem Adel                     6-Maryam Rashad         7-Esraa Soliman
+4-Maryam Rabei                   5-Reem Adel                                     6-Maryam Rashad                7-Esraa Soliman
 
 # Project Supervisor
 This graduation project was carried out under the supervision of
