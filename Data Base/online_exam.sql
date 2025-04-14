@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2025 at 12:48 AM
+-- Generation Time: Apr 14, 2025 at 02:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -650,7 +650,6 @@ CREATE TABLE `test_settings` (
   `startTime` datetime DEFAULT NULL,
   `endTime` datetime DEFAULT NULL,
   `duration` int(3) DEFAULT NULL,
-  `random` tinyint(255) DEFAULT NULL,
   `prevQuestion` int(1) DEFAULT NULL,
   `viewAnswers` tinyint(1) DEFAULT NULL,
   `releaseResult` int(1) DEFAULT 1,
@@ -665,10 +664,10 @@ CREATE TABLE `test_settings` (
 -- Dumping data for table `test_settings`
 --
 
-INSERT INTO `test_settings` (`id`, `startTime`, `endTime`, `duration`, `random`, `prevQuestion`, `viewAnswers`, `releaseResult`, `sendToStudent`, `sendToInstructor`, `passPercent`, `instructorID`, `testName`) VALUES
-(80, '2025-04-13 23:13:00', '2025-04-14 00:13:00', 30, NULL, 1, 0, 1, 1, 1, 60, 31, ''),
-(81, '2025-04-13 23:59:00', '2025-04-14 00:59:00', 30, NULL, 0, 0, 1, 1, 1, 60, 31, ''),
-(82, '2025-04-14 00:20:00', '2025-04-14 01:20:00', 30, NULL, 0, 0, 1, 1, 1, 60, 31, '');
+INSERT INTO `test_settings` (`id`, `startTime`, `endTime`, `duration`, `prevQuestion`, `viewAnswers`, `releaseResult`, `sendToStudent`, `sendToInstructor`, `passPercent`, `instructorID`, `testName`) VALUES
+(80, '2025-04-13 23:13:00', '2025-04-14 00:13:00', 30, 1, 0, 1, 1, 1, 60, 31, ''),
+(81, '2025-04-13 23:59:00', '2025-04-14 00:59:00', 30, 0, 0, 1, 1, 1, 60, 31, ''),
+(82, '2025-04-14 00:20:00', '2025-04-14 01:20:00', 30, 0, 0, 1, 1, 1, 60, 31, '');
 
 --
 -- Indexes for dumped tables
