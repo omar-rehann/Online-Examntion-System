@@ -5,9 +5,9 @@ The platform was developed to streamline the student assessment process in an or
  https://github.com/omar-rehann/Online_Exam_System.git
 
 ## Team
-1-Omar Rehan                          2-Bassem  Ibrahiem                              3-Mahmoud Elzonfoly
-
-4-Maryam Rabei                           5-Reem Adel                                     6-Maryam Rashad                7-Esraa Soliman
+1-Omar Rehan   2-Reem Adel    <br>                     
+3-Bassem Ibrahim  4-Maryam Rabei  <br>  
+5-Mahmoud Elzonfly    6-Maryam Rashad      7-Esraa Soliman
 
 # Project Supervisor
 This graduation project was carried out under the supervision of

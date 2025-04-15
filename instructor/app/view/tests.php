@@ -6,6 +6,7 @@ require_once 'header.php';
 require_once 'header.php';
 require_once 'navbar.php';
 $_assign = new assign;
+// Add Question Exam
     if (($_GET['tests'] == "addQuestions") && (isset($_GET['id']))) { ?>
       <div class="col-md-12">
         <div class="card">
@@ -72,8 +73,9 @@ $_assign = new assign;
           </div>
         </div>
       </div>
-
+<!-- Model Answer Exam  -->
   <?php }elseif (($_GET['tests'] == "model") && (isset($_GET['id']))) {
+    // Model Answer = Result + Report Question 
     $res = new result;
     $tes = new test;
      $rep = new report;
@@ -82,6 +84,7 @@ $_assign = new assign;
     ?>
     <div class="card">
       <div class="card-header">
+        <!--  Name Model Answer -->
         <strong class="card-title"><?php echo $tes->getTestName($_GET['id']); ?><small> Model Answers</small></strong>
         <button type="button" class="btn btn-outline-primary float-right mb-1" onclick="window.print();return false;">Print Model Answer</button>
 
@@ -111,7 +114,8 @@ $_assign = new assign;
                 </blockquote>
                 <hr>
                 <?php $correctAnswers = $res->getCorrectAnswers($question->id);?>
-                <?php if($question->type == 4){ ?>
+                <!-- Matching Question -->
+                <?php if($question->type == 4){ ?> 
                   <div class="row mt-4">
                     <div class="col-12 text-center" style="font-size:1.2rem">
                       <h5 class="ml-3 text-left">Correct Answers</h5>
@@ -129,6 +133,7 @@ $_assign = new assign;
                         </table>
                     </div>
                   </div>
+                  <!--  Multiple Choose + Mutlipe Select -->
                   <?php }elseif($question->type == 0 || $question->type == 3){ ?>
                     <div class="mt-5 ml-5 mr-5">
                           <div class="mt-4">
@@ -138,12 +143,14 @@ $_assign = new assign;
                             </div>
                         </div>
                     </div>
+                    <!--  True / False -->
                     <?php }elseif($question->type == 1){ ?>
                       <div class="row">
                         <div class="col-6">
                           Correct Answer: <span class="badge badge-success"><?php echo (($question->isTrue)?'True':'False'); ?></span>
                         </div>
                       </div>
+                      <!-- Essay -->
                       <?php }elseif($question->type == 2){ ?>
                         <div class="row">
                           <div class="col-6">

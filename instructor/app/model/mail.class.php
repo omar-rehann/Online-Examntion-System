@@ -6,11 +6,66 @@ class mail extends dbh
 
   //  كل الرسائل التي لم يتم إرسالها
   public function getUnsentMails() {
-    $sql = "SELECT * FROM mails WHERE !sent";
+    $sql = "SELECT id, resultID, studentID, instructorID, type, sends_at 
+            FROM mails 
+            WHERE sent = 0 
+            AND studentID != 0 
+            AND instructorID != 0";
     $stmt = $this->connect()->query($sql);
     $result = $stmt->fetchAll(PDO::FETCH_OBJ);
     return $result;
+}
+// دالة لإضافة رسالة جديدة في جدول mails    
+public function insertMail($resultID, $type, $sends_at) {
+  // استعلام لجلب studentID وinstructorID بناءً على resultID من جدول result وtest
+  $sql = "SELECT r.studentID, t.instructorID 
+          FROM result r 
+          JOIN test t ON r.testID = t.id 
+          WHERE r.id = :resultID";
+  
+  // تحضير الاستعلام وربط القيم
+  $stmt = $this->connect()->prepare($sql);
+  $stmt->bindParam(":resultID", $resultID);
+  $stmt->execute();
+  $result = $stmt->fetch(PDO::FETCH_OBJ); // جلب النتيجة ككائن
+
+  // التحقق من وجود النتيجة وصحة studentID وinstructorID
+  if (!$result || empty($result->studentID) || empty($result->instructorID)) {
+      throw new Exception("Invalid resultID: Cannot find valid studentID or instructorID");
   }
+
+  // استعلام لإدخال رسالة جديدة في جدول mails مع القيم الصحيحة
+  $sql = "INSERT INTO mails (resultID, studentID, instructorID, type, sends_at, sent) 
+          VALUES (:resultID, :studentID, :instructorID, :type, :sends_at, 0)";
+  
+  // تحضير الاستعلام وربط القيم
+  $stmt = $this->connect()->prepare($sql);
+  $stmt->bindParam(":resultID", $resultID);
+  $stmt->bindParam(":studentID", $result->studentID);
+  $stmt->bindParam(":instructorID", $result->instructorID);
+  $stmt->bindParam(":type", $type);
+  $stmt->bindParam(":sends_at", $sends_at);
+  $stmt->execute(); // تنفيذ الاستعلام
+
+  return true; // إرجاع true لتأكيد نجاح العملية
+}
+
+// دالة لتصليح الرسائل في جدول mails اللي فيها studentID أو instructorID بقيمة 0
+public function fixInvalidMails() {
+  // استعلام لتحديث الرسائل اللي فيها studentID أو instructorID بقيمة 0 باستخدام القيم الصحيحة من result وtest
+  $sql = "UPDATE mails m
+          JOIN result r ON m.resultID = r.id
+          JOIN test t ON r.testID = t.id
+          SET m.studentID = r.studentID, m.instructorID = t.instructorID
+          WHERE m.studentID = 0 OR m.instructorID = 0";
+  
+  // تحضير وتنفيذ الاستعلام
+  $stmt = $this->connect()->prepare($sql);
+  $stmt->execute();
+
+  // إرجاع عدد الرسائل اللي تم تصليحها مع رسالة توضيحية
+  return $stmt->rowCount() . " mails fixed.";
+}
 
   // حذف رسالة تم إرسالها
   public function mailSent($id) {

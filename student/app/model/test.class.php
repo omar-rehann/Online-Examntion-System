@@ -435,23 +435,24 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
   
     // دالة لإرسال رسائل النتائج
     public function sendResultMails() {
-        // استعلام لإضافة رسائل بريدية للطالب والمدرس
-        $query = "INSERT INTO mails(resultID, sends_at, type)
-                  SELECT r.id, convert_tz(NOW(), @@session.time_zone, '+02:00'), 2 
+        $query = "INSERT INTO mails(resultID, studentID, instructorID, sends_at, type)
+                  SELECT r.id, r.studentID, t.instructorID, convert_tz(NOW(), @@session.time_zone, '+02:00'), 2 
                   FROM result r
+                  INNER JOIN test t ON r.testID = t.id
                   INNER JOIN test_settings ts ON r.settingID = ts.id
-                  WHERE studentID = :studID AND sendToStudent AND releaseResult
-                  ORDER BY id DESC LIMIT 1;
-                  INSERT INTO mails(resultID, sends_at, type)
-                  SELECT r.id, convert_tz(NOW(), @@session.time_zone, '+02:00'), 3 
+                  WHERE r.studentID = :studID AND ts.sendToStudent AND ts.releaseResult
+                  ORDER BY r.id DESC LIMIT 1;
+                  INSERT INTO mails(resultID, studentID, instructorID, sends_at, type)
+                  SELECT r.id, r.studentID, t.instructorID, convert_tz(NOW(), @@session.time_zone, '+02:00'), 3 
                   FROM result r
+                  INNER JOIN test t ON r.testID = t.id
                   INNER JOIN test_settings ts ON r.settingID = ts.id
-                  WHERE studentID = :studID AND sendToInstructor
-                  ORDER BY id DESC LIMIT 1";
+                  WHERE r.studentID = :studID AND ts.sendToInstructor
+                  ORDER BY r.id DESC LIMIT 1";
         
-        $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-        $statement->bindParam(":studID", $_SESSION['student']->id); // ربط معرف الطالب
-        $statement->execute(); // تنفيذ الاستعلام
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":studID", $_SESSION['student']->id);
+        $statement->execute();
     }
 }
 
