@@ -3,11 +3,13 @@ This project is a comprehensive online examination platform designed specificall
 The platform was developed to streamline the student assessment process in an organized and secure manner, providing a smooth user experience for both instructors and students.
 # Demo
  https://github.com/omar-rehann/Online_Exam_System.git
-
+ 
 ## Team
-1-Omar Rehan   2-Reem Adel    <br>                     
-3-Bassem Ibrahim  4-Maryam Rabei  <br>  
-5-Mahmoud Elzonfly    6-Maryam Rashad      7-Esraa Soliman
+
+1. Omar Rehan &nbsp;&nbsp;&nbsp;&nbsp; 2. Bassem Ibrahim &nbsp;&nbsp;&nbsp;&nbsp; 3. Mahmoud Elzonfly  
+4. Maryam Rabei &nbsp;&nbsp;&nbsp;&nbsp; 5. Maryam Rashad &nbsp;&nbsp;&nbsp;&nbsp; 6. Reem Adel  
+7. Esraa Soliman
+
 
 # Project Supervisor
 This graduation project was carried out under the supervision of
