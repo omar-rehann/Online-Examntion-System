@@ -201,6 +201,34 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
                 $query .= (($answer['answerID']) ? $answer['answerID'] : 'NULL') . ',';
                 $query .= (($answer['isTrue']) ? 1 : 0) . ',';
                 $query .= (($answer['textAnswer']) ? '"' . $answer['textAnswer'] . '"' : 'NULL') . '),';
+                
+                // التحقق من الإجابة الصحيحة
+                $is_correct = false;
+                if ($answer['answerID']) {
+                    // استعلام للتحقق إذا كانت الإجابة صحيحة
+                    $checkQuery = "SELECT isCorrect FROM question_answers WHERE id = :answerID";
+                    $checkStatement = $this->connect()->prepare($checkQuery);
+                    $checkStatement->bindParam(":answerID", $answer['answerID']);
+                    $checkStatement->execute();
+                    $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
+                    $is_correct = $result && $result['isCorrect'] == 1;
+                } elseif ($answer['isTrue'] !== null) {
+                    // للأسئلة الصح/غلط
+                    $checkQuery = "SELECT isTrue FROM question WHERE id = :questionID";
+                    $checkStatement = $this->connect()->prepare($checkQuery);
+                    $checkStatement->bindParam(":questionID", $answer['questionID']);
+                    $checkStatement->execute();
+                    $result = $checkStatement->fetch(PDO::FETCH_ASSOC);
+                    $is_correct = $result && $result['isTrue'] == $answer['isTrue'];
+                }
+                
+                // إضافة إجابة في جدول answers
+                $this->insertOrUpdateAnswer(
+                    $_SESSION['CurrentTest']->id, // exam_id
+                    $answer['questionID'],        // question_id
+                    $_SESSION['student']->id,    // student_id
+                    $is_correct                  // is_correct
+                );
             }
             $query = rtrim($query, ","); // إزالة الفاصلة الأخيرة
             $query .= '; INSERT INTO result_answers(resultID, questionID, answerID, isTrue, textAnswer) 
@@ -453,6 +481,45 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
         $statement = $this->connect()->prepare($query);
         $statement->bindParam(":studID", $_SESSION['student']->id);
         $statement->execute();
+    }
+    public function insertOrUpdateAnswer($exam_id, $question_id, $student_id, $is_correct) {
+        try {
+            // تحقق إذا كانت الإجابة موجودة بالفعل
+            $query = "SELECT id FROM answers 
+                      WHERE exam_id = :exam_id 
+                      AND question_id = :question_id 
+                      AND student_id = :student_id";
+            $statement = $this->connect()->prepare($query);
+            $statement->bindParam(":exam_id", $exam_id);
+            $statement->bindParam(":question_id", $question_id);
+            $statement->bindParam(":student_id", $student_id);
+            $statement->execute();
+            
+            if ($statement->rowCount() > 0) {
+                // تحديث الإجابة إذا كانت موجودة
+                $query = "UPDATE answers 
+                          SET is_correct = :is_correct, created_at = NOW()
+                          WHERE exam_id = :exam_id 
+                          AND question_id = :question_id 
+                          AND student_id = :student_id";
+            } else {
+                // إضافة إجابة جديدة
+                $query = "INSERT INTO answers (exam_id, question_id, student_id, is_correct, created_at)
+                          VALUES (:exam_id, :question_id, :student_id, :is_correct, NOW())";
+            }
+            
+            $statement = $this->connect()->prepare($query);
+            $statement->bindParam(":exam_id", $exam_id);
+            $statement->bindParam(":question_id", $question_id);
+            $statement->bindParam(":student_id", $student_id);
+            $statement->bindParam(":is_correct", $is_correct, PDO::PARAM_BOOL);
+            $statement->execute();
+            
+            return true;
+        } catch (PDOException $error) {
+            error_log("Error in insertOrUpdateAnswer: " . $error->getMessage());
+            return false;
+        }
     }
 }
 
