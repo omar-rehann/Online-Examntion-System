@@ -5,7 +5,7 @@ class assign extends dbh {
   public function getTestInvitations($testID) {
     $db = $this->connect();
     
-    $query = "SELECT ti.id, name, HEX(AES_ENCRYPT(ti.id, 'final')) as invite, 
+    $query = "SELECT ti.id, name, HEX(AES_ENCRYPT(ti.id, 'online_exam')) as invite, 
               ts.startTime, ts.endTime, ts.prevQuestion, ts.duration, ts.passPercent, 
               ts.sendToStudent, ts.releaseResult,
               CASE 

@@ -100,7 +100,7 @@ class Test extends Dbh { // الكلاس يرث من كلاس قاعدة الب�
     // دالة لجلب دعوات الاختبار
     public function getTestInvitations($testID) {
         // استعلام لجلب تفاصيل دعوات الاختبار
-        $query = "SELECT ti.id, name, HEX(AES_ENCRYPT(id, 'final')) AS invite,
+        $query = "SELECT ti.id, name, HEX(AES_ENCRYPT(id, 'online_exam')) AS invite,
                   CASE
                   WHEN ((convert_tz(now(), @@session.time_zone, '+02:00') BETWEEN ts.startTime AND ts.endTime) AND useLimit > used) THEN 1
                   ELSE 0
