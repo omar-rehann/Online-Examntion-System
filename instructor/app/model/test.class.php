@@ -421,32 +421,7 @@ class Test extends Dbh { // الكلاس يرث من كلاس قاعدة الب�
             return false; // إرجاع فشل إذا لم يكن للقراءة فقط
         }
     }
-    public function updateTestSettingsWithTestNames() {
-        try {
-            // استعلام لإضافة أسماء الاختبارات غير الموجودة
-            $query = "INSERT INTO test_settings (instructorID, Name_Test)
-                      SELECT t.instructorID, t.name
-                      FROM test t
-                      WHERE t.instructorID IS NOT NULL
-                      AND NOT EXISTS (
-                          SELECT 1 FROM test_settings ts 
-                          WHERE ts.instructorID = t.instructorID 
-                          AND ts.Name_Test = t.name
-                      )";
-    
-            // تحضير الاستعلام
-            $statement = $this->connect()->prepare($query);
-    
-            // تنفيذ الاستعلام
-            $statement->execute();
-    
-            // إرجاع عدد الصفوف المتأثرة
-            return $statement->rowCount();
-        } catch (PDOException $error) {
-            // إرجاع رسالة الخطأ
-            return "Error: " . $error->getMessage();
-        }
-    }
+   
 }
 
 ?>
