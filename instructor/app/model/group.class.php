@@ -21,7 +21,7 @@ class group extends dbh {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // الحصول على مجموعة بواسطة المعرف
+    // الحصول على مجموعة بواسطة ID
     public function getByID($id) {
         $db = $this->connect();
         $query = "SELECT gp.id, name,

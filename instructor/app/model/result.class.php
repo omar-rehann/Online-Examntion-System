@@ -4,9 +4,9 @@ class Result extends Dbh { // الكلاس يرث من كلاس قاعدة ال�
 
     // دالة لجلب جميع النتائج
     public function getAll() {
-        // التحقق إذا كان المستخدم مدير
+        // التحقق إذا كان المستخدم Admin
         if ($_SESSION['mydata']->isAdmin) {
-            // استعلام لجلب جميع النتائج للمدير
+            // Result Admin
             $query = "SELECT r.id, r.testID, t.name AS testName, s.name AS studentName, 
                       r.studentID, r.startTime, r.endTime, 
                       ipaddr, hostname, 
@@ -19,7 +19,7 @@ class Result extends Dbh { // الكلاس يرث من كلاس قاعدة ال�
                       ORDER BY r.endTime DESC";
             $statement = $this->connect()->prepare($query);
         } else {
-            // استعلام لجلب النتائج للمدرس فقط
+            //  Result  Intsructor  
             $query = "SELECT r.id, r.testID, t.name AS testName, s.name AS studentName, 
                       r.studentID, r.startTime, r.endTime, 
                       ipaddr, hostname, 
@@ -42,7 +42,7 @@ class Result extends Dbh { // الكلاس يرث من كلاس قاعدة ال�
 
     // دالة لجلب النتائج غير المقدمة
     public function getUnsubmitted() {
-        // استعلام لجلب النتائج غير المكتملة للمدرس
+        // استعلام لجلب النتائج غير المكتملة Instructor 
         $query = "SELECT r.id, r.testID, t.name AS testName, s.name AS studentName, 
                   r.studentID, r.startTime, r.endTime,
                   (SELECT name FROM student WHERE id = r.studentID) AS student, 
@@ -111,7 +111,7 @@ class Result extends Dbh { // الكلاس يرث من كلاس قاعدة ال�
         return $results; // إرجاع النتائج
     }
 
-    // دالة لجلب نتيجة معينة بناءً على المعرف
+    // دالة لجلب نتيجة معينة بناءً على id
     public function getByID($resultID) {
         // استعلام لجلب تفاصيل نتيجة محددة
         $query = "SELECT r.id, t.name AS testName, t.id AS testID, r.startTime, r.endTime, ts.endTime AS testEnd,

@@ -376,7 +376,8 @@ $res = new result;
 
     </div>
     <?php
-		}else{
+		}
+    else{
 			$_admin = new admin;
 			$_student = new student;
 			$res = new result;

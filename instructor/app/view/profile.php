@@ -92,8 +92,8 @@
    </div>
 </div>
 <!-- .animated -->
-</div> <!-- .content -->
-</div><!-- /#right-panel -->
+</div> 
+</div>
 <?php
 require_once 'footer.php';
 ?>
