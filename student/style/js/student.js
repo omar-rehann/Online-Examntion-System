@@ -2,7 +2,6 @@
 $(document).bind('contextmenu', function(e) {
     e.preventDefault(); // منع إظهار قائمة السياق
 });
-
 // إخفاء مؤشر التحميل عند اكتمال تحميل الصفحة
 $(window).on("load", function() {
     $('.preloader').fadeOut('slow'); // إخفاء الـ preloader تدريجيًا
