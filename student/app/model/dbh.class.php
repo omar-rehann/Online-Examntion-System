@@ -1,8 +1,8 @@
 <?php
 class dbh {
     // معلومات الاتصال بقاعدة البيانات
-    private $host = "127.0.0.1";  // عنوان السيرفر
-   private $port = "3306";       // منفذ الاتصال
+    private $host = "localhost";
+    private $port = "3306";       // منفذ الاتصال
     private $username = "root";   // اسم المستخدم
     private $password = "";       // كلمة المرور
     private $dbName = "online_exam";    // اسم قاعدة البيانات

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2025 at 02:21 PM
+-- Generation Time: Apr 17, 2025 at 05:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -18,11 +18,11 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `Online_Exam`
+-- Database: `online_exam`
 --
 
 DELIMITER $$
-
+--
 -- Functions
 --
 CREATE DEFINER=`root`@`localhost` FUNCTION `checkAnswer` (`resID` INT, `qID` INT) RETURNS TINYINT(1)  BEGIN
@@ -78,7 +78,6 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `checkAnswer` (`resID` INT, `qID` INT
         RETURN FALSE;
     END IF;
 END$$
-
 
 CREATE DEFINER=`root`@`localhost` FUNCTION `getQuestionRightAnswers` (`qid` INT) RETURNS VARCHAR(255) CHARSET utf8 COLLATE utf8_general_ci  BEGIN
 DECLARE C VARCHAR(255);
@@ -235,6 +234,24 @@ CREATE TABLE `answers` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `answers`
+--
+
+INSERT INTO `answers` (`id`, `exam_id`, `question_id`, `student_id`, `is_correct`, `created_at`) VALUES
+(1, 43, 201, 201234567, 1, '2025-04-17 01:56:49'),
+(2, 43, 202, 201234567, 0, '2025-04-17 01:56:49'),
+(3, 43, 203, 201234567, 1, '2025-04-17 01:56:49'),
+(4, 43, 204, 201234567, 0, '2025-04-17 01:56:49'),
+(5, 43, 205, 201234567, 1, '2025-04-17 01:56:49'),
+(6, 43, 206, 201234567, 0, '2025-04-17 01:56:49'),
+(7, 44, 201, 201234567, 1, '2025-04-17 15:42:09'),
+(8, 44, 202, 201234567, 0, '2025-04-17 15:42:09'),
+(9, 44, 203, 201234567, 1, '2025-04-17 15:42:09'),
+(10, 44, 204, 201234567, 0, '2025-04-17 15:42:09'),
+(11, 44, 205, 201234567, 1, '2025-04-17 15:42:09'),
+(12, 44, 206, 201234567, 0, '2025-04-17 15:42:09');
+
 -- --------------------------------------------------------
 
 --
@@ -275,7 +292,7 @@ CREATE TABLE `groups` (
 --
 
 INSERT INTO `groups` (`id`, `name`, `assignedTest`, `settingID`, `instructorID`) VALUES
-(13, 'C', 42, 82, 31);
+(13, 'C', 44, 84, 31);
 
 -- --------------------------------------------------------
 
@@ -343,12 +360,8 @@ CREATE TABLE `mails` (
 --
 
 INSERT INTO `mails` (`id`, `resultID`, `studentID`, `instructorID`, `sends_at`, `sent`, `type`) VALUES
-(10, 39, NULL, NULL, '2025-04-13 21:46:58', 0, 3),
-(11, 39, NULL, NULL, '2025-04-13 21:51:39', 0, 2),
-(12, 40, NULL, NULL, '2025-04-13 22:18:20', 0, 2),
-(13, 40, NULL, NULL, '2025-04-13 22:18:20', 0, 3),
-(14, 41, NULL, NULL, '2025-04-13 22:21:15', 0, 2),
-(15, 41, NULL, NULL, '2025-04-13 22:21:15', 0, 3);
+(18, 43, 201234567, 31, '2025-04-17 15:42:09', 0, 2),
+(19, 43, 201234567, 31, '2025-04-17 15:42:09', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -383,9 +396,15 @@ INSERT INTO `question` (`id`, `question`, `type`, `points`, `difficulty`, `isTru
 (195, 'True / False', 1, 3, 2, 0, 31, 71, 1),
 (196, 'Match The Following', 4, 2, 3, 0, 31, 71, 1),
 (197, 'What is the….?', 5, 1, 2, 0, 31, 71, 1),
-(198, 'pointer refer to value ?', 1, 5, 1, 0, 31, 71, 0),
+(198, 'pointer refer to value ?', 1, 5, 1, 0, 31, 71, 1),
 (199, 'define omar rehan', 1, 5, 1, 0, 31, 71, 1),
-(200, '<p>&nbsp; &nbsp; Define Data base ?<br></p>', 5, 5, 1, 1, 31, 71, 0);
+(200, '<p>&nbsp; &nbsp; Define Data base ?<br></p>', 5, 5, 1, 1, 31, 71, 1),
+(201, '<p>html refer to ?&nbsp;</p>', 0, 5, 1, 1, 31, 71, 0),
+(202, '<p>pointer refer to value ?&nbsp;</p>', 1, 5, 1, 1, 31, 71, 0),
+(203, '<p>&nbsp; &nbsp; what is the oop ?<br></p>', 4, 1, 1, 1, 31, 71, 0),
+(204, '<p>oop ?</p>', 2, 5, 1, 1, 31, 71, 0),
+(205, '<p>&nbsp; &nbsp; oop ?&nbsp;<br></p>', 3, 5, 1, 1, 31, 71, 0),
+(206, '<p>define data base ?</p>', 5, 5, 1, 1, 31, 71, 0);
 
 -- --------------------------------------------------------
 
@@ -418,7 +437,21 @@ INSERT INTO `question_answers` (`id`, `questionID`, `answer`, `matchAnswer`, `is
 (925, 194, 'Accepted Answer', NULL, 1, 1),
 (926, 196, 'Answer 1', 'Match 1', 1, 1),
 (927, 196, 'Answer 2', 'Match 2', 1, 1),
-(928, 196, 'Answer 3', 'Match 3', 1, 1);
+(928, 196, 'Answer 3', 'Match 3', 1, 1),
+(929, 201, '<p>hyper text refrnace&nbsp;</p>', NULL, 1, 1),
+(930, 201, '<p>ooc</p>', NULL, 0, 1),
+(931, 201, '<p>ood</p>', NULL, 0, 1),
+(932, 201, '<p>ccf</p>', NULL, 0, 1),
+(933, 203, 'a', '1', 1, 1),
+(934, 203, 'b', '2', 1, 1),
+(935, 203, 'c', '3', 1, 1),
+(936, 203, 'd', '4', 1, 1),
+(937, 204, 'aab', NULL, 1, 1),
+(938, 204, 'ggg', NULL, 1, 1),
+(939, 205, '<p>object orinted programming&nbsp;</p>', NULL, 1, 1),
+(940, 205, '<p>object orinted programming&nbsp;</p>', NULL, 1, 1),
+(941, 205, '<p>object orinted value ?</p>', NULL, 0, 1),
+(942, 205, '<p>object orinted ggg</p>', NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -445,9 +478,7 @@ CREATE TABLE `result` (
 --
 
 INSERT INTO `result` (`id`, `studentID`, `testID`, `groupID`, `settingID`, `startTime`, `endTime`, `isTemp`, `hostname`, `ipaddr`, `score`) VALUES
-(39, 201234567, 40, 13, 80, '2025-04-13 21:46:34', '2025-04-13 21:46:58', 0, 'DESKTOP-P8VG2E9', '::1', NULL),
-(40, 201234567, 41, 13, 81, '2025-04-13 22:18:12', '2025-04-13 22:18:20', 0, 'DESKTOP-P8VG2E9', '::1', NULL),
-(41, 201234567, 42, 13, 82, '2025-04-13 22:20:58', '2025-04-13 22:21:15', 0, 'DESKTOP-P8VG2E9', '::1', NULL);
+(43, 201234567, 44, 13, 84, '2025-04-17 15:41:36', '2025-04-17 15:42:09', 0, 'DESKTOP-P8VG2E9', '::1', NULL);
 
 -- --------------------------------------------------------
 
@@ -471,11 +502,15 @@ CREATE TABLE `result_answers` (
 --
 
 INSERT INTO `result_answers` (`id`, `resultID`, `questionID`, `answerID`, `isTrue`, `textAnswer`, `points`, `isCorrect`) VALUES
-(463, 39, 198, NULL, 0, NULL, 5, 1),
-(464, 39, 200, NULL, 0, 'data base stote large data ', 5, 1),
-(465, 40, 198, NULL, 0, NULL, 5, 1),
-(466, 41, 198, NULL, 0, NULL, 5, 1),
-(467, 41, 200, NULL, 0, 'data base store large data', -1, 0);
+(478, 43, 201, 929, 1, NULL, 5, 1),
+(479, 43, 202, NULL, 0, NULL, 0, 0),
+(480, 43, 203, 933, 0, '3', 0, 0),
+(481, 43, 203, 934, 0, '2', 1, 1),
+(482, 43, 203, 935, 0, '2', 0, 0),
+(483, 43, 203, 936, 0, '4', 1, 1),
+(484, 43, 204, NULL, 0, 'object orinted progarmming', 0, 0),
+(485, 43, 205, 939, 1, NULL, 0, 0),
+(486, 43, 206, NULL, 0, 'data base store large data ', 5, 1);
 
 --
 -- Triggers `result_answers`
@@ -535,13 +570,7 @@ CREATE TABLE `student` (
 --
 
 INSERT INTO `student` (`id`, `name`, `email`, `phone`, `password`, `password_token`, `token_expire`, `suspended`, `sessionID`) VALUES
-(200000000, 'Elzonfly', 'zonfol@gmail.com', '1279819191', '$2y$10$sJeTXheh9B.Fo7WEFayBbejPqT5MCYag7JpkuV4/Y4HQBYcSSmOVq', NULL, NULL, 0, NULL),
-(201111111, 'Reem Adel', 'Reem@gmail.com', '1276612119', '$2y$10$KXHAzUGzhCJOo283pdSDXO0fucC4h5irrp6RO8GCswkuIVkO14Gx2', NULL, NULL, 0, NULL),
-(201212121, 'Maryam Rashad', 'mariamm@gmail.com', '12766191919', '$2y$10$aQYlYFrlvsr159z82DGPNO3Rfo6ghfT9MmZ7YTeqZL9wBTV.Fb5zu', NULL, NULL, 0, NULL),
-(201234567, 'omar rehan', 'omar@gmail.com', '01276612119', '276506d3704c67d67ff9a500be50dd95', NULL, NULL, 0, '8c78pugjjq6hm5eqcfvl9p7cu3'),
-(202222222, 'esraa soliman', 'esraa@gmail.com', '12872891991', '$2y$10$PkV5hSCjYe0hrGiHWSfeLeMGYYqpIepJ6hWxEvesRAT9m0rpNym0m', NULL, NULL, 0, NULL),
-(204444444, 'bassem ', 'beso@gmail.com', '1277712119', '$2y$10$/DzXvhETLxgAgiAZgRDSW.0930ORAF3qAWTxX4mL60MXkHfHL1Agq', NULL, NULL, 0, NULL),
-(209999999, 'Maryam rabi', 'mariam@gmail.com', '1276619911', '$2y$10$Y9TS.UXHjLNqLWsf7XEwdOXjBUL/eInYKXcMyygWqm179Xj7dlGnS', NULL, NULL, 0, NULL);
+(201234567, 'omar rehan', 'omar@gmail.com', '01276612119', '276506d3704c67d67ff9a500be50dd95', NULL, NULL, 0, '2k0n160akrsth3kfppfsqdj7i0');
 
 -- --------------------------------------------------------
 
@@ -573,9 +602,7 @@ CREATE TABLE `test` (
 --
 
 INSERT INTO `test` (`id`, `name`, `courseID`, `deleted`, `instructorID`) VALUES
-(40, 'omarrehan', 70, 0, 31),
-(41, 'ahmed', 70, 0, 31),
-(42, 'last', 70, 0, 31);
+(44, 'last', 70, 0, 31);
 
 -- --------------------------------------------------------
 
@@ -593,27 +620,12 @@ CREATE TABLE `tests_has_questions` (
 --
 
 INSERT INTO `tests_has_questions` (`testID`, `questionID`) VALUES
-(40, 198),
-(40, 200),
-(41, 198),
-(42, 198),
-(42, 200);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `test_invitations`
---
-
-CREATE TABLE `test_invitations` (
-  `id` int(15) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `testID` int(11) DEFAULT NULL,
-  `settingID` int(11) DEFAULT NULL,
-  `used` tinyint(1) DEFAULT 0,
-  `useLimit` int(11) DEFAULT NULL,
-  `instructorID` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+(44, 201),
+(44, 202),
+(44, 203),
+(44, 204),
+(44, 205),
+(44, 206);
 
 -- --------------------------------------------------------
 
@@ -641,9 +653,8 @@ CREATE TABLE `test_settings` (
 --
 
 INSERT INTO `test_settings` (`id`, `startTime`, `endTime`, `duration`, `prevQuestion`, `viewAnswers`, `releaseResult`, `sendToStudent`, `sendToInstructor`, `passPercent`, `instructorID`, `testName`) VALUES
-(80, '2025-04-13 23:13:00', '2025-04-14 00:13:00', 30, 1, 0, 1, 1, 1, 60, 31, ''),
-(81, '2025-04-13 23:59:00', '2025-04-14 00:59:00', 30, 0, 0, 1, 1, 1, 60, 31, ''),
-(82, '2025-04-14 00:20:00', '2025-04-14 01:20:00', 30, 0, 0, 1, 1, 1, 60, 31, '');
+(83, '2025-04-17 03:53:00', '2025-04-17 05:53:00', 30, 0, 0, 1, 1, 1, 60, 31, ''),
+(84, '2025-04-17 17:41:00', '2025-04-17 18:41:00', 30, 1, 0, 1, 1, 1, 60, 31, '');
 
 --
 -- Indexes for dumped tables
@@ -759,15 +770,6 @@ ALTER TABLE `tests_has_questions`
   ADD KEY `tests_has_questions_ibfk_2` (`questionID`) USING BTREE;
 
 --
--- Indexes for table `test_invitations`
---
-ALTER TABLE `test_invitations`
-  ADD PRIMARY KEY (`id`) USING BTREE,
-  ADD KEY `instructorID` (`instructorID`) USING BTREE,
-  ADD KEY `settingID` (`settingID`) USING BTREE,
-  ADD KEY `test_invitations_ibfk_1` (`testID`) USING BTREE;
-
---
 -- Indexes for table `test_settings`
 --
 ALTER TABLE `test_settings`
@@ -782,7 +784,7 @@ ALTER TABLE `test_settings`
 -- AUTO_INCREMENT for table `answers`
 --
 ALTER TABLE `answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `course`
@@ -806,49 +808,43 @@ ALTER TABLE `instructor`
 -- AUTO_INCREMENT for table `mails`
 --
 ALTER TABLE `mails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=207;
 
 --
 -- AUTO_INCREMENT for table `question_answers`
 --
 ALTER TABLE `question_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=929;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=943;
 
 --
 -- AUTO_INCREMENT for table `result`
 --
 ALTER TABLE `result`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `result_answers`
 --
 ALTER TABLE `result_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=468;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=487;
 
 --
 -- AUTO_INCREMENT for table `test`
 --
 ALTER TABLE `test`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
-
---
--- AUTO_INCREMENT for table `test_invitations`
---
-ALTER TABLE `test_invitations`
-  MODIFY `id` int(15) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `test_settings`
 --
 ALTER TABLE `test_settings`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=83;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
 
 --
 -- Constraints for dumped tables
@@ -933,14 +929,6 @@ ALTER TABLE `test`
 ALTER TABLE `tests_has_questions`
   ADD CONSTRAINT `tests_has_questions_ibfk_1` FOREIGN KEY (`testID`) REFERENCES `test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tests_has_questions_ibfk_2` FOREIGN KEY (`questionID`) REFERENCES `question` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `test_invitations`
---
-ALTER TABLE `test_invitations`
-  ADD CONSTRAINT `test_invitations_ibfk_1` FOREIGN KEY (`testID`) REFERENCES `test` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `test_invitations_ibfk_3` FOREIGN KEY (`instructorID`) REFERENCES `instructor` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `test_invitations_ibfk_4` FOREIGN KEY (`settingID`) REFERENCES `test_settings` (`id`);
 
 --
 -- Constraints for table `test_settings`

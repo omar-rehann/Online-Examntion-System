@@ -8,8 +8,7 @@ class Test extends Dbh { // الكلاس يرث من كلاس قاعدة الب�
         $query = "SELECT id, name, instructorID, courseID,
                   (SELECT name FROM course WHERE id = courseID) AS course,
                   (SELECT COUNT(*) FROM tests_has_questions WHERE testID = t.id) AS fixedQuestions,
-                  (SELECT COUNT(*) FROM result WHERE testID = t.id) AS inResults,
-                  (SELECT COUNT(*) FROM test_invitations WHERE testID = t.id) AS links
+                  (SELECT COUNT(*) FROM result WHERE testID = t.id) AS inResults
                   FROM test t 
                   WHERE instructorID = :aid AND !deleted";
         
@@ -97,25 +96,7 @@ class Test extends Dbh { // الكلاس يرث من كلاس قاعدة الب�
         }
     }
 
-    // دالة لجلب دعوات الاختبار
-    public function getTestInvitations($testID) {
-        // استعلام لجلب تفاصيل دعوات الاختبار
-        $query = "SELECT ti.id, name, HEX(AES_ENCRYPT(id, 'online_exam')) AS invite,
-                  CASE
-                  WHEN ((convert_tz(now(), @@session.time_zone, '+02:00') BETWEEN ts.startTime AND ts.endTime) AND useLimit > used) THEN 1
-                  ELSE 0
-                  END AS status
-                  FROM test_invitations ti
-                  INNER JOIN test_settings ts ON ts.id = ti.settingID
-                  WHERE instructorID = :instID AND testID = :testID";
-        
-        $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-        $statement->bindParam(":instID", $_SESSION['mydata']->id); // ربط معرف المدرس
-        $statement->bindParam(":testID", $testID); // ربط معرف الاختبار
-        $statement->execute(); // تنفيذ الاستعلام
-        $results = $statement->fetchAll(PDO::FETCH_OBJ); // جلب النتائج
-        return $results; // إرجاع النتائج
-    }
+ 
 
     // دالة لجلب اسم الاختبار
     public function getTestName($testID) {
