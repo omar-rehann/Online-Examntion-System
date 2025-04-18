@@ -192,8 +192,7 @@ a:hover {
     padding-bottom: 40px;
 }
 
-#viaGroupHeader,
-#viaLinkHeader {
+#viaGroupHeader {
     cursor: pointer;
 }
 

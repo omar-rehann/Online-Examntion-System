@@ -139,14 +139,14 @@ if (isset($_GET['uploadImage'])) {
         $q->duplicateQuestion($id);
         $newID = $q->getLastQuestion()->id;
         header('Location:../../?questions=view&id='. $newID);
-}else if (isset($_GET['export'])) {
+}elseif (isset($_GET['export'])) {
     try {
         // تفريغ أي مخرجات سابقة
         ob_end_clean();
 
         // التحقق من وجود اسم المقرر الدراسي
         if (!isset($_POST['course']) || empty($_POST['course'])) {
-            die("خطأ: لم يتم تحديد المقرر الدراسي.");
+            die("Error: Course not specified.");
         }
 
         $courseName = $_POST['course']; // اسم المقرر الدراسي
@@ -157,7 +157,7 @@ if (isset($_GET['uploadImage'])) {
 
         // التحقق من وجود أسئلة
         if (empty($questionsList)) {
-            die("خطأ: لا توجد أسئلة لهذا المقرر.");
+            die("Error: No questions found for this course.");
         }
 
         // تعريف أنواع الأسئلة
@@ -179,7 +179,7 @@ if (isset($_GET['uploadImage'])) {
 
             // تنظيف نص السؤال من علامات HTML و #! والمسافات الزائدة
             $questionText = strip_tags($question->question); // إزالة علامات HTML مثل <p>
-            $questionText = str_replace('#!', '', $questionText); // إزالة #!
+            $questionText = str_replace(['#!', '#'], '', $questionText); // إزالة #! و #
             $questionText = str_replace("\xc2\xa0", ' ', $questionText); // استبدال المسافة غير المرئية بمسافة عادية
             $questionText = trim($questionText); // إزالة جميع المسافات الزائدة
 
@@ -193,22 +193,54 @@ if (isset($_GET['uploadImage'])) {
             $answersList = $questionObject->getQuestionAnswers($questionID);
 
             // تعيين الإجابات (حتى 4 إجابات كحد أقصى) مع تنظيف النصوص
-            $answer1 = isset($answersList[0]) ? trim(str_replace("\xc2\xa0", ' ', str_replace('#!', '', strip_tags($answersList[0]->answer)))) : '';
-            $answer2 = isset($answersList[1]) ? trim(str_replace("\xc2\xa0", ' ', str_replace('#!', '', strip_tags($answersList[1]->answer)))) : '';
-            $answer3 = isset($answersList[2]) ? trim(str_replace("\xc2\xa0", ' ', str_replace('#!', '', strip_tags($answersList[2]->answer)))) : '';
-            $answer4 = isset($answersList[3]) ? trim(str_replace("\xc2\xa0", ' ', str_replace('#!', '', strip_tags($answersList[3]->answer)))) : '';
+            $answer1 = isset($answersList[0]) ? trim(str_replace(['#!', '#'], '', str_replace("\xc2\xa0", ' ', strip_tags($answersList[0]->answer)))) : '';
+            $answer2 = isset($answersList[1]) ? trim(str_replace(['#!', '#'], '', str_replace("\xc2\xa0", ' ', strip_tags($answersList[1]->answer)))) : '';
+            $answer3 = isset($answersList[2]) ? trim(str_replace(['#!', '#'], '', str_replace("\xc2\xa0", ' ', strip_tags($answersList[2]->answer)))) : '';
+            $answer4 = isset($answersList[3]) ? trim(str_replace(['#!', '#'], '', str_replace("\xc2\xa0", ' ', strip_tags($answersList[3]->answer)))) : '';
 
-            // تنسيق الإجابات حسب نوع السؤال (بدون إضافة #!)
+            // إضافة #! إلى الإجابة الصحيحة فقط
+            if (isset($answersList[0]) && $answersList[0]->isCorrect) {
+                $answer1 = '#!' . $answer1;
+            }
+            if (isset($answersList[1]) && $answersList[1]->isCorrect) {
+                $answer2 = '#!' . $answer2;
+            }
+            if (isset($answersList[2]) && $answersList[2]->isCorrect) {
+                $answer3 = '#!' . $answer3;
+            }
+            if (isset($answersList[3]) && $answersList[3]->isCorrect) {
+                $answer4 = '#!' . $answer4;
+            }
+
+            // تنسيق الإجابات حسب نوع السؤال
             if ($typeID == 0 || $typeID == 3) { // اختيار متعدد أو متعدد الإجابات
-                // النص نظيف بالفعل
+                // تمت معالجة #! للإجابة الصحيحة أعلاه
             } elseif ($typeID == 4) { // مطابقة
-                $answer1 = isset($answersList[0]) ? trim($answersList[0]->answer) . " >> " . trim($answersList[0]->matchAnswer) : '';
-                $answer2 = isset($answersList[1]) ? trim($answersList[1]->answer) . " >> " . trim($answersList[1]->matchAnswer) : '';
-                $answer3 = isset($answersList[2]) ? trim($answersList[2]->answer) . " >> " . trim($answersList[2]->matchAnswer) : '';
-                $answer4 = isset($answersList[3]) ? trim($answersList[3]->answer) . " >> " . trim($answersList[3]->matchAnswer) : '';
+                $answer1 = isset($answersList[0]) ? trim(str_replace(['#!', '#'], '', $answersList[0]->answer)) . " >> " . trim(str_replace(['#!', '#'], '', $answersList[0]->matchAnswer)) : '';
+                $answer2 = isset($answersList[1]) ? trim(str_replace(['#!', '#'], '', $answersList[1]->answer)) . " >> " . trim(str_replace(['#!', '#'], '', $answersList[1]->matchAnswer)) : '';
+                $answer3 = isset($answersList[2]) ? trim(str_replace(['#!', '#'], '', $answersList[2]->answer)) . " >> " . trim(str_replace(['#!', '#'], '', $answersList[2]->matchAnswer)) : '';
+                $answer4 = isset($answersList[3]) ? trim(str_replace(['#!', '#'], '', $answersList[3]->answer)) . " >> " . trim(str_replace(['#!', '#'], '', $answersList[3]->matchAnswer)) : '';
+                // إضافة #! إلى الإجابة الصحيحة
+                if (isset($answersList[0]) && $answersList[0]->isCorrect) {
+                    $answer1 = '#!' . $answer1;
+                }
+                if (isset($answersList[1]) && $answersList[1]->isCorrect) {
+                    $answer2 = '#!' . $answer2;
+                }
+                if (isset($answersList[2]) && $answersList[2]->isCorrect) {
+                    $answer3 = '#!' . $answer3;
+                }
+                if (isset($answersList[3]) && $answersList[3]->isCorrect) {
+                    $answer4 = '#!' . $answer4;
+                }
             } elseif ($typeID == 1) { // صح/خطأ
-                $answer1 = ($isTrue == 1) ? 'True' : 'False';
-                $answer2 = '';
+                $answer1 = ($isTrue == 1) ? '#!True' : 'True';
+                if ($isTrue == 0) {
+                    $answer1 = 'False';
+                    $answer2 = '#!False';
+                } else {
+                    $answer2 = 'False';
+                }
                 $answer3 = '';
                 $answer4 = '';
             } elseif ($typeID == 5) { // مقالي
@@ -227,7 +259,7 @@ if (isset($_GET['uploadImage'])) {
         $sheet = $excelFile->getActiveSheet();
 
         // إضافة العناوين في الصف الأول
-        $headers = ['السؤال', 'نوع السؤال', 'النقاط', 'الصعوبة', 'الإجابة 1', 'الإجابة 2', 'الإجابة 3', 'الإجابة 4'];
+        $headers = ['Question', 'Question Type', 'Points', 'Difficulty', 'Answer 1', 'Answer 2', 'Answer 3', 'Answer 4'];
         $column = 'A';
         foreach ($headers as $headerText) {
             $sheet->setCellValue($column . '1', $headerText);
@@ -297,14 +329,15 @@ if (isset($_GET['uploadImage'])) {
 
     } catch (Exception $error) {
         // في حالة حدوث خطأ، عرض رسالة الخطأ
-        die("حدث خطأ: " . $error->getMessage());
+        die("Error: " . $error->getMessage());
     }
-}else if (isset($_GET['import']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+}
+else if (isset($_GET['import']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
     // التحقق من وجود ملف مرفوع
     if (!isset($_FILES['excel']) || $_FILES['excel']['error'] !== UPLOAD_ERR_OK) {
         die(json_encode([
             'status' => 'error',
-            'message' => 'لم يتم رفع الملف أو حدث خطأ في الرفع: ' . $_FILES['excel']['error']
+            'message' => 'File not uploaded or upload error: ' . $_FILES['excel']['error']
         ]));
     }
 
@@ -314,14 +347,14 @@ if (isset($_GET['uploadImage'])) {
     if (!file_exists($excelFile)) {
         die(json_encode([
             'status' => 'error',
-            'message' => 'الملف غير موجود على الخادم'
+            'message' => 'File not found on server'
         ]));
     }
 
     if (!is_readable($excelFile)) {
         die(json_encode([
             'status' => 'error',
-            'message' => 'لا يمكن قراءة الملف'
+            'message' => 'Cannot read file'
         ]));
     }
 
@@ -338,7 +371,7 @@ if (isset($_GET['uploadImage'])) {
         if (empty($sheetData)) {
             die(json_encode([
                 'status' => 'error',
-                'message' => 'ملف Excel فارغ'
+                'message' => 'Excel file is empty'
             ]));
         }
 
@@ -347,7 +380,7 @@ if (isset($_GET['uploadImage'])) {
         if (!class_exists('question')) {
             die(json_encode([
                 'status' => 'error',
-                'message' => 'فئة الأسئلة غير موجودة'
+                'message' => 'Question class not found'
             ]));
         }
 
@@ -357,7 +390,7 @@ if (isset($_GET['uploadImage'])) {
         if (!$course) {
             die(json_encode([
                 'status' => 'error',
-                'message' => 'لم يتم تحديد المقرر الدراسي'
+                'message' => 'Course not specified'
             ]));
         }
 
@@ -393,13 +426,13 @@ if (isset($_GET['uploadImage'])) {
 
             // التحقق من صحة البيانات الأساسية
             if (empty($questionText)) {
-                $errors[] = "سطر $rowIndex: نص السؤال فارغ";
+                $errors[] = "Row $rowIndex: Question text is empty";
                 $skippedCount++;
                 continue;
             }
 
             if (!isset($qTypes[$questionTypeText])) {
-                $errors[] = "سطر $rowIndex: نوع السؤال غير صحيح '$questionTypeText'";
+                $errors[] = "Row $rowIndex: Invalid question type '$questionTypeText'";
                 $skippedCount++;
                 continue;
             }
@@ -409,9 +442,9 @@ if (isset($_GET['uploadImage'])) {
             // إدخال السؤال الأساسي
             try {
                 $insertResult = $q->insertQuestion($questionText, $qtype, $course, 0, $points, $difficulty);
-                
+
                 if (!$insertResult) {
-                    $errors[] = "سطر $rowIndex: فشل إدخال السؤال في قاعدة البيانات";
+                    $errors[] = "Row $rowIndex: Failed to insert question into database";
                     $skippedCount++;
                     continue;
                 }
@@ -426,57 +459,99 @@ if (isset($_GET['uploadImage'])) {
                         for ($i = 'E'; $i <= 'H'; $i++) {
                             $answerText = trim($row[$i] ?? '');
                             if (empty($answerText)) continue;
-                            
+
                             $isCorrect = strpos($answerText, '#!') === 0 ? 1 : 0;
                             $answerText = str_replace('#!', '', $answerText);
-                            
+
                             if (!$q->insertAnswers($lastInsertedId, $answerText, $isCorrect)) {
-                                $errors[] = "سطر $rowIndex: فشل إدخال الإجابة في العمود $i";
+                                $errors[] = "Row $rowIndex: Failed to insert answer in column $i";
                             }
                         }
                         break;
-                        
+
                     case 1: // True/False
-                        $isTrue = strtolower(trim($row['E'] ?? '')) === 'true' ? 1 : 0;
+                        $answerText = trim($row['E'] ?? '');
+                        $answerText2 = trim($row['F'] ?? '');
+
+                        if (empty($answerText)) {
+                            $errors[] = "Row $rowIndex: Missing True/False answer";
+                            continue;
+                        }
+
+                        $isTrue = null;
+                        if (strpos($answerText, '#!') === 0) {
+                            $answerText = str_replace('#!', '', $answerText);
+                            if (strtolower($answerText) === 'true') {
+                                $isTrue = 1;
+                            } elseif (strtolower($answerText) === 'false') {
+                                $isTrue = 0;
+                            }
+                        } elseif (strpos($answerText2, '#!') === 0) {
+                            $answerText2 = str_replace('#!', '', $answerText2);
+                            if (strtolower($answerText2) === 'true') {
+                                $isTrue = 1;
+                            } elseif (strtolower($answerText2) === 'false') {
+                                $isTrue = 0;
+                            }
+                        } else {
+                            // الاعتماد على القيمة بدون #! إذا لم يكن موجودًا
+                            if (strtolower($answerText) === 'true') {
+                                $isTrue = 1;
+                            } elseif (strtolower($answerText) === 'false') {
+                                $isTrue = 0;
+                            }
+                        }
+
+                        if ($isTrue === null) {
+                            $errors[] = "Row $rowIndex: Invalid True/False answer";
+                            continue;
+                        }
+
                         if (!$q->updateTF($lastInsertedId, $isTrue)) {
-                            $errors[] = "سطر $rowIndex: فشل تحديث إجابة صح/خطأ";
+                            $errors[] = "Row $rowIndex: Failed to update True/False answer";
                         }
                         break;
-                        
+
                     case 2: // Complete
                         for ($i = 'E'; $i <= 'H'; $i++) {
                             $answerText = trim($row[$i] ?? '');
-                            if (!empty($answerText)) {
-                                if (!$q->insertAnswers($lastInsertedId, $answerText, 1)) {
-                                    $errors[] = "سطر $rowIndex: فشل إدخال إجابة التكميل في العمود $i";
-                                }
+                            if (empty($answerText)) continue;
+
+                            $isCorrect = strpos($answerText, '#!') === 0 ? 1 : 0;
+                            $answerText = str_replace('#!', '', $answerText);
+
+                            if (!$q->insertAnswers($lastInsertedId, $answerText, $isCorrect)) {
+                                $errors[] = "Row $rowIndex: Failed to insert completion answer in column $i";
                             }
                         }
                         break;
-                        
+
                     case 4: // Matching
                         for ($i = 'E'; $i <= 'H'; $i++) {
                             $matchText = trim($row[$i] ?? '');
                             if (empty($matchText)) continue;
-                            
+
+                            $isCorrect = strpos($matchText, '#!') === 0 ? 1 : 0;
+                            $matchText = str_replace('#!', '', $matchText);
+
                             $matchParts = explode('>>', $matchText);
                             if (count($matchParts) !== 2) {
-                                $errors[] = "سطر $rowIndex: تنسيق المطابقة غير صحيح في العمود $i";
+                                $errors[] = "Row $rowIndex: Invalid matching format in column $i";
                                 continue;
                             }
-                            
-                            if (!$q->insertAnswers($lastInsertedId, trim($matchParts[0]), 1, trim($matchParts[1]))) {
-                                $errors[] = "سطر $rowIndex: فشل إدخال المطابقة في العمود $i";
+
+                            if (!$q->insertAnswers($lastInsertedId, trim($matchParts[0]), $isCorrect, trim($matchParts[1]))) {
+                                $errors[] = "Row $rowIndex: Failed to insert matching in column $i";
                             }
                         }
                         break;
-                        
+
                     case 5: // Essay
-                        // لا تحتاج لإجابات محددة
+                        // No specific answers needed
                         break;
                 }
             } catch (Exception $e) {
-                $errors[] = "سطر $rowIndex: " . $e->getMessage();
+                $errors[] = "Row $rowIndex: " . $e->getMessage();
                 $skippedCount++;
                 continue;
             }
@@ -492,11 +567,11 @@ if (isset($_GET['uploadImage'])) {
             'status' => 'success',
             'imported' => $importedCount,
             'skipped' => $skippedCount,
-            'errors' => $errors,
-            header('Location: ../../?questions')
-
+            'errors' => $errors
         ];
 
+        // إعادة التوجيه بعد النجاح
+        header('Location: ../../?questions');
         echo json_encode($result);
         exit;
 
@@ -508,15 +583,14 @@ if (isset($_GET['uploadImage'])) {
 
         die(json_encode([
             'status' => 'error',
-            'message' => 'حدث خطأ أثناء معالجة الملف: ' . $e->getMessage()
+            'message' => 'Error processing file: ' . $e->getMessage()
         ]));
     }
 } else {
     die(json_encode([
         'status' => 'error',
-        'message' => 'طلب غير صالح'
+        'message' => 'Invalid request'
     ]));
 }
-
   
 ?>

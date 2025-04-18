@@ -18,7 +18,7 @@ require_once 'header.php';
 				foreach($_SESSION['info'] as $info){
 					echo '<div class="alert alert-success" role="alert">'. $info . '</div>';}
 					unset($_SESSION['info']); ?>
-                <div class="login-form rounded">
+                <div class="login-form ">
                     <form action="app/controller/instructor.inc.php?action=login" method="post">
                         <div class="form-group">
                             <label>Email</label>
