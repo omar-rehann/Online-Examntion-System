@@ -31,27 +31,39 @@ class assign extends dbh {
     
     return !empty($result) ? $result[0] : false;
   }
+  public function getTestName($testID) {
+    $query = "SELECT name FROM test WHERE id = :testID AND instructorID = :instID";
+    $statement = $this->connect()->prepare($query);
+    $statement->bindParam(":instID", $_SESSION['mydata']->id);
+    $statement->bindParam(":testID", $testID);
+    $statement->execute();
+    $results = $statement->fetchAll(PDO::FETCH_OBJ);
+    return $results[0]->name ?? false;
+}
 
   // إنشاء إعدادات جديدة
-  public function createSetting($start, $end, $prevQuestion, $duration, $percent, $viewAnswers, $releaseResult, $sendToS, $sendToI) {
+  public function createSetting($testID, $start, $end, $prevQuestion, $duration, $percent, $viewAnswers, $releaseResult, $sendToS, $sendToI) {
     $this->deleteUnusedSettings();
     
     try {
-      $db = $this->connect();
-      $query = "INSERT INTO test_settings(startTime, endTime, duration, prevQuestion, 
-                viewAnswers, releaseResult, sendToStudent, sendToInstructor, passPercent, instructorID)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      
-      $stmt = $db->prepare($query);
-      $stmt->execute([$start, $end, $duration, $prevQuestion, $viewAnswers, 
-                     $releaseResult, $sendToS, $sendToI, $percent, $_SESSION['mydata']->id]);
-      
-      return true;
+        $db = $this->connect();
+        // جلب testName من جدول test
+        $testName = $this->getTestName($testID) ?: 'Unnamed Test';
+        
+        $query = "INSERT INTO test_settings (testName, startTime, endTime, duration, prevQuestion, 
+                  viewAnswers, releaseResult, sendToStudent, sendToInstructor, passPercent, instructorID)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        $stmt = $db->prepare($query);
+        $stmt->execute([$testName, $start, $end, $duration, $prevQuestion, $viewAnswers, 
+                       $releaseResult, $sendToS, $sendToI, $percent, $_SESSION['mydata']->id]);
+        
+        return true;
     } catch (PDOException $e) {
-      error_log("Error creating setting: " . $e->getMessage());
-      return false;
+        error_log("Error creating setting: " . $e->getMessage());
+        return false;
     }
-  }
+}
 
   // تعيين اختبار لمجموعة
   public function AssignToGroup($groupID, $testID) {
