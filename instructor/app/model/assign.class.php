@@ -1,15 +1,6 @@
 <?php
 class assign extends dbh {
-  // ترجع اسم الاختبار حسب رقم الاختبار الدكتور  الحالي من الجلسة
-  public function getTestName($testID) {
-    $query = "SELECT name FROM test WHERE id = :testID AND instructorID = :instID";
-    $statement = $this->connect()->prepare($query);
-    $statement->bindParam(":instID", $_SESSION['mydata']->id);
-    $statement->bindParam(":testID", $testID);
-    $statement->execute();
-    $results = $statement->fetchAll(PDO::FETCH_OBJ);
-    return $results[0]->name ?? false;
-}
+
  
 
   // الحصول على إعدادات المجموعات
@@ -40,7 +31,6 @@ class assign extends dbh {
     
     return !empty($result) ? $result[0] : false;
   }
- 
 
   // إنشاء إعدادات جديدة
   public function createSetting($testID, $start, $end, $prevQuestion, $duration, $percent, $viewAnswers, $releaseResult, $sendToS, $sendToI) {
@@ -48,8 +38,9 @@ class assign extends dbh {
     
     try {
         $db = $this->connect();
-        // جلب testName من جدول test
-        $testName = $this->getTestName($testID) ?: 'Unnamed Test';
+        // جلب testName من جدول test باستخدام دالة getTestName من كلاس Test
+        $testObj = new Test();
+        $testName = $testObj->getTestName($testID) ?: 'Unnamed Test';
         
         $query = "INSERT INTO test_settings (testName, startTime, endTime, duration, prevQuestion, 
                   viewAnswers, releaseResult, sendToStudent, sendToInstructor, passPercent, instructorID)
