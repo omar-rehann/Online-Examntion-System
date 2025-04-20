@@ -24,14 +24,6 @@ if (isset($_GET['id'])) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <style>
-        .no-print { display: block; }
-        @media print {
-            .no-print { display: none; }
-        }
-    </style>
-</head>
 <body class="bg-light">
     <div class="container py-4">
         <div class="col-md-12 mx-auto">
@@ -124,35 +116,6 @@ if (isset($_GET['id'])) {
                                 <h5 class="mb-0"><i class="fas fa-chart-pie mr-2"></i>Performance Analysis</h5>
                             </div>
                             <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Percentage Score</h5>
-                                                <div class="chart-container">
-                                                    <canvas id="percentChart"></canvas>
-                                                </div>
-                                                <h3 class="mt-3 <?php echo ($percent >= $result->passPercent) ? 'text-success' : 'text-danger'; ?>">
-                                                    <?php echo $percent; ?>%
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <div class="card h-100">
-                                            <div class="card-body text-center">
-                                                <h5 class="card-title">Final Grade</h5>
-                                                <div class="chart-container">
-                                                    <canvas id="gradeChart"></canvas>
-                                                </div>
-                                                <h3 class="mt-3 <?php echo ($percent >= $result->passPercent) ? 'text-success' : 'text-danger'; ?>">
-                                                    <?php echo $result->FinalGrade; ?>/<?php echo $result->TestDegree; ?>
-                                                </h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
                                 <div class="row mt-2">
                                     <div class="col-md-6">
                                         <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
@@ -364,65 +327,6 @@ if (isset($_GET['id'])) {
             <?php endif; ?>
         </div>
     </div>
-
-    <?php if ($result->Questions > 0) : ?>
-    <script>
-        // Percentage Chart
-        $(document).ready(function() {
-            const percentCtx = document.getElementById('percentChart').getContext('2d');
-            const percentChart = new Chart(percentCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Correct', 'Incorrect'],
-                    datasets: [{
-                        data: [<?php echo $percent; ?>, <?php echo max(0, 100 - $percent); ?>],
-                        backgroundColor: ['#28a745', '#dc3545'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutoutPercentage: 70,
-                    legend: { display: false },
-                    tooltips: { enabled: false },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
-                    }
-                }
-            });
-
-            // Grade Chart
-            const gradeCtx = document.getElementById('gradeChart').getContext('2d');
-            const gradeChart = new Chart(gradeCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Your Score', 'Remaining'],
-                    datasets: [{
-                        data: [<?php echo $result->FinalGrade; ?>, <?php echo max(0, $result->TestDegree - $result->FinalGrade); ?>],
-                        backgroundColor: [
-                            '<?php echo ($percent >= $result->passPercent) ? "#28a745" : "#dc3545"; ?>',
-                            '#e9ecef'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutoutPercentage: 70,
-                    legend: { display: false },
-                    tooltips: { enabled: false },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
-                    }
-                }
-            });
-        });
-    </script>
-    <?php endif; ?>
 </body>
 </html>
 <?php
