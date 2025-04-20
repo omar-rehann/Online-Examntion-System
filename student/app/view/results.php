@@ -112,26 +112,38 @@ if (isset($_GET['id'])) {
                         <?php if ($result->Questions > 0) : ?>
                         <!-- Performance Analysis Section -->
                         <div class="card mb-4 shadow-sm">
-                            <div class="card-header bg-white">
-                                <h5 class="mb-0"><i class="fas fa-chart-pie mr-2"></i>Performance Analysis</h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="row mt-2">
-                                    <div class="col-md-6">
-                                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                                            <span class="font-weight-bold">Correct Answers:</span>
-                                            <span class="badge badge-success badge-pill py-2 px-3"><?php echo $result->RightQuestions; ?></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
-                                            <span class="font-weight-bold">Wrong Answers:</span>
-                                            <span class="badge badge-danger badge-pill py-2 px-3"><?php echo $result->WrongQuestions; ?></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <div class="card-header bg-white">
+        <h5 class="mb-0"><i class="fas fa-chart-pie mr-2"></i>Performance Analysis</h5>
+    </div>
+    <div class="card-body">
+        <div class="row mt-2">
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-between align-items-center p-3 bg-success text-white rounded">
+                    <span class="font-weight-bold"><i class="fas fa-check mr-2"></i>Correct Answers:</span>
+                    <span class="badge badge-success badge-pill py-2 px-3"><?php echo $result->RightQuestions; ?></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded">
+                    <span class="font-weight-bold"><i class="fas fa-times mr-2"></i>Wrong Answers:</span>
+                    <span class="badge badge-danger badge-pill py-2 px-3"><?php echo $result->WrongQuestions; ?></span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-between align-items-center p-3 bg-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> text-white rounded">
+                    <span class="font-weight-bold"><i class="fas fa-percentage mr-2"></i>Grade (Percent):</span>
+                    <span class="badge badge-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> badge-pill py-2 px-3"><?php echo round($percent); ?>%</span>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-between align-items-center p-3 bg-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> text-white rounded">
+                    <span class="font-weight-bold"><i class="fas fa-star mr-2"></i>Grade (Points):</span>
+                    <span class="badge badge-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> badge-pill py-2 px-3"><?php echo $result->FinalGrade . ' / ' . $result->TestDegree; ?></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
                         <?php endif; ?>
                         
                         <?php if ($result->Questions > 0) : ?>
