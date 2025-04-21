@@ -1,389 +1,608 @@
-/*!
- * icheck-bootstrap v3.0.1 
-*/
+/* مكتبة iCheck-bootstrap v3.0.1 لتخصيص شكل checkboxes و radio buttons */
 
 [class*=icheck-] {
     min-height: 22px;
-    margin-top: 6px!important;
-    margin-bottom: 6px!important;
-    padding-left: 0
+    /* الارتفاع الأدنى للعنصر عشان يكون شكله موحد */
+    margin-top: 6px !important;
+    /* هامش من فوق */
+    margin-bottom: 6px !important;
+    /* هامش من تحت */
+    padding-left: 0;
+    /* مفيش padding على الشمال */
 }
 
+
+/* لو عايز الـ checkboxes أو radio buttons يظهروا جنب بعض في سطر واحد */
+
 .icheck-inline {
-    display: inline-block
+    display: inline-block;
+    /* يخليهم inline بدل block */
 }
+
+
+/* لو فيه عنصرين inline جنب بعض، حط مسافة بينهم */
 
 .icheck-inline+.icheck-inline {
     margin-left: .75rem;
-    margin-top: 6px
+    /* مسافة بين العناصر من الشمال */
+    margin-top: 6px;
+    /* هامش من فوق */
 }
+
+
+/* الـ label بتاع كل checkbox أو radio button */
 
 [class*=icheck-]>label {
-    padding-left: 29px!important;
+    padding-left: 29px !important;
+    /* مسافة على الشمال عشان الصورة (checkbox/radio) تظهر جنب النص */
     min-height: 22px;
+    /* ارتفاع موحد للـ label */
     line-height: 22px;
+    /* محاذاة النص عموديًا */
     display: inline-block;
+    /* يخلي الـ label inline */
     position: relative;
+    /* عشان نتحكم في مكان ::before و ::after */
     vertical-align: top;
+    /* محاذاة من فوق */
     margin-bottom: 0;
+    /* مفيش هامش تحت */
     font-weight: 400;
-    cursor: pointer
+    /* الخط عادي مش تخين */
+    cursor: pointer;
+    /* المؤشر يبقى زي لينك لما تمرر الماوس */
 }
+
+
+/* الـ input نفسه (checkbox أو radio) مخفي بس موجود في الـ DOM */
 
 [class*=icheck-]>input:first-child {
-    position: absolute!important;
+    position: absolute !important;
+    /* مخفي من الشاشة */
     opacity: 0;
-    margin: 0
+    /* شفاف يعني مش مرئي */
+    margin: 0;
+    /* مفيش هامش */
 }
 
+
+/* لو الـ input معطل (disabled) */
+
 [class*=icheck-]>input:first-child:disabled {
-    cursor: default
+    cursor: default;
+    /* المؤشر يبقى عادي مش pointer */
 }
+
+
+/* الـ ::before هو الصندوق أو الدائرة بتاعة الـ checkbox/radio */
 
 [class*=icheck-]>input:first-child+input[type=hidden]+label::before,
 [class*=icheck-]>input:first-child+label::before {
     content: "";
+    /* مفيش محتوى نصي */
     display: inline-block;
+    /* يتصرف زي عنصر inline */
     position: absolute;
+    /* مكانه بالنسبة للـ label */
     width: 22px;
+    /* عرض الصندوق */
     height: 22px;
+    /* ارتفاع الصندوق */
     border: 1px solid #D3CFC8;
+    /* إطار رمادي فاتح */
     border-radius: 0;
-    margin-left: -29px
+    /* زوايا مربعة (للـ checkbox) */
+    margin-left: -29px;
+    /* يتحرك للشمال عشان يظهر جنب النص */
 }
+
+
+/* لما الـ checkbox أو radio يتخير (checked)، بتظهر علامة صح (✔) */
 
 [class*=icheck-]>input:first-child:checked+input[type=hidden]+label::after,
 [class*=icheck-]>input:first-child:checked+label::after {
     content: "";
+    /* مفيش محتوى نصي */
     display: inline-block;
+    /* يتصرف زي عنصر inline */
     position: absolute;
+    /* مكانه بالنسبة للـ label */
     top: 0;
+    /* من فوق */
     left: 0;
+    /* من الشمال */
     width: 7px;
+    /* عرض علامة الصح */
     height: 10px;
+    /* ارتفاع علامة الصح */
     border: 2px solid #fff;
+    /* إطار أبيض لعلامة الصح */
     border-left: none;
+    /* مفيش إطار على الشمال */
     border-top: none;
+    /* مفيش إطار فوق */
     transform: translate(7.75px, 4.5px) rotate(45deg);
-    -ms-transform: translate(7.75px, 4.5px) rotate(45deg)
+    /* يتحرك ويتلف 45 درجة عشان يبقى زي ✔ */
+    -ms-transform: translate(7.75px, 4.5px) rotate(45deg);
+    /* دعم لإنترنت إكسبلورر */
 }
+
+
+/* لو الـ input هو radio button، الصندوق بيبقى دائرة */
 
 [class*=icheck-]>input[type=radio]:first-child+input[type=hidden]+label::before,
 [class*=icheck-]>input[type=radio]:first-child+label::before {
-    border-radius: 50%
+    border-radius: 50%;
+    /* إطار مدور (دائرة) */
 }
+
+
+/* لما تمرر الماوس على checkbox أو radio (مش مختار ومش معطل) */
 
 [class*=icheck-]>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 [class*=icheck-]>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-width: 2px
+    border-width: 2px;
+    /* الإطار يبقى أثقل شوية */
 }
+
+
+/* لو الـ input معطل (disabled)، يبقى باهت */
 
 [class*=icheck-]>input:first-child:disabled+input[type=hidden]+label,
 [class*=icheck-]>input:first-child:disabled+input[type=hidden]+label::before,
 [class*=icheck-]>input:first-child:disabled+label,
 [class*=icheck-]>input:first-child:disabled+label::before {
     pointer-events: none;
+    /* مينفعش تتفاعل معاه */
     cursor: default;
+    /* المؤشر عادي */
     filter: alpha(opacity=65);
+    /* شفافية لإنترنت إكسبلورر */
     -webkit-box-shadow: none;
+    /* مفيش ظل */
     box-shadow: none;
-    opacity: .65
+    /* مفيش ظل */
+    opacity: .65;
+    /* شفافية 65% */
 }
+
+
+/* من هنا بيبدأ تخصيص الألوان لكل نوع (default, primary, success, إلخ) */
+
+
+/* icheck-default (رمادي) */
 
 .icheck-default>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-default>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #adadad
+    border-color: #adadad;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-default>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-default>input:first-child:checked+label::before {
     background-color: #e6e6e6;
-    border-color: #adadad
+    /* لون الخلفية لما يتخير */
+    border-color: #adadad;
+    /* لون الإطار */
 }
 
 .icheck-default>input:first-child:checked+input[type=hidden]+label::after,
 .icheck-default>input:first-child:checked+label::after {
     border-bottom-color: #333;
-    border-right-color: #333
+    /* لون علامة الصح (تحت) */
+    border-right-color: #333;
+    /* لون علامة الصح (يمين) */
 }
+
+
+/* icheck-primary (أزرق) */
 
 .icheck-primary>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-primary>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #2e6da4
+    border-color: #2e6da4;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-primary>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-primary>input:first-child:checked+label::before {
     background-color: #337ab7;
-    border-color: #2e6da4
+    /* لون الخلفية لما يتخير */
+    border-color: #2e6da4;
+    /* لون الإطار */
 }
+
+
+/* icheck-success (أخضر) */
 
 .icheck-success>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-success>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #4cae4c
+    border-color: #4cae4c;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-success>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-success>input:first-child:checked+label::before {
     background-color: #5cb85c;
-    border-color: #4cae4c
+    /* لون الخلفية لما يتخير */
+    border-color: #4cae4c;
+    /* لون الإطار */
 }
+
+
+/* icheck-info (سماوي) */
 
 .icheck-info>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-info>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #46b8da
+    border-color: #46b8da;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-info>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-info>input:first-child:checked+label::before {
     background-color: #5bc0de;
-    border-color: #46b8da
+    /* لون الخلفية لما يتخير */
+    border-color: #46b8da;
+    /* لون الإطار */
 }
+
+
+/* icheck-warning (برتقالي) */
 
 .icheck-warning>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-warning>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #eea236
+    border-color: #eea236;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-warning>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-warning>input:first-child:checked+label::before {
     background-color: #f0ad4e;
-    border-color: #eea236
+    /* لون الخلفية لما يتخير */
+    border-color: #eea236;
+    /* لون الإطار */
 }
+
+
+/* icheck-danger (أحمر) */
 
 .icheck-danger>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-danger>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #d43f3a
+    border-color: #d43f3a;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-danger>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-danger>input:first-child:checked+label::before {
     background-color: #d9534f;
-    border-color: #d43f3a
+    /* لون الخلفية لما يتخير */
+    border-color: #d43f3a;
+    /* لون الإطار */
 }
+
+
+/* icheck-turquoise (تركواز) */
 
 .icheck-turquoise>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-turquoise>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #1abc9c
+    border-color: #1abc9c;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-turquoise>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-turquoise>input:first-child:checked+label::before {
     background-color: #1abc9c;
-    border-color: #1abc9c
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #1abc9c;
 }
+
+
+/* icheck-emerland (زمردي) */
 
 .icheck-emerland>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-emerland>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #2ecc71
+    border-color: #2ecc71;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-emerland>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-emerland>input:first-child:checked+label::before {
     background-color: #2ecc71;
-    border-color: #2ecc71
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #2ecc71;
 }
+
+
+/* icheck-peterriver (أزرق نهري) */
 
 .icheck-peterriver>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-peterriver>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #3498db
+    border-color: #3498db;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-peterriver>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-peterriver>input:first-child:checked+label::before {
     background-color: #3498db;
-    border-color: #3498db
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #3498db;
 }
+
+
+/* icheck-amethyst (بنفسجي) */
 
 .icheck-amethyst>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-amethyst>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #9b59b6
+    border-color: #9b59b6;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-amethyst>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-amethyst>input:first-child:checked+label::before {
     background-color: #9b59b6;
-    border-color: #9b59b6
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #9b59b6;
 }
+
+
+/* icheck-wetasphalt (رمادي غامق) */
 
 .icheck-wetasphalt>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-wetasphalt>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #34495e
+    border-color: #34495e;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-wetasphalt>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-wetasphalt>input:first-child:checked+label::before {
     background-color: #34495e;
-    border-color: #34495e
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #34495e;
 }
+
+
+/* icheck-greensea (أخضر بحري) */
 
 .icheck-greensea>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-greensea>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #16a085
+    border-color: #16a085;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-greensea>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-greensea>input:first-child:checked+label::before {
     background-color: #16a085;
-    border-color: #16a085
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #16a085;
 }
+
+
+/* icheck-nephritis (أخضر غامق) */
 
 .icheck-nephritis>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-nephritis>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #27ae60
+    border-color: #27ae60;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-nephritis>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-nephritis>input:first-child:checked+label::before {
     background-color: #27ae60;
-    border-color: #27ae60
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #27ae60;
 }
+
+
+/* icheck-belizehole (أزرق غامق) */
 
 .icheck-belizehole>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-belizehole>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #2980b9
+    border-color: #2980b9;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-belizehole>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-belizehole>input:first-child:checked+label::before {
     background-color: #2980b9;
-    border-color: #2980b9
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #2980b9;
 }
+
+
+/* icheck-wisteria (بنفسجي فاتح) */
 
 .icheck-wisteria>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-wisteria>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #8e44ad
+    border-color: #8e44ad;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-wisteria>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-wisteria>input:first-child:checked+label::before {
     background-color: #8e44ad;
-    border-color: #8e44ad
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #8e44ad;
 }
+
+
+/* icheck-midnightblue (أزرق غامق جدًا) */
 
 .icheck-midnightblue>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-midnightblue>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #2c3e50
+    border-color: #2c3e50;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-midnightblue>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-midnightblue>input:first-child:checked+label::before {
     background-color: #2c3e50;
-    border-color: #2c3e50
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #2c3e50;
 }
+
+
+/* icheck-sunflower (أصفر) */
 
 .icheck-sunflower>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-sunflower>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #f1c40f
+    border-color: #f1c40f;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-sunflower>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-sunflower>input:first-child:checked+label::before {
     background-color: #f1c40f;
-    border-color: #f1c40f
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #f1c40f;
 }
+
+
+/* icheck-carrot (برتقالي غامق) */
 
 .icheck-carrot>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-carrot>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #e67e22
+    border-color: #e67e22;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-carrot>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-carrot>input:first-child:checked+label::before {
     background-color: #e67e22;
-    border-color: #e67e22
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #e67e22;
 }
+
+
+/* icheck-alizarin (أحمر غامق) */
 
 .icheck-alizarin>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-alizarin>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #e74c3c
+    border رژیم-color: #e74c3c;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-alizarin>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-alizarin>input:first-child:checked+label::before {
     background-color: #e74c3c;
-    border-color: #e74c3c
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #e74c3c;
 }
+
+
+/* icheck-clouds (رمادي فاتح جدًا) */
 
 .icheck-clouds>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-clouds>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #ecf0f1
+    border-color: #ecf0f1;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-clouds>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-clouds>input:first-child:checked+label::before {
     background-color: #ecf0f1;
-    border-color: #ecf0f1
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #ecf0f1;
 }
 
 .icheck-clouds>input:first-child:checked+input[type=hidden]+label::after,
 .icheck-clouds>input:first-child:checked+label::after {
     border-bottom-color: #95a5a6;
-    border-right-color: #95a5a6
+    /* لون علامة الصح (تحت) */
+    border-right-color: #95a5a6;
+    /* لون علامة الصح (يمين) */
 }
+
+
+/* icheck-concrete (رمادي متوسط) */
 
 .icheck-concrete>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-concrete>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #95a5a6
+    border-color: #95a5a6;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-concrete>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-concrete>input:first-child:checked+label::before {
     background-color: #95a5a6;
-    border-color: #95a5a6
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #95a5a6;
 }
+
+
+/* icheck-orange (برتقالي) */
 
 .icheck-orange>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-orange>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #f39c12
+    border-color: #f39c12;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-orange>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-orange>input:first-child:checked+label::before {
     background-color: #f39c12;
-    border-color: #f39c12
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #f39c12;
 }
+
+
+/* icheck-pumpkin (برتقالي غامق) */
 
 .icheck-pumpkin>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-pumpkin>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #d35400
+    border-color: #d35400;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-pumpkin>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-pumpkin>input:first-child:checked+label::before {
     background-color: #d35400;
-    border-color: #d35400
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #d35400;
 }
+
+
+/* icheck-pomegranate (أحمر غامق) */
 
 .icheck-pomegranate>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-pomegranate>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #c0392b
+    border-color: #c0392b;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-pomegranate>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-pomegranate>input:first-child:checked+label::before {
     background-color: #c0392b;
-    border-color: #c0392b
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #c0392b;
 }
+
+
+/* icheck-silver (فضي) */
 
 .icheck-silver>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-silver>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #bdc3c7
+    border-color: #bdc3c7;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-silver>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-silver>input:first-child:checked+label::before {
     background-color: #bdc3c7;
-    border-color: #bdc3c7
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #bdc3c7;
 }
+
+
+/* icheck-asbestos (رمادي غامق) */
 
 .icheck-asbestos>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-asbestos>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border-color: #7f8c8d
+    border-color: #7f8c8d;
+    /* لون الإطار لما تمرر الماوس */
 }
 
 .icheck-asbestos>input:first-child:checked+input[type=hidden]+label::before,
 .icheck-asbestos>input:first-child:checked+label::before {
     background-color: #7f8c8d;
-    border-color: #7f8c8d
+    /* لون الخلفية والإطار لما يتخير */
+    border-color: #7f8c8d;
 }
