@@ -1,4 +1,5 @@
 <?php
+// دالة لحساب عدد الكلمات في النص باستخدام 
 function mb_str_word_count($string, $format = 0, $charlist = '[]') {
     $string=trim($string);
     if(empty($string))
@@ -18,6 +19,8 @@ function mb_str_word_count($string, $format = 0, $charlist = '[]') {
             break;
     }
 }
+// دالة بترجع عنوان الـ IP بتاع المستخدم
+
 function getClientIP(){
   if (!empty($_SERVER['HTTP_CLIENT_IP'])){
       $ip_address = $_SERVER['HTTP_CLIENT_IP'];

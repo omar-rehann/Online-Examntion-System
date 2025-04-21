@@ -88,23 +88,6 @@ class Student extends dbh { // الكلاس يرث من كلاس قاعدة ال
         }
     }
 
-    // دالة للتحقق من معرف الطالب بدون كلمة مرور
-    public function checkID($studentID) {
-        // استعلام للتحقق من وجود معرف الطالب بدون كلمة مرور
-        $query = "SELECT id FROM student WHERE id = :id AND password IS NULL";
-        
-        $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-        $statement->bindParam(":id", $studentID); // ربط معرف الطالب
-        $statement->execute(); // تنفيذ الاستعلام
-        $count = $statement->rowCount(); // جلب عدد الصفوف
-        
-        if ($count > 0) {
-            return true; // إرجاع نجاح إذا وجد الطالب بدون كلمة مرور
-        } else {
-            return false; // إرجاع فشل إذا لم يوجد
-        }
-    }
-
     // دالة للتحقق من رمز إعادة تعيين كلمة المرور
     public function checkPasswordToken($email, $token) {
         // استعلام للتحقق من الرمز وتاريخ انتهاء الصلاحية
