@@ -176,90 +176,6 @@ $("#StartTest").click(function(e) {
         }
     });
 });
-
-// التعامل مع إرسال نموذج إعادة تعيين كلمة المرور
-$("#resetForm").submit(function(e) {
-    e.preventDefault();
-    var form = $(this);
-    var url = form.attr('action');
-    var posting = $.post(url, form.serialize());
-    posting.done(function(msg) {
-        if (msg == 'success') {
-            // إذا نجحت إعادة التعيين
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Your Password Has Been Changed!',
-                footer: 'You Can Login Now',
-                showConfirmButton: false,
-                timer: 3000,
-                onClose: () => {
-                    $(location).attr('href', '?login'); // إعادة التوجيه لتسجيل الدخول
-                }
-            });
-        } else {
-            // إذا حدث خطأ
-            Swal.fire({
-                icon: 'error',
-                title: 'Something Went Wrong...',
-                text: msg,
-            });
-        }
-    });
-});
-
-// التعامل مع إرسال نموذج التسجيل
-$("#registerForm").submit(function(e) {
-    e.preventDefault();
-    var form = $(this);
-    var url = form.attr('action');
-    var posting = $.post(url, form.serialize());
-    posting.done(function(msg) {
-        if (msg == 'success') {
-            // إذا نجح التسجيل
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Registration Was Successful',
-                footer: 'You Can Login Now',
-                showConfirmButton: false,
-                timer: 1500,
-                onClose: () => {
-                    $(location).attr('href', '?login'); // إعادة التوجيه لتسجيل الدخول
-                }
-            });
-        } else {
-            // إذا حدث خطأ
-            Swal.fire({
-                icon: 'error',
-                title: 'Something Went Wrong.',
-                text: msg,
-            });
-        }
-    });
-});
-
-// التعامل مع إرسال نموذج التحقق من الهوية
-$("#checkIDForm").submit(function(e) {
-    e.preventDefault();
-    var form = $(this);
-    var id = $(this).find('input[name="id"]').val();
-    var url = form.attr('action');
-    var posting = $.post(url, form.serialize());
-    posting.done(function(msg) {
-        if (msg == 'success') {
-            $(location).attr('href', '?register&id=' + id); // إعادة التوجيه لصفحة التسجيل
-        } else {
-            // إذا حدث خطأ
-            Swal.fire({
-                icon: 'error',
-                title: 'something went wrong.',
-                text: msg,
-            });
-        }
-    });
-});
-
 // التعامل مع مغادرة مجموعة
 $(".leaveGroupbtn").click(function(e) {
     e.preventDefault();
@@ -298,36 +214,6 @@ $(".leaveGroupbtn").click(function(e) {
                         text: msg,
                     });
                 }
-            });
-        }
-    });
-});
-
-// التعامل مع إرسال نموذج الانضمام إلى مجموعة
-$("#joinGroupModal").submit(function(e) {
-    e.preventDefault();
-    var form = $(this);
-    var url = form.attr('action');
-    var posting = $.post(url); // ملاحظة: لا يتم إرسال بيانات الكود
-    posting.done(function(msg) {
-        if (msg == 'success') {
-            // إذا نجح الانضمام
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'You Have Successfully Joined The Group',
-                showConfirmButton: false,
-                timer: 1500,
-                onClose: () => {
-                    $(location).attr('href', '?groups'); // إعادة التوجيه لصفحة المجموعات
-                }
-            });
-        } else {
-            // إذا حدث خطأ
-            Swal.fire({
-                icon: 'error',
-                title: 'Something Went Wrong.',
-                text: msg,
             });
         }
     });
