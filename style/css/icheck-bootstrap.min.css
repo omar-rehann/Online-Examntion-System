@@ -470,7 +470,7 @@
 
 .icheck-alizarin>input:first-child:not(:checked):not(:disabled):hover+input[type=hidden]+label::before,
 .icheck-alizarin>input:first-child:not(:checked):not(:disabled):hover+label::before {
-    border رژیم-color: #e74c3c;
+    border-color: #e74c3c;
     /* لون الإطار لما تمرر الماوس */
 }
 
