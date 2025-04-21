@@ -475,7 +475,7 @@ else if (isset($_GET['import']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         if (empty($answerText)) {
                             $errors[] = "Row $rowIndex: Missing True/False answer";
-                            continue;
+                            continue 2; // يتخطى تكرار الـ foreach
                         }
 
                         $isTrue = null;
@@ -504,7 +504,7 @@ else if (isset($_GET['import']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         if ($isTrue === null) {
                             $errors[] = "Row $rowIndex: Invalid True/False answer";
-                            continue;
+                            continue 2;
                         }
 
                         if (!$q->updateTF($lastInsertedId, $isTrue)) {
