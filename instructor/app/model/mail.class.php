@@ -4,17 +4,6 @@
 class mail extends dbh
 {
 
-  //  كل الرسائل التي لم يتم إرسالها
-  public function getUnsentMails() {
-    $sql = "SELECT id, resultID, studentID, instructorID, type, sends_at 
-            FROM mails 
-            WHERE sent = 0 
-            AND studentID != 0 
-            AND instructorID != 0";
-    $stmt = $this->connect()->query($sql);
-    $result = $stmt->fetchAll(PDO::FETCH_OBJ);
-    return $result;
-}
 // دالة لإضافة رسالة جديدة في جدول mails    
 public function insertMail($resultID, $type, $sends_at) {
   // استعلام لجلب studentID وinstructorID بناءً على resultID من جدول result وtest
@@ -67,14 +56,6 @@ public function fixInvalidMails() {
   // إرجاع عدد الرسائل اللي تم تصليحها مع رسالة توضيحية
   return $stmt->rowCount() . " mails fixed.";
 }
-
-  // حذف رسالة تم إرسالها
-  public function mailSent($id) {
-    $sql = "DELETE FROM mails WHERE id = :id";
-    $stmt = $this->connect()->prepare($sql);
-    $stmt->bindParam(":id", $id);
-    $stmt->execute();
-  }
 
   //  بيانات الطالب مع التحقق من  Password Token
   public function getStudentToken($id) {

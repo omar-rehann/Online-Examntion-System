@@ -110,11 +110,4 @@ class admin extends dbh {
     }
   }
   
-  // الحصول على الرسائل غير المرسلة
-  public function getUnsentMails() {
-    $db = $this->connect();
-    $query = "SELECT * FROM mails WHERE !sent";
-    $result = $db->query($query);
-    return $result->fetchAll(PDO::FETCH_OBJ);
-  }
 }

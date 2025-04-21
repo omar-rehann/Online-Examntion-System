@@ -366,8 +366,9 @@ if (isset($_GET['needsReview'])) {
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <strong class="card-title"><?php echo ((isset($_GET['studentID']) && $results) ? ('Student [' . $results[0]->studentName . ']') : (isset($_GET['code']) ? ('Code ' . $_GET['code']) : '')) ?> Results</strong>
-                <?php if (!$_SESSION['mydata']->isAdmin) { ?>
+            <strong class="card-title">
+    <?php echo (isset($_GET['studentID']) && !empty($results) && isset($results[0]->studentName) ? 'Student [' . htmlspecialchars($results[0]->studentName) . ']' : '') ?> Results
+</strong>                <?php if (!$_SESSION['mydata']->isAdmin) { ?>
                     <a href="?results&unsubmitted" type="button" class="btn btn-outline-secondary float-right m-1"><i class="fa fa-close"></i> Unsubmitted Results</a>
                     <a href="?results&needsReview" type="button" class="btn btn-outline-primary float-right m-1"><i class="fa fa-check-square-o"></i> Answers Needs Review</a>
                 <?php } ?>
