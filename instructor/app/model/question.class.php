@@ -67,7 +67,7 @@ class question extends dbh {
         return $stmt->fetchAll(PDO::FETCH_OBJ);
     }
 
-    // الحصول على سؤال بواسطة المعرف
+    // الحصول على سؤال بواسطة ID
     public function getByID($id) {
         $db = $this->connect();
         $query = "SELECT id, question, type, isTrue,
