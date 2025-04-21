@@ -1,7 +1,7 @@
 <?php
 require_once 'dbh.class.php'; // استيراد كلاس قاعدة البيانات
 
-class Test extends dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
+class Test extends dbh { // الكلاس يرث من كلاس قاعدة البيانات dbh
 
     // دالة لجلب الاختبارات المتاحة للطالب
     public function getMyTests() {

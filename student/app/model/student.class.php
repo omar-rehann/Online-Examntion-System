@@ -1,7 +1,7 @@
 <?php
 require_once 'dbh.class.php'; // استيراد كلاس قاعدة البيانات
 
-class Student extends dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
+class Student extends dbh { // الكلاس يرث من كلاس قاعدة البيانات  dbh
 
     // دالة لتسجيل دخول الطالب
     public function login($studentID, $password) {
