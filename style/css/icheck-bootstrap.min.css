@@ -8,7 +8,6 @@
     margin-bottom: 6px !important;
     /* هامش من تحت */
     padding-left: 0;
-    /* مفيش padding على الشمال */
 }
 
 
@@ -48,7 +47,6 @@
     margin-bottom: 0;
     /* مفيش هامش تحت */
     font-weight: 400;
-    /* الخط عادي مش تخين */
     cursor: pointer;
     /* المؤشر يبقى زي لينك لما تمرر الماوس */
 }
@@ -155,15 +153,11 @@
     pointer-events: none;
     /* مينفعش تتفاعل معاه */
     cursor: default;
-    /* المؤشر عادي */
     filter: alpha(opacity=65);
     /* شفافية لإنترنت إكسبلورر */
     -webkit-box-shadow: none;
-    /* مفيش ظل */
     box-shadow: none;
-    /* مفيش ظل */
     opacity: .65;
-    /* شفافية 65% */
 }
 
 
