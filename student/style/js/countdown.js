@@ -1,3 +1,5 @@
+// دالة لبدء التايمر التنازلي وعرض الوقت المتبقي
+
 function startTimer(duration, display) {
     var timer = duration,
         minutes, seconds;
@@ -38,6 +40,7 @@ function startTimer(duration, display) {
         }
     }, 1000);
 }
+// دالة لضبط التايمر وبدء العداد بناءً على المدة المعطاة
 
 function setTimer(time) {
     display = document.querySelector('#timer');
