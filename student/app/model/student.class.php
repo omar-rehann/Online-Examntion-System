@@ -184,7 +184,7 @@ class Student extends dbh { // الكلاس يرث من كلاس قاعدة ال
         }
     }
 
-    // دالة لجلب بيانات طالب بناءً على المعرف
+    // دالة لجلب بيانات طالب بناءً على ID
     public function getByID($studentID) {
         // استعلام لجلب جميع بيانات الطالب
         $query = "SELECT * FROM student WHERE id = :id";
