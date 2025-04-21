@@ -17,7 +17,7 @@ class Student extends Dbh { // الكلاس يرث من كلاس قاعدة ال
         return $results; // إرجاع النتائج
     }
 
-    // دالة لجلب جميع معرفات الطلاب
+    // دالة لجلب جميع IDS الطلاب
     public function getAllIDs() {
         // استعلام بسيط جدًا لجلب معرفات الطلاب فقط
         $query = "SELECT id FROM student";
