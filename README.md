@@ -16,8 +16,15 @@ Dr. Mostafa Herajy,
 Lecturer at the Department of Mathematics and Computer Science,
 Faculty of Science – Port Said University.
 ## Objectives 	
-This project is aimed at developing the online examination system process for students and instructors. The purpose of the system is to completely automate the old manual procedure of conducting an exam to
-a computerized system. The system will allow students to register and take the exam. It also enables lecturers to make tests and assign it to a link or group. The system has several functions. Both students and instructors have to register before using the system. The Instructor can add questions, take tests, and assign it. The instructor also can get a list of all students who take the exam and their grades. Once the student login to the system, he can see if he has assigned tests from groups or use a link to perform a test. After the student finishes the test, he can view his result and review his answers.
+ of the system is to completely automate the traditional manual exam process into a fully computerized system.
+
+The system allows students to take exams without having to register themselves manually, as student accounts are created by the system administrator or instructor.
+
+Instructors are required to register and log in to the system. They can add questions, create exams, and assign them to specific groups of students. Instructors can also view a list of all students who have taken the exam along with their grades.
+
+Once a student logs in using the provided credentials, they can access the exams assigned to them through their group memberships only. After completing an exam, the student can view their result and review their answers.
+
+
 
 ## How to Install?
 1. Clone the project to your web folder (www)

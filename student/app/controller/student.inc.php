@@ -22,20 +22,6 @@ if ($_GET['action'] == 'login'){
 }else{
   echo 'Your ID or password is not correct!';
 }
-}else if ($_GET['action'] == 'checkID'){
-  $id = !empty($_POST['id']) ? trim($_POST['id']) : null;
-  $_student = new student();
-  $status = $_student->checkIDforRegister($id);
-  if (!$status){
-    echo 'ID doesn\'t exist in our system';
-  }else{
-    if($status->nullpass == 0){
-      echo 'ID is already registered, Try to recover your account';
-    }else{
-      echo 'success';
-    }
-  }
-
 }else if ($_GET['action'] == 'requestReset'){
     $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
     $_student = new student();
@@ -48,42 +34,7 @@ if ($_GET['action'] == 'login'){
     }
 
 }
-else if ($_GET['action'] == 'resetPasswordWithToken'){
-    $token = !empty($_POST['token']) ? trim($_POST['token']) : null;
-    $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
-    $pass = !empty($_POST['password']) ? trim($_POST['password']) : null;
-    $_student = new student();
-    if (strlen($pass) < 8)
-      echo "Password too short!";
-    elseif($pass == null)
-      echo 'Password can\'t be empty';
-    elseif (!preg_match("#[0-9]+#", $pass))
-      echo "Password must include at least one number!";
-    elseif(!preg_match("#[a-zA-Z]+#", $pass))
-      echo "Password must include at least one letter!";
-    elseif (!$_student->checkPasswordToken($email,$token))
-      echo 'The Reset Token is not valid.. You may have followed a broken link';
-    else{
-      $password = md5($pass);
-      $_student->updatePassword($email,$password);
-      echo 'success';
-    }
-}else if ($_GET['action'] == 'resetPassword'){
-  $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
-  $password = !empty($_POST['password']) ? trim($_POST['password']) : null;
-  $repassword = !empty($_POST['repassword']) ? trim($_POST['repassword']) : null;
-    $_student = new student();
-    if (strlen($password) < 6)
-        echo 'Password is too short';
-    elseif($password != $repassword)
-        echo 'Password Fields doesn\'t match';
-    elseif($password == null)
-        echo 'Password is not valid';
-    else{
-      $password = md5($password);
-      $_student->updatePassword($email,$password);
-      echo 'success';}
-}else if ($_GET['action'] == 'updateInfo'){
+else if ($_GET['action'] == 'updateInfo'){
   $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
   $oldemail = !empty($_POST['oldemail']) ? trim($_POST['oldemail']) : null;
   $phonenum = !empty($_POST['phonenum']) ? trim($_POST['phonenum']) : null;
