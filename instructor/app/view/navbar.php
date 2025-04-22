@@ -24,14 +24,14 @@ $usr = $obj->getByEmail($_SESSION['mydata']->email);
             </li>
             <li class="nav-item <?php echo (isset($_GET['students'])?'active':'') ?>">
               <a class="nav-link" href="?students">
-                <i class="fa fa-group"></i>
-                Students
+              <i class="fa fa-group"></i>
+              Students
               </a>
             </li>
             <li class="nav-item <?php echo (isset($_GET['results'])?'active':'') ?>">
               <a class="nav-link" href="?results">
-                <i class="fa fa-group"></i>
-                Results
+              <i class="fa fa-bar-chart"></i>
+              Results
               </a>
             </li>
             <!-- Instructor -->
@@ -76,8 +76,8 @@ $usr = $obj->getByEmail($_SESSION['mydata']->email);
         </li>
         <li class="nav-item <?php echo (isset($_GET['students'])?'active':'') ?>">
           <a class="nav-link" href="?students">
-            <i class="fa fa-bar-chart"></i>
-            Students
+          <i class="fa fa-group"></i>
+          Students
           </a>
         </li>
 
@@ -89,15 +89,15 @@ $usr = $obj->getByEmail($_SESSION['mydata']->email);
       <ul class="navbar-nav ">
         <li class="nav-item">
           <a class="nav-link" href="?profile">
-            <i class="fa fa-user"></i>
-            Profile
+          <i class="fa fa-user-circle"></i>
+          Profile
           </a>
         </li>
 
         <li class="nav-item">
           <a class="nav-link" href="?logout">
-            <i class="fa fa-sign-out"></i>
-            Logout
+          <i class="fas fa-sign-out-alt"></i>
+          Logout
           </a>
         </li>
       </ul>
