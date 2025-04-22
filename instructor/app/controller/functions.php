@@ -1,5 +1,6 @@
 <?php
 include_once 'autoloader.inc.php';
+// دالة لتحديد إذا كانت الإجابة صحيحة أم لا
 
 function correctAnswer($answer)
 {
@@ -8,10 +9,14 @@ function correctAnswer($answer)
   else
     return 0;
 }
+// دالة لحذف صورة من مجلد الرفع
+
 function deleteImage($url) {
     $path = '../../../style/images/uploads/' . basename($url);
     @unlink($path);
 }
+// دالة لرفع صورة بعد التأكد من نوعها وضغطها
+
 function uploadFile($tmpName) {
   	$imageTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
     $info = getimagesize($tmpName);
@@ -23,6 +28,7 @@ function uploadFile($tmpName) {
 	compressImage($tmpName,$location.$pictureName.'.jpg',30);
 	return $pictureName;
 }
+// دالة لضغط الصورة وتقليل حجمها
 function compressImage($source, $destination, $quality) {
   $info = getimagesize($source);
   if ($info['mime'] == 'image/jpeg')
