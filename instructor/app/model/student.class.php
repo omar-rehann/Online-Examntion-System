@@ -2,7 +2,7 @@
 
 class Student extends Dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
 
-    // دالة لجلب طلاب المدرس
+    // دالة لجلب طلاب الدكتور
     public function getMyStudents() {
         // استعلام لجلب الطلاب الذين لهم نتائج اختبارات مع المدرس الحالي
         $query = "SELECT DISTINCT s.id, s.name, s.email, s.phone, s.suspended 
