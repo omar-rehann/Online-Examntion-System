@@ -40,7 +40,6 @@ public function insertMail($resultID, $type, $sends_at) {
 }
 
 // تحديث البريد بالقيم الصحيحة.
-
 public function fixInvalidMails() {
   // استعلام لتحديث الرسائل اللي فيها studentID أو instructorID بقيمة 0 باستخدام القيم الصحيحة من result وtest
   $sql = "UPDATE mails m

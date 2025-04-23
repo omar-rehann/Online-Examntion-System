@@ -228,7 +228,9 @@ class Result extends dbh { // الكلاس يرث من كلاس قاعدة ال�
         $resultID = $this->getResultIDByAnswer($answerID);
         $this->updateFinalGrade($resultID);
     }
-    
+
+    // تأخذ معرف الإجابة (answerID) كوسيلة لتحديد الصف المطلوب من جدول result_answers
+
     private function getResultIDByAnswer($answerID) {
         $query = "SELECT resultID FROM result_answers WHERE id = :id";
         $statement = $this->connect()->prepare($query);
@@ -236,6 +238,8 @@ class Result extends dbh { // الكلاس يرث من كلاس قاعدة ال�
         $statement->execute();
         return $statement->fetch(PDO::FETCH_OBJ)->resultID;
     }
+    // دالة عامة لتحديث الدرجة النهائية (final_grade) الخاصة بنتيجة معينة (result)
+
     public function updateFinalGrade($resultID) {
         $query = "UPDATE result SET final_grade = (
             SELECT SUM(points)
