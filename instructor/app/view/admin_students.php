@@ -146,7 +146,7 @@ if(isset($_GET['succImp']) and $_GET['succImp'] == 1){ ?>
 				<form id="addStudentForm" action="app/controller/admin.inc.php?addStudent" method="post">
 						<div class="form-group">
 							<label for="studentID" class="col-form-label">Student ID:</label>
-							<input type="text" class="form-control" id="studentID" name="studentID" required placeholder="Enter Student ID" minlength = "7">
+							<input type="text" class="form-control" id="studentID" name="studentID" required placeholder="Enter Student ID Start With 20" minlength = "7">
 						</div>
 						<div class="form-group">
 							<label for="SNAME" class="col-form-label">Student Name:</label>
