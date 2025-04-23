@@ -1,6 +1,6 @@
 <?php
 
-class Result extends Dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
+class Result extends dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
 
     // دالة لجلب جميع النتائج
     public function getAll() {
@@ -39,6 +39,7 @@ class Result extends Dbh { // الكلاس يرث من كلاس قاعدة ال�
         $results = $statement->fetchAll(PDO::FETCH_OBJ);
         return $results;
     }
+    
 
     // دالة لجلب النتائج غير المقدمة
     public function getUnsubmitted() {
@@ -212,17 +213,38 @@ class Result extends Dbh { // الكلاس يرث من كلاس قاعدة ال�
 
     // دالة لقبول أو تعديل إجابة
     public function acceptAnswer($answerID, $accept = 0, $points = 0) {
-        // استعلام لتحديث حالة الإجابة ونقاطها
+        // تحديث الإجابة
         $query = "UPDATE result_answers SET
                   isCorrect = :accept,
                   points = :points
                   WHERE id = :id";
-        
-        $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-        $statement->bindParam(":id", $answerID); // ربط معرف الإجابة
-        $statement->bindParam(":accept", $accept); // ربط حالة القبول
-        $statement->bindParam(":points", $points); // ربط النقاط
-        $statement->execute(); // تنفيذ الاستعلام
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":id", $answerID);
+        $statement->bindParam(":accept", $accept);
+        $statement->bindParam(":points", $points);
+        $statement->execute();
+    
+        // تحديث final_grade
+        $resultID = $this->getResultIDByAnswer($answerID);
+        $this->updateFinalGrade($resultID);
+    }
+    
+    private function getResultIDByAnswer($answerID) {
+        $query = "SELECT resultID FROM result_answers WHERE id = :id";
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":id", $answerID);
+        $statement->execute();
+        return $statement->fetch(PDO::FETCH_OBJ)->resultID;
+    }
+    public function updateFinalGrade($resultID) {
+        $query = "UPDATE result SET final_grade = (
+            SELECT SUM(points)
+            FROM result_answers
+            WHERE resultID = :rid AND points >= 0
+        ) WHERE id = :rid";
+        $statement = $this->connect()->prepare($query);
+        $statement->bindParam(":rid", $resultID);
+        $statement->execute();
     }
 }
 

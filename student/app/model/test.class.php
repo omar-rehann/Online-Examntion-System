@@ -239,6 +239,23 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
             
             $statement = $this->connect()->prepare($query); // تحضير الاستعلام
             $statement->execute(); // تنفيذ الاستعلام
+    
+            // تحديث نقاط الإجابات
+            $this->reviewAnswers();
+    
+            // حساب الدرجة وتحديث score
+            $scoreQuery = "SELECT getResultGrade(:resultID) AS score";
+            $scoreStatement = $this->connect()->prepare($scoreQuery);
+            $scoreStatement->bindParam(":resultID", $resultID);
+            $scoreStatement->execute();
+            $score = $scoreStatement->fetch(PDO::FETCH_ASSOC)['score'] ?? 0;
+    
+            $updateQuery = "UPDATE result SET score = :score WHERE id = :resultID";
+            $updateStatement = $this->connect()->prepare($updateQuery);
+            $updateStatement->bindParam(":score", $score);
+            $updateStatement->bindParam(":resultID", $resultID);
+            $updateStatement->execute();
+    
             return 'success'; // إرجاع نجاح العملية
         } catch (PDOException $error) {
             return $error->getMessage(); // إرجاع رسالة الخطأ إذا حدث
@@ -283,8 +300,8 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
         $groupID = (($_SESSION['CurrentTest']->groupID) ? $_SESSION['CurrentTest']->groupID : NULL); // تحديد معرف المجموعة إذا وجد
         
         // استعلام لإضافة نتيجة جديدة للاختبار
-        $query = "INSERT INTO result(testID, studentID, groupID, settingID, startTime)
-                  VALUES (:tid, :studID, :groupID, :settingID, convert_tz(NOW(), @@session.time_zone, '+02:00'))";
+        $query = "INSERT INTO result(testID, studentID, groupID, settingID, startTime, score)
+                  VALUES (:tid, :studID, :groupID, :settingID, convert_tz(NOW(), @@session.time_zone, '+02:00'), 0)";
         
         $statement = $this->connect()->prepare($query); // تحضير الاستعلام
         $statement->bindParam(":studID", $_SESSION['student']->id); // ربط معرف الطالب
@@ -300,13 +317,25 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
         try {
             $ip_address = getClientIP(); // جلب عنوان IP للطالب
             $hostname = gethostbyaddr($ip_address); // جلب اسم المضيف
+            $resultID = $this->getLastResult()->id; // جلب معرف النتيجة الأخيرة
             
-            // استعلام لتحديث حالة الاختبار وإنهائه
+            // تحديث نقاط الإجابات
+            $this->reviewAnswers();
+    
+            // حساب الدرجة النهائية
+            $scoreQuery = "SELECT getResultGrade(:resultID) AS score";
+            $scoreStatement = $this->connect()->prepare($scoreQuery);
+            $scoreStatement->bindParam(":resultID", $resultID);
+            $scoreStatement->execute();
+            $score = $scoreStatement->fetch(PDO::FETCH_ASSOC)['score'] ?? 0; // score (Dynamic Question )
+    
+            // تحديث حالة الاختبار والدرجة
             $query = "UPDATE result 
                       SET isTemp = 0, 
                           endTime = convert_tz(NOW(), @@session.time_zone, '+02:00'), 
                           hostname = :hostname, 
-                          ipaddr = :ipaddr
+                          ipaddr = :ipaddr,
+                          score = :score
                       WHERE studentID = :studID AND isTemp 
                       ORDER BY id DESC 
                       LIMIT 1;
@@ -317,6 +346,7 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
             $statement->bindParam(":studID", $_SESSION['student']->id); // ربط معرف الطالب
             $statement->bindParam(":hostname", $hostname); // ربط اسم المضيف
             $statement->bindParam(":ipaddr", $ip_address); // ربط عنوان IP
+            $statement->bindParam(":score", $score); // ربط الدرجة
             $statement->execute(); // تنفيذ الاستعلام
             return true; // إرجاع نجاح العملية
         } catch (PDOException $error) {

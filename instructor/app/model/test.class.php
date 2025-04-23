@@ -1,6 +1,6 @@
 <?php
 
-class Test extends Dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
+class Test extends dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
 
     // دالة لجلب جميع الاختبارات غير المحذوفة
     public function getAll() {

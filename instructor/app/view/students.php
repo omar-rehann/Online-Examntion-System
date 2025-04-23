@@ -37,7 +37,7 @@ $_student = new student;
             <td><?php echo (($student->suspended)?'<span class="badge badge-danger">Suspended</span>':'<span class="badge badge-success">Active</span>') ?></td>
           	<td>
             <a type="button" href="?results&studentID=<?php echo $student->id ?>" class="btn btn-outline-success btn-block">
-              <i class="fa fa-trash"></i> View All Results</a>
+              <i class="fa fa-eye"></i> View All Results</a>
             </td>
 
           </tr>

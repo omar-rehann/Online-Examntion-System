@@ -518,7 +518,7 @@ if (($_GET['tests'] == "addQuestions") && (isset($_GET['id']))) { ?>
                         <form action="app/controller/test.inc.php?addTest" id="newtest" method="post">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-зорп                                    <label for="testName" class="form-control-label">Test Name:</label>
+                                   <label for="testName" class="form-control-label">Test Name:</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" name="testName" rows="1" placeholder="Test Name..." class="form-control" required>

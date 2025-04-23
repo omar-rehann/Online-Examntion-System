@@ -1,10 +1,10 @@
 <?php
 
-class Student extends Dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
+class Student extends dbh { // الكلاس يرث من كلاس قاعدة البيانات Dbh
 
     // دالة لجلب طلاب الدكتور
     public function getMyStudents() {
-        // استعلام لجلب الطلاب الذين لهم نتائج اختبارات مع المدرس الحالي
+        // استعلام لجلب الطلاب الذين لهم نتائج اختبارات مع الدكتور الحالي
         $query = "SELECT DISTINCT s.id, s.name, s.email, s.phone, s.suspended 
                   FROM result r
                   INNER JOIN student s ON r.studentID = s.id

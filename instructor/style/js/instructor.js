@@ -212,23 +212,6 @@ function customConfirm(lnk, conf, succ) {
             $('.mcqCheckInput').attr('type', 'checkbox');
     })
 
-    // عرض بيانات الطالب في نافذة منبثقة
-    $('.showStudentData').click(function(e) {
-        e.preventDefault();
-        var id = $(this).data('id');
-        var name = $(this).data('name');
-        var email = $(this).data('email');
-        var phone = $(this).data('phone');
-        Swal.fire({
-            title: 'Student Information',
-            html: '<div class="form-group"><label>Student ID</label><input type="text" class="form-control" value="' + id + '" disabled></div>' +
-                '<div class="form-group"><label>Name</label><input type="text" class="form-control" value="' + name + '" disabled></div>' +
-                '<div class="form-group"><label>Email address</label><input type="email" class="form-control" value="' + email + '" disabled></div>' +
-                '<div class="form-group"><label>Phone Number</label><input type="text" class="form-control" value="' + phone + '" disabled></div>',
-            focusConfirm: false,
-        })
-    });
-
     // حذف الإجابة مع طلب التأكيد
     $(document).on('click', '.deleteAnswer', function(e) {
         e.preventDefault();

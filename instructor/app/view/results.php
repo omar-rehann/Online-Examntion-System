@@ -129,13 +129,12 @@ if (isset($_GET['needsReview'])) {
                                 </div>';
                         } ?>
                         <div class="row">
-                            <div class="col-6">
-                                <label class="control-label mb-1"><strong>Student: </strong></label>
-                                <label class="control-label mb-1">
-                                    <?php echo $result->studentName ?>
-                                    <a class="fa fa-info-circle showStudentData" data-id="<?php echo $result->studentID ?>" data-email="<?php echo $result->studentMail ?>" data-name="<?php echo $result->studentName ?>" data-phone="<?php echo $result->studentPhone ?>"></a>
-                                </label>
-                            </div>
+                        <div class="col-6">
+                        <label class="control-label mb-1"><strong>Student: </strong></label>
+                        <label class="control-label mb-1">
+                            <?php echo $result->studentName ?>
+                        </label>
+                    </div>
                             <div class="col-6">
                                 <label class="control-label mb-1"><strong>Name Test: </strong></label>
                                 <label class="control-label mb-1"><?php echo $result->testName ?></label>
