@@ -36,11 +36,11 @@ require_once 'header.php';
 
 		<form class="sign-in-htm" id="loginForm" action="app/controller/student.inc.php?action=login" method="post">
 			<div class="group">
-				<label for="id" class="label">Student  ID</label>
+				<label for="id" class="label mt-3 text-light">Student  ID</label>
 				<input type="text" name="id" class="input input-holder" title="Please Enter Your Real Student ID" placeholder="20*******"  required pattern="\b20\w[0-9]*">
 			</div>
 			<div class="group">
-				<label for="password" class="label">Password</label>
+				<label for="password" class="label mt-3 text-light">Password</label>
 				<input type="password" name="password" class="input input-holder" placeholder="Enter Password">
 			</div>
 			<div class="group">
@@ -49,7 +49,7 @@ require_once 'header.php';
 		</form>
 		<form class="for-pwd-htm" id="requestResetForm" action="app/controller/student.inc.php?action=requestReset" method="post">
 			<div class="group">
-				<label for="email" class="label">Email Address</label>
+				<label for="email" class="label text-light mt-3">Email Address</label>
 				<input type="email" name="email" class="input input-holder" placeholder="Email Address" minlength="8" required>
 			</div>
 			<div class="group">
