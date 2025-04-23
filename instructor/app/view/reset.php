@@ -23,29 +23,6 @@ require_once 'header.php';
 									<span class="badge badge-pill badge-success">Success</span>'. $info . '</div>';}
 									unset($_SESSION['info']);
 									?>
-                <div class="login-form">
-                    <form action="app/controller/instructor.inc.php?action=resetPassword" method="post">
-											<div class="form-group">
-													<label>Token</label>
-													<input type="text" name="token" value= "<?php echo $_GET['token'];?>"class="form-control" readonly>
-											</div>
-											<div class="form-group">
-													<label>Email address</label>
-													<input type="email" name="email" class="form-control" placeholder="Email">
-											</div>
-
-											<div class="form-group">
-													<label>New Password</label>
-													<input type="password" name="password" class="form-control" placeholder="New Password">
-											</div>
-											<div class="form-group">
-													<label>Retype Password</label>
-													<input type="password" name="repassword" class="form-control" placeholder="Retype Password">
-											</div>
-                            <button type="submit" class="btn btn-primary btn-flat m-b-15">Submit</button>
-
-                    </form>
-                </div>
             </div>
         </div>
     </div>
