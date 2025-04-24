@@ -30,3 +30,6 @@ Once a student logs in using the provided credentials, they can access the exams
 1. Clone the project to your web folder (www)
 2. excute the attached sql database file
 3. login as instructor using admin using default email and password
+##login
+email:admin@gmail.com
+pass:admin123
