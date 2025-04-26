@@ -14,58 +14,54 @@
   <?php
     if(isset($_SESSION['error']))
     foreach($_SESSION['error'] as $err){
-    echo '<div class="sufee-alert alert alert-danger alert-dismissible fade show">
+    echo '<div class="sufee-alert alert alert-danger alert-dismissible fade show m-2">
     <span class="badge badge-pill badge-danger">Failed</span>'. $err . '</div>';}
     unset($_SESSION['error']);
     if (isset($_SESSION['info']))
     foreach($_SESSION['info'] as $info){
-      echo '<div class="sufee-alert alert alert-success alert-dismissible fade show">
+      echo '<div class="sufee-alert alert alert-success alert-dismissible fade show m-2">
       <span class="badge badge-pill badge-success">Success</span>'. $info . '</div>';}
       unset($_SESSION['info']);
       ?>
    <div class="row">
 
 
-      <div class="col-lg-6">
+   <div class="col-lg-12">
       <div class="card">
-         <div class="card-header">
-            <strong>Update</strong> Information
+         <div class="card-header bg-primary text-light">
+            <strong>Information</strong> Instructor
          </div>
          <div class="card-body card-block">
-      <form action="app/controller/instructor.inc.php?action=updateInfo" method="post" id="updateInfo" class="form-horizontal">
+      <form method="post" id="updateInfo" class="form-horizontal">
 				<input type="hidden" name="id" value="<?php echo $instructor->id;?>" >
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="profname" class=" form-control-label">Name</label></div>
 					<div class="col-12 col-md-9">
-					<input type="text" name="profname" value="<?php echo $instructor->name;?>" required="" class="form-control">
+					<input type="text" name="profname" value="<?php echo $instructor->name;?>" required="" class="form-control" disabled >
 					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="email" class="form-control-label">Email Address</label></div>
-					<div class="col-12 col-md-9"><input type="email" name="email" value="<?php echo $instructor->email;?>" placeholder="Enter Email" class="form-control"></div>
+					<div class="col-12 col-md-9"><input type="email" name="email" value="<?php echo $instructor->email;?>" placeholder="Enter Email" class="form-control" disabled></div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="phonenum" class=" form-control-label">Phone Number</label></div>
 					<div class="col-12 col-md-9">
-					<input type="text" name="phonenum" value="<?php echo $instructor->phone;?>" required="" class="form-control">
+					<input type="text" name="phonenum" value="<?php echo $instructor->phone;?>" required="" class="form-control" disabled>
 					</div>
 				</div>
+            
 
 
             </form>
          </div>
 
-       <div class="card-footer text-center">
-          <button type="submit" form="updateInfo" class="btn btn-primary btn-sm">
-          <i class="fa fa-dot-circle-o"></i> Update
-          </button>
-       </div>
       </div>
 
    </div>
-   <div class="col-lg-6">
+   <div class="col-lg-12">
          <div class="card">
-         <div class="card-header">
+         <div class="card-header bg-primary text-light">
             <strong>Update</strong> Password
          </div>
          <div class="card-body card-block" >

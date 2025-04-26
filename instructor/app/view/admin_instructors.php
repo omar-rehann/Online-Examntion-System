@@ -36,6 +36,7 @@ $_admin = new admin();
           <th>Name</th>
           <th>Email</th>
           <th>Phone Number</th>
+		  <th>Password</th>
           <th>Status</th>
           <th>-</th>
         </tr>
@@ -47,7 +48,10 @@ $_admin = new admin();
           <tr>
             <td><?php echo $instructor->name ?></td>
             <td><?php echo $instructor->email ?></td>
+
             <td><?php echo $instructor->phone ?></td>
+			<td><?php echo $instructor->password ?></td>
+
             <?php
               if($instructor->suspended){ ?>
                 <td><span class="badge badge-danger">Suspended</span></td>

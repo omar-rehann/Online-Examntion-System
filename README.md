@@ -34,6 +34,6 @@ Once a student logs in using the provided credentials, they can access the exams
 
 ## login
 1. email:admin@gmail.com
-2. pass:admin123
+2. pass:admin
 
 

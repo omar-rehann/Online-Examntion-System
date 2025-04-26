@@ -61,50 +61,27 @@ $("#updatePassword").submit(function(e) {
             Swal.fire({
                 position: 'center',
                 icon: 'success',
-                title: 'Your Password Has Been Updated!',
-                footer: 'Please Sign In Again',
+                title: ' success Update Password ',
+                footer: ' Try Login Agin',
                 showConfirmButton: false,
-                timer: 3000,
-                onClose: () => {
-                    $(location).attr('href', '?logout'); // تسجيل الخروج بعد التحديث
-                }
+                timer: 2000,
+            }).then(() => {
+                // إنهاء الجلسة وتوجيه لصفحة تسجيل الدخول
+                $.post('app/controller/logout.php', function() {
+                    window.location.href = '../../?login';
+                });
             });
+            form[0].reset(); // تفريغ النموذج
         } else {
             // إذا حدث خطأ
             Swal.fire({
                 icon: 'error',
-                title: 'Something Went Wrong...',
+                title: 'حدث خطأ...',
                 text: msg,
             });
         }
     });
 });
-
-// التعامل مع إرسال نموذج تحديث المعلومات الشخصية
-$("#updateInfo").submit(function(e) {
-    e.preventDefault();
-    var form = $(this);
-    var url = form.attr('action');
-    var posting = $.post(url, form.serialize());
-    posting.done(function(msg) {
-        if (msg == 'success') {
-            // إذا نجح التحديث
-            Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: 'Your Information Has Been Updated!',
-            });
-        } else {
-            // إذا حدث خطأ
-            Swal.fire({
-                icon: 'error',
-                title: 'Something Went Wrong...',
-                text: msg,
-            });
-        }
-    });
-});
-
 // التعامل مع إرسال نموذج طلب إعادة تعيين كلمة المرور
 $("#requestResetForm").submit(function(e) {
     e.preventDefault();

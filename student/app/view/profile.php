@@ -24,13 +24,13 @@ $student = $_SESSION['student'];
          ?>
 
       <div class="row">
-      <div class="col">
+      <div class="col-12 ">
       <div class="card">
-         <div class="card-header">
-            <strong>Update</strong> Information
+         <div class="card-header bg-primary text-light mb-2">
+            <strong>Information</strong> Student
          </div>
          <div class="card-body card-block">
-      <form action="app/controller/student.inc.php?action=updateInfo" method="post" id="updateInfo" class="form-horizontal">
+      <form  id="updateInfo" class="form-horizontal">
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="name" class=" form-control-label">Student ID</label></div>
 					<div class="col-12 col-md-9">
@@ -44,34 +44,28 @@ $student = $_SESSION['student'];
 					</div>
 				</div>
 				<div class="row form-group">
-					<input type="hidden" name="oldemail" value="<?php echo $student->email;?>">
+					<input type="hidden" name="oldemail" value="<?php echo $student->email;?>" disabled>
 					<div class="col col-md-3"><label for="email" class="form-control-label">Email Address</label></div>
-					<div class="col-12 col-md-9"><input type="email" name="email" value="<?php echo $student->email;?>" placeholder="Enter Email" class="form-control"></div>
+					<div class="col-12 col-md-9"><input type="email" name="email" value="<?php echo $student->email;?>" placeholder="Enter Email" class="form-control" disabled></div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="phonenum" class=" form-control-label">Phone Number</label></div>
 					<div class="col-12 col-md-9">
-					<input type="text" name="phonenum" placeholder="010********" value="<?php echo $student->phone;?>" required="" class="form-control">
+					<input type="text" name="phonenum" placeholder="010********" value="<?php echo $student->phone;?>" required="" class="form-control"  disabled>
 					</div>
 				</div>
       </form>
          </div>
-
-       <div class="card-footer text-center">
-          <button type="submit" form="updateInfo" class="btn btn-primary btn-sm">
-          <i class="fa fa-dot-circle-o"></i> Update
-          </button>
-       </div>
       </div>
 
    </div>
-   <div class="col">
+   <div class="col-12 mt-2">
          <div class="card">
-         <div class="card-header">
+         <div class="card-header bg-primary text-light ">
             <strong>Update</strong> Password
          </div>
          <div class="card-body card-block" >
-            <form action="app/controller/student.inc.php?action=resetPassword" id="updatePassword" method="post" class="form-horizontal">
+            <form action="app/controller/student.inc.php?action=updatePassword" id="updatePassword" method="post" class="form-horizontal">
               <input type="hidden" name="email" value="<?php echo $student->email;?>">
                <div class="row form-group">
                   <div class="col col-md-3"><label for="password" class=" form-control-label">New Password</label></div>

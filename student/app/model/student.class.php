@@ -106,25 +106,6 @@ class Student extends dbh { // الكلاس يرث من كلاس قاعدة ال
         }
     }
 
-    // دالة لتحديث بيانات الطالب (البريد ورقم الهاتف)
-    public function updateInfo($email, $phone) {
-        try {
-            // استعلام لتحديث البريد الإلكتروني ورقم الهاتف
-            $query = "UPDATE student 
-                      SET email = :email, phone = :phone 
-                      WHERE id = :id";
-            
-            $statement = $this->connect()->prepare($query); // تحضير الاستعلام
-            $statement->bindParam(":id", $_SESSION['student']->id); // ربط معرف الطالب من الجلسة
-            $statement->bindParam(":email", $email); // ربط البريد الإلكتروني
-            $statement->bindParam(":phone", $phone); // ربط رقم الهاتف
-            $statement->execute(); // تنفيذ الاستعلام
-            return true; // إرجاع نجاح العملية
-        } catch (PDOException $error) {
-            echo $error->getMessage(); // عرض رسالة الخطأ إذا حدث
-            return false; // إرجاع فشل العملية
-        }
-    }
 
     // دالة لتحديث كلمة المرور
     public function updatePassword($email, $password) {
