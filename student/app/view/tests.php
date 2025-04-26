@@ -1,5 +1,5 @@
 <?php
-if (!defined('NotDirectAccess')){
+if (!defined(constant_name: 'NotDirectAccess')){
     die('Direct Access is not allowed to this page');
 }
 require_once 'header.php';

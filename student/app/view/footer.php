@@ -27,9 +27,5 @@
           <script src="style/js/datatables-init.js"></script>';
     }
 	?>
-
-
     <script src="style/js/student.js"></script>
-
-
 </html>
