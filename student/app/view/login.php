@@ -12,7 +12,7 @@ require_once 'header.php';
     <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Login</label>
     <input id="tab-2" type="radio" name="tab" class="for-pwd"><label for="tab-2" class="tab">Forgot Password</label>
     <div class="login-form">
-        <!-- Login -->
+        <!-- Loginn -->
         <form class="sign-in-htm" id="loginForm" action="app/controller/student.inc.php?action=login" method="post">
             <div class="group">
                 <label for="id" class="label mt-3 text-light">Student ID</label>
