@@ -42,6 +42,7 @@ if (isset($_GET['id'])) {
                             <i class="fas fa-print mr-1"></i> Print
                         </button>
                     </div>
+                    <!-- Action Result  -->
                     
                     <div class="card-body">
                         <?php if ($result->Questions == 0) : ?>
@@ -112,52 +113,59 @@ if (isset($_GET['id'])) {
                         <?php if ($result->Questions > 0) : ?>
                         <!-- Performance Analysis Section -->
                         <div class="card mb-4 shadow-sm">
-    <div class="card-header bg-white">
-        <h5 class="mb-0"><i class="fas fa-chart-pie mr-2"></i>Performance Analysis</h5>
-    </div>
-    <div class="card-body">
-        <div class="row mt-2">
-            <div class="col-md-6 mb-3">
-                <div class="d-flex justify-content-between align-items-center p-3 bg-success text-white rounded">
-                    <span class="font-weight-bold"><i class="fas fa-check mr-2"></i>Correct Answers:</span>
-                    <span class="badge badge-success badge-pill py-2 px-3"><?php echo $result->RightQuestions; ?></span>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded">
-                    <span class="font-weight-bold"><i class="fas fa-times mr-2"></i>Wrong Answers:</span>
-                    <span class="badge badge-danger badge-pill py-2 px-3"><?php echo $result->WrongQuestions; ?></span>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="d-flex justify-content-between align-items-center p-3 bg-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> text-white rounded">
-                    <span class="font-weight-bold"><i class="fas fa-percentage mr-2"></i>Grade (Percent):</span>
-                    <span class="badge badge-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> badge-pill py-2 px-3"><?php echo round($percent); ?>%</span>
-                </div>
-            </div>
-            <div class="col-md-6 mb-3">
-                <div class="d-flex justify-content-between align-items-center p-3 bg-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> text-white rounded">
-                    <span class="font-weight-bold"><i class="fas fa-star mr-2"></i>Grade (Points):</span>
-                    <span class="badge badge-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> badge-pill py-2 px-3"><?php echo $result->FinalGrade . ' / ' . $result->TestDegree; ?></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                                <div class="card-header bg-white">
+                                    <h5 class="mb-0"><i class="fas fa-chart-pie mr-2"></i>Performance Analysis</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row mt-2">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center p-3 bg-success text-white rounded">
+                                                <span class="font-weight-bold"><i class="fas fa-check mr-2"></i>Correct Answers:</span>
+                                                <span class="badge badge-success badge-pill py-2 px-3"><?php echo $result->RightQuestions; ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center p-3 bg-danger text-white rounded">
+                                                <span class="font-weight-bold"><i class="fas fa-times mr-2"></i>Wrong Answers:</span>
+                                                <span class="badge badge-danger badge-pill py-2 px-3"><?php echo $result->WrongQuestions; ?></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center p-3 bg-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> text-white rounded">
+                                                <span class="font-weight-bold"><i class="fas fa-percentage mr-2"></i>Grade (Percent):</span>
+                                                <span class="badge badge-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> badge-pill py-2 px-3"><?php echo round($percent); ?>%</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="d-flex justify-content-between align-items-center p-3 bg-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> text-white rounded">
+                                                <span class="font-weight-bold"><i class="fas fa-star mr-2"></i>Grade (Points):</span>
+                                                <span class="badge badge-<?php echo ($result->passPercent < $percent) ? 'success' : 'danger'; ?> badge-pill py-2 px-3"><?php echo $result->FinalGrade . ' / ' . $result->TestDegree; ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
                         <?php endif; ?>
                         
                         <?php if ($result->Questions > 0) : ?>
-                        <!-- Questions Section -->
+                        <!-- Questions And Answer  Section -->
                         <div class="card shadow-sm">
                             <div class="card-header bg-white">
                                 <h5 class="mb-0"><i class="fas fa-question-circle mr-2"></i>Questions and Answers</h5>
                             </div>
                             <div class="card-body">
                                 <?php
+                                /* 
+                                - المستخدم لديه صلاحية رؤية الإجابات ولا لا 
+                                0 → ممنوع من العرض.
+                                1 → مسموح بعد انتهاء الوقت المحدد.
+                                2 → مسموح دائمًا.
+                                */
                                 $viewAnswers = $res->canViewResults($result->id);
                                 if (($viewAnswers == 0) || (($viewAnswers == 1) && (strtotime($result->testEnd) < strtotime("now")))) {
                                     $types = [0 => 'Multiple Choice', 1 => 'True/False', 2 => 'Fill in Blank', 3 => 'Multiple Select', 4 => 'Matching', 5 => 'Essay'];
                                     $I = 0;
+                                    // عرض الاجابات
                                     foreach ($answers as $answer) {
                                         $I++;
                                 ?>
@@ -371,15 +379,18 @@ if (isset($_GET['id'])) {
                                         <td><?php echo strip_tags(htmlspecialchars_decode($result->testName)); ?></td>
                                         <td><?php echo date('m/d/Y', strtotime($result->endTime)); ?></td>
                                         <td>
+                                            <!-- إذا كانت النتائج معلنة -->
                                             <?php if ($result->releaseResult == 1) : ?>
                                                 <span class="badge badge-<?php echo ($percent >= 50) ? "success" : "danger"; ?>">
                                                     <?php echo $percent; ?>%
                                                 </span>
+                                                <!-- تحت المراجعه  -->
                                             <?php else : ?>
                                                 <span class="badge badge-warning">Under Review</span>
                                             <?php endif; ?>
                                         </td>
                                         <td>
+                                            <!-- عرض التفاصيل  -->
                                             <?php if ($result->releaseResult == 1) : ?>
                                                 <a href="?results&id=<?php echo $result->id; ?>" class="btn btn-sm btn-outline-primary">
                                                     <i class="fas fa-info-circle mr-1"></i>Details
