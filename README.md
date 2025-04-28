@@ -26,11 +26,22 @@ Once a student logs in using the provided credentials, they can access the exams
 
 ## Fetures
 -Diverse Test Creation: Ability to design tests with multiple question types (multiple choice, true/false, fill-in-the-blank).
+
+
+
 -Automatic Grading: Instant correction of answers with accurate results.
+
+
+
 -Analytical Reports: Generate detailed performance reports to enhance the learning process.
+
+
+
 -Time Management: Set time limits for tests with automatic notifications.
+
+
+
 -Security: Protect student data and ensure exam integrity.
--
 
 ## How to Install?
 1. Clone the project to your web folder (www)
