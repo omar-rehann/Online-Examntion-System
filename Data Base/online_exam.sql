@@ -289,7 +289,7 @@ CREATE TABLE `instructor` (
 --
 
 INSERT INTO `instructor` (`id`, `name`, `email`, `password`, `phone`, `password_token`, `token_expire`, `suspended`, `isAdmin`) VALUES
-(7, 'System Administrator', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '', NULL, NULL, 0, 1);
+(7, 'System Administrator', 'admin@gmail.com', 'admin123', '', NULL, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
