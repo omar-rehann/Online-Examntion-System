@@ -56,6 +56,7 @@ class Instructor extends dbh {
         $stmt->bindParam(":phone", $phone);
         $stmt->execute();
     }
+    // 
     public function sendPassword($email) {
         $sql = "SELECT password FROM instructor WHERE email = :email";
         $stmt = $this->connect()->prepare($sql);
@@ -67,8 +68,6 @@ class Instructor extends dbh {
         mail($email, "Your Password", "Your password is: " . $password);
     }
     
-    
-
     // تعديل كلمة المرور
     public function updatePassword($email, $password) {
         $sql = "UPDATE instructor SET password = :password WHERE email = :email";
@@ -76,6 +75,26 @@ class Instructor extends dbh {
         $stmt->bindParam(":password", $password); // بدون تشفير
         $stmt->bindParam(":email", $email);
         $stmt->execute();
+    }
+    // تحديث معلومات الادمن او الدكتور 
+    public function updateInfo($name,$email,$phone)
+    {
+     try
+       {
+          $stmt = $this->connect()->prepare("UPDATE instructor SET name = :name,email = :email, phone = :phone
+            WHERE id = :id");
+          $stmt->bindparam(":id",$_SESSION['mydata']->id);
+          $stmt->bindparam(":name",$name);
+          $stmt->bindparam(":email",$email);
+          $stmt->bindparam(":phone",$phone);
+          $stmt->execute();
+          return true;
+       }
+     catch(PDOException $e)
+       {
+          echo $e->getMessage();
+          return false;
+       }
     }
     
 

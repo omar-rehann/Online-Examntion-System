@@ -125,6 +125,27 @@ class Student extends dbh { // الكلاس يرث من كلاس قاعدة ال
             return false; // إرجاع فشل العملية
         }
     }
+    // تحديث معلومات الطالب 
+    public function updateInfo($email,$phone)
+    {
+     try
+       {
+          $stmt = $this->connect()->prepare("UPDATE student
+            SET email = :email,
+            phone = :phone
+            WHERE id = :id");
+          $stmt->bindparam(":id",$_SESSION['student']->id);
+          $stmt->bindparam(":email",$email);
+          $stmt->bindparam(":phone",$phone);
+          $stmt->execute();
+          return true;
+       }
+     catch(PDOException $e)
+       {
+          echo $e->getMessage();
+          return false;
+       }
+    }
 
     // دالة لتوليد رمز إعادة تعيين كلمة المرور
     public function generatePasswordToken($email, $token) {

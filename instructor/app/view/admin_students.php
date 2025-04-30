@@ -70,7 +70,7 @@ if(isset($_GET['succImp']) and $_GET['succImp'] == 1){ ?>
               <?php }else{ ?>
                 <td><span class="badge badge-success">Active</span></td>
                 <td>
-                  <button type="button" class="btn btn-outline-secondary btn-block"
+                  <button type="button" class="btn btn-outline-dark btn-block"
 									onclick="customConfirm('app/controller/admin.inc.php?suspendStudent=<?php echo $student->id ?>','Are you sure you want to suspend this Student?','The Student has been suspended.')">
                     <i class="fa fa-ban"></i> Suspend</button>
                 </td>

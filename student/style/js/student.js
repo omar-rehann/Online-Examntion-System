@@ -82,6 +82,7 @@ $("#updatePassword").submit(function(e) {
         }
     });
 });
+
 // التعامل مع إرسال نموذج طلب إعادة تعيين كلمة المرور
 $("#requestResetForm").submit(function(e) {
     e.preventDefault();

@@ -66,7 +66,33 @@ if ($_GET['action'] == 'login') {
     $_student->updatePassword($email, $password);
     echo 'success';
     exit;
-} else if ($_GET['action'] == 'updatePassword') {
+}
+else if ($_GET['action'] == 'updateInfo'){
+    $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
+    $oldemail = !empty($_POST['oldemail']) ? trim($_POST['oldemail']) : null;
+    $phonenum = !empty($_POST['phonenum']) ? trim($_POST['phonenum']) : null;
+    $_student = new student();
+    if ($email != $oldemail && $_student->checkEmail($email))
+      echo 'Email already used';
+    elseif (strlen($phonenum) != 11)
+      echo 'Phone Number Is not valid';
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+      echo 'Email format is not valid';
+    else{
+      $_student->updateInfo($email,$phonenum);
+      $newDATA = $_student->getByID($_SESSION['student']->id);
+      $_SESSION['student'] = $newDATA;
+      echo "success";
+      header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+      exit;
+
+    }
+    exit;
+
+  } 
+
+else if ($_GET['action'] == 'updatePassword') {
     $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
     $password = !empty($_POST['password']) ? trim($_POST['password']) : null;
     $repassword = !empty($_POST['repassword']) ? trim($_POST['repassword']) : null;
@@ -107,4 +133,5 @@ if ($_GET['action'] == 'login') {
     }
     exit;
 }
+
 ?>

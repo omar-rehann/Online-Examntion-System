@@ -2,7 +2,7 @@
 
 class admin extends dbh {
 
-    // الحصول على جميع المدرسين (غير الـ Admin)
+    // الحصول على جميع الدكاتره  (غير الـ Admin)
     public function getAllInstructors() {
         $db = $this->connect();
         $query = "SELECT * FROM instructor WHERE !isAdmin";
@@ -65,7 +65,7 @@ class admin extends dbh {
         return true;
     }
 
-    // تعليق حساب مدرس
+    // تعليق حساب دكتور
     public function suspendInstructor($instructorID) {
         $db = $this->connect();
         $query = "UPDATE instructor SET suspended = 1 WHERE id = ?";

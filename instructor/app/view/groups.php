@@ -192,7 +192,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                           <a type="button" class="btn btn-outline-success" href="?groups&invitations&id=<?php echo $group->id ?>"><i class="fa fa-envelope"></i> Invitations</a>
                         </td>
                         <td class="text-center">
-                          <a type="button" class="btn btn-outline-secondary" href="?groups&viewMembers&id=<?php echo $group->id ?>"><i class="fa fa-eye"></i> Members</a>
+                          <a type="button" class="btn btn-outline-dark" href="?groups&viewMembers&id=<?php echo $group->id ?>"><i class="fa fa-eye"></i> Members</a>
                         </td>
                         <td class="text-center">
                           <button type="button" class="btn btn-outline-danger" <?php echo ($group->members == 0)? '':'disabled' ?> onclick="javascript: if (confirm('Are you sure you want to delete this Group?'))

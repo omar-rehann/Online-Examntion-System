@@ -127,4 +127,22 @@ if (isset($_GET['action']) && $_GET['action'] == 'login') {
     $_SESSION["info"][] = 'Password updated successfully';
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit();
-}
+}else if (isset($_GET['action']) && $_GET['action'] == 'updateInfo'){
+    $name = !empty($_POST['profname']) ? trim($_POST['profname']) : null;
+    $email = !empty($_POST['email']) ? trim($_POST['email']) : null;
+    $phonenum = !empty($_POST['phonenum']) ? trim($_POST['phonenum']) : null;
+    if (!(preg_match('/^[0-9]+$/', $phonenum) and strlen($phonenum) == 11)) {
+      $_SESSION["error"][] = 'Phone Number Is not valid';
+    }
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $_SESSION["error"][] = "Email format is not valid";
+    }
+    if(empty($_SESSION["error"])){
+      $inst = new instructor();
+      $inst->updateInfo($name,$email,$phonenum);
+      $mydata = $inst->getByEmail($email);
+      $_SESSION['mydata']= $mydata;
+    }
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+  
+  }

@@ -511,6 +511,7 @@ class Test extends dbh { // الكلاس يرث من كلاس قاعدة الب�
         $statement->bindParam(":studID", $_SESSION['student']->id);
         $statement->execute();
     }
+    
     // دالة   تحديث إجابة الطالب في قاعدة البيانات
 
     public function insertOrUpdateAnswer($exam_id, $question_id, $student_id, $is_correct) {

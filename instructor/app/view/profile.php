@@ -29,33 +29,37 @@
    <div class="col-lg-12">
       <div class="card">
          <div class="card-header bg-primary text-light">
-            <strong>Information</strong> Instructor
+            <strong>Update</strong> Information
          </div>
          <div class="card-body card-block">
-      <form method="post" id="updateInfo" class="form-horizontal">
+      <form action="app/controller/instructor.inc.php?action=updateInfo" method="post" id="updateInfo" class="form-horizontal">
 				<input type="hidden" name="id" value="<?php echo $instructor->id;?>" >
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="profname" class=" form-control-label">Name</label></div>
 					<div class="col-12 col-md-9">
-					<input type="text" name="profname" value="<?php echo $instructor->name;?>" required="" class="form-control" disabled >
+					<input type="text" name="profname" value="<?php echo $instructor->name;?>" required="" class="form-control">
 					</div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="email" class="form-control-label">Email Address</label></div>
-					<div class="col-12 col-md-9"><input type="email" name="email" value="<?php echo $instructor->email;?>" placeholder="Enter Email" class="form-control" disabled></div>
+					<div class="col-12 col-md-9"><input type="email" name="email" value="<?php echo $instructor->email;?>" placeholder="Enter Email" class="form-control"></div>
 				</div>
 				<div class="row form-group">
 					<div class="col col-md-3"><label for="phonenum" class=" form-control-label">Phone Number</label></div>
 					<div class="col-12 col-md-9">
-					<input type="text" name="phonenum" value="<?php echo $instructor->phone;?>" required="" class="form-control" disabled>
+					<input type="text" name="phonenum" value="<?php echo $instructor->phone;?>" required="" class="form-control">
 					</div>
 				</div>
-            
 
 
             </form>
          </div>
 
+       <div class="card-footer text-center">
+          <button type="submit" form="updateInfo" class="btn btn-primary btn-sm">
+          <i class="fa fa-dot-circle-o"></i> Update
+          </button>
+       </div>
       </div>
 
    </div>
