@@ -26,7 +26,7 @@ if (($_GET['tests'] == "addQuestions") && (isset($_GET['id']))) { ?>
                 </div>
                 <div class="row form-group">
                     <div class="col col-md-3">
-                        < lag="total">Total Points</label>
+                    <label>Total Points</label>
                     </div>
                     <div class="col-12 col-md-9">
                         <span class="badge badge-success" id="total">0</span> Point
