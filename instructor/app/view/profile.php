@@ -57,8 +57,8 @@
 
        <div class="card-footer text-center">
           <button type="submit" form="updateInfo" class="btn btn-primary btn-sm">
-          <i class="fa fa-dot-circle-o"></i> Update
-          </button>
+          <i class="fa fa-edit"></i> Update
+                   </button>
        </div>
       </div>
 
@@ -83,8 +83,8 @@
          </div>
          <div class="card-footer text-center">
             <button type="submit" form="updatePassword" class="btn btn-primary btn-sm">
-            <i class="fa fa-dot-circle-o"></i> Update
-            </button>
+            <i class="fa fa-edit"></i> Update
+                     </button>
             </div>
       </div>
 
