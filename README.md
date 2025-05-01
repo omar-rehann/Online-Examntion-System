@@ -2,8 +2,7 @@
 This project is a comprehensive online examination platform designed specifically for the Faculty of Science at Port Said University. It allows faculty members to create and manage exams, while enabling students to easily access and take their exams online.
 The platform was developed to streamline the student assessment process in an organized and secure manner, providing a smooth user experience for both instructors and students.
 # Demo
- https://github.com/omar-rehann/Online_Exam_System.git
-
+https://github.com/omar-rehann/Online-Examntion-System.git
 ## Team
 
 1. Omar Rehan &nbsp;&nbsp;&nbsp;&nbsp;  2-Bassem Ibrahim &nbsp;&nbsp;&nbsp;&nbsp; 3-Mahmoud Elzonfly  
