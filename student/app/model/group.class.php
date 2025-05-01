@@ -5,7 +5,7 @@ require_once 'dbh.class.php';
 // ننشئ كلاس group الذي يرث من كلاس الاتصال بقاعدة البيانات
 class group extends dbh {
 
-    // دالة للحصول على المجموعات التي ينتمي إليها الطالب
+    // .دالة للحصول على المجموعات التي ينتمي إليها الطالب
     function getMyGroups() {
         // نقوم بالاتصال بقاعدة البيانات
         $database_connection = $this->connect();
