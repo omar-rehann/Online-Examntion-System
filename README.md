@@ -48,8 +48,5 @@ Once a student logs in using the provided credentials, they can access the exams
 3. login as instructor using admin using default email and password
 
 
-## login
-1. email:admin@gmail.com
-2. pass:admin
 
 
