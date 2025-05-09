@@ -136,4 +136,31 @@ class group extends dbh {
         $stmt->execute([$name, $_SESSION['mydata']->id]);
         return $stmt->fetchColumn() > 0;
     }
+    // دالة لجلب جميع الدعوات الخاصة بمجموعة معينة
+      public function getInvitations($groupID){
+        $stmt = $this->connect()->prepare("SELECT (SELECT name from groups where id = :groupID) as name,groupID,code from group_invitations where groupID = :groupID");
+        $stmt->bindparam(":groupID",$groupID);
+        $stmt->execute();
+        $result = $stmt->fetchAll(PDO::FETCH_OBJ);
+        return $result;
+    }
+    // دالة لتوليد عدد معين من دعوات الانضمام لمجموعة باستخدام دالة مخزنة في قاعدة البيانات
+        public function generateInvitations($groupID, $count) {
+            $stmt = $this->connect()->prepare("SELECT generateGroupInvites(:groupID, :count);");
+            $stmt->bindparam(":groupID", $groupID);
+            $stmt->bindparam(":count", $count);
+            $stmt->execute();
+        }
+    // دالة لحذف جميع الدعوات المرتبطة بمجموعة معينة
+    public function deleteInvitations($groupID){
+        $stmt = $this->connect()->prepare("DELETE FROM group_invitations where groupID = :groupID");
+        $stmt->bindparam(":groupID",$groupID);
+        $stmt->execute();
+    }
+    // دالة لحذف دعوة واحدة بناءً على الكود
+    public function deleteOneInvite($code){
+        $stmt = $this->connect()->prepare("DELETE FROM group_invitations where code = :code");
+        $stmt->bindparam(":code",$code);
+        $stmt->execute();
+    }
 }

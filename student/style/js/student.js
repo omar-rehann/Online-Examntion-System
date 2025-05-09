@@ -196,6 +196,37 @@ $(".leaveGroupbtn").click(function(e) {
         }
     });
 });
+// عند إرسال نموذج الانضمام إلى المجموعة (joinGroupModal)
+$("#joinGroupModal").submit(function(e) {
+    e.preventDefault();
+    var code = $('#code').val();
+    var form = $(this);
+    var url = form.attr('action');
+    var posting = $.post(url, {
+        code: code,
+    });
+    posting.done(function(msg) {
+        if (msg == 'success') {
+            Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'You Have Successfully Joined The Group',
+                showConfirmButton: false,
+                timer: 1500,
+                onClose: () => {
+                    $(location).attr('href', '?groups');
+                }
+            })
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Something Went Wrong.',
+                text: msg,
+            })
+        }
+
+    });
+});
 
 // دالة إرسال الإجابات
 function submitAnswers() {

@@ -87,4 +87,25 @@ if (isset($_GET['addGroup'])){
   $newGroup->removeMember($gid,$sid);
   }
   header('Location: ' . $_SERVER['HTTP_REFERER']);
+}else if(isset($_GET['createInvites'])) {
+    $groupID = !empty($_POST['groupID']) ? trim($_POST['groupID']) : null;
+    $count = !empty($_POST['count']) ? trim($_POST['count']) : null;
+    $newGroup = new group();
+    $newGroup->generateInvitations($groupID, $count);
+    header('Location: ' . $_SERVER['HTTP_REFERER']);
+}else if (isset($_GET['deleteInvite'])){
+  $id = !empty($_GET['deleteInvite']) ? trim($_GET['deleteInvite']) : null;
+  if($id != null){
+    $newGroup = new group();
+    $newGroup->deleteOneInvite($id);
+  }
+  header('Location: ' . $_SERVER['HTTP_REFERER']);
+
+}else if (isset($_GET['clearInvites'])){
+  $id = !empty($_GET['clearInvites']) ? trim($_GET['clearInvites']) : null;
+  $newGroup = new group();
+  $newGroup->deleteInvitations($id);
+  header('Location: ' . $_SERVER['HTTP_REFERER']);
+
 }
+

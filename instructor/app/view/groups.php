@@ -1,4 +1,3 @@
-
 <?php
 if (!defined('NotDirectAccess')){
 	die('Direct Access is not allowed to this page');
@@ -8,27 +7,79 @@ require_once 'navbar.php';
 $group = new group();
 $allGroups = $group->getAll($_SESSION['mydata']->id);
 ?>
-<div class="content mt-3">
+  <div class="content mt-3 ">
     <div class="animated fadeIn">
         <div class="col-md-12">
           <?php
-					if(isset($_SESSION['error']))
-					foreach($_SESSION['error'] as $err){
-					echo '<div class="alert alert-danger alert-dismissible fade show">
-					<span class="badge badge-pill badge-danger">Failed</span>'. $err . '</div>';}
-					unset($_SESSION['error']);
-					if (isset($_SESSION['info']))
-					foreach($_SESSION['info'] as $info){
-						echo '<div class="alert alert-success">
-						<span class="badge badge-success">Success</span>'. $info .'</div>';}
-						unset($_SESSION['info']);
+					if (isset($_GET['invitations']) && isset($_GET['id'])) { ?>
 						
-						if (isset($_GET['invitations']) && isset($_GET['id'])) { ?>
-								<button type="button" class="btn btn-warning float-right w-100"  data-toggle="modal" data-target="#addstudent">
-									<i class="fa fa-plus"></i> Add Students
-								</button>
-								<!-- Modal add Student to Group  -->
-
+		
+						<!-- Print Button -->
+						<button type="button" class="btn btn-success float-right mb-2 ms-2" style="margin-left:20px;" onclick="window.print()">
+							<i class="fa fa-print"></i> Print Data 
+						</button>
+						<!-- Clear Invitations Button -->
+						<button type="button" class="btn btn-danger float-right mb-2" onclick="javascript: if (confirm('Are you sure you want to delete all the invitation Codes?'))
+							{ window.location.href='app/controller/group.inc.php?clearInvites=<?php echo $_GET['id'] ?>';}">
+							<i class="fa fa-envelope"></i> Clear Invitations
+						</button>
+						<!-- Generate New Codes Button -->
+						<button type="button" class="btn btn-primary float-right mb-2" style="margin-right:20px" data-toggle="modal" data-target="#createGroupInvites">
+							<i class="fa fa-plus"></i> Generate New Codes
+						</button>
+						<!-- Add Students Button -->
+						<button type="button" class="btn btn-warning float-right mb-2" style="margin-right:20px" data-toggle="modal" data-target="#addstudent">
+							<i class="fa fa-plus"></i> Add Students
+						</button>
+					
+						<!-- Invitations Table -->
+						<table id="invitationsTable" class="table table-striped">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Group</th>
+									<th>Invite Code</th>
+									<th>-</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php
+								$codes = $group->getInvitations($_GET['id']);
+								$counter = 1;
+								foreach ($codes as $code) {
+									echo '<tr><td>'. $counter++ .'</td>';
+									echo '<td>'. $code->name .'</td>';
+									echo '<td>'. $code->code .'</td>';
+									echo '<td><a class="btn btn-outline-danger" href="app/controller/group.inc.php?deleteInvite='. $code->code .'"><i class="fa fa-trash"></i>Delete This Code</a></td></tr>';
+								} ?>
+							</tbody>
+						</table>
+							<div class="modal fade" id="createGroupInvites" tabindex="-1" role="dialog">
+							  <div class="modal-dialog" role="document">
+							    <div class="modal-content">
+							      <div class="modal-header">
+							        <h5 class="modal-title">Generate Group Invitations</h5>
+							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							          <span aria-hidden="true">&times;</span>
+							        </button>
+							      </div>
+							     <div class="modal-body">
+									<form action="app/controller/group.inc.php?createInvites" id="createInvitesForm" method="post">
+										<div class="form-group">
+											<input type="hidden" name="groupID" value="<?php echo $_GET['id']; ?>">
+										</div>
+										<div class="form-group">
+											<input type="number" name="count" placeholder="Number Of Codes To Generate.." min="1" max="1000" class="form-control" required>
+										</div>
+									</form>
+								</div>
+							      <div class="modal-footer">
+							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+							        <button type="submit" form="createInvitesForm" class="btn btn-primary">Generate</button>
+							      </div>
+							    </div>
+							  </div>
+							</div>
 							<div class="modal fade" id="addstudent" tabindex="-1" role="dialog">
 							  <div class="modal-dialog" role="document">
 							    <div class="modal-content">
@@ -42,7 +93,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 											<form action="app/controller/group.inc.php?addStudents" id="addstudentForm" method="post">
 												<input type="hidden" name="groupID" value="<?php echo $_GET['id']; ?>">
 												<div class="form-group">
-											    <label for="studentIDs">Student IDs</label>
+											    <label for="studentIDs">Stuudent IDs</label>
 											    <textarea class="form-control" id="studentIDs" name="studentIDs" rows="10" placeholder="Write One ID per line."></textarea>
 											  </div>
 											</form>
@@ -66,8 +117,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 						    }, delayMs);
 						});
 						</script>
-
-						<!-- Message After Succses Add Memebr -->
 
 						<div class="modal fade" id="addReport">
 						      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -112,7 +161,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 					unset($_SESSION['valid']);
 					unset($_SESSION['nonValid']);
 					} ?>
-					<!-- Member Group  -->
 						<div class="card">
 							<div class="card-header">
 								<strong class="card-title">Group Members</strong>
@@ -157,7 +205,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 							</div>
 						</div>
 					<?php }else{ ?>
-						<!-- Home Page Group  -->
             <div class="card">
               <div class="card-header">
                 <strong class="card-title">Groups</strong>
@@ -192,7 +239,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                           <a type="button" class="btn btn-outline-success" href="?groups&invitations&id=<?php echo $group->id ?>"><i class="fa fa-envelope"></i> Invitations</a>
                         </td>
                         <td class="text-center">
-                          <a type="button" class="btn btn-outline-dark" href="?groups&viewMembers&id=<?php echo $group->id ?>"><i class="fa fa-eye"></i> Members</a>
+                          <a type="button" class="btn btn-outline-secondary" href="?groups&viewMembers&id=<?php echo $group->id ?>"><i class="fa fa-eye"></i> Members</a>
                         </td>
                         <td class="text-center">
                           <button type="button" class="btn btn-outline-danger" <?php echo ($group->members == 0)? '':'disabled' ?> onclick="javascript: if (confirm('Are you sure you want to delete this Group?'))
@@ -204,7 +251,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                           <button type="button" data-toggle="modal" data-target="#editgroup" data-gname="<?php echo $group->name ?>" data-gid="<?php echo $group->id ?>" class="btn btn-outline-primary btn-block"><i class="fa fa-magic"></i>Update</button>
                         </td>
 											</tr>
-											<!-- Detial Assigned Test (تفاصيل الامتحان بتاعتي ال انا حددتها ) -->
 											<?php if($group->assignedTest){ ?>
 											<tr>
 												<td colspan="10"  style="padding-left:20px">
@@ -248,7 +294,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                 </table>
               </div>
             </div>
-			<!-- Modal Add Group -->
 						<div class="modal fade" id="addnewgroup" tabindex="-1" role="dialog" aria-labelledby="addnewgroupLabel" aria-hidden="true">
 				      <div class="modal-dialog modal-dialog-centered  modal-sm" role="document">
 				        <div class="modal-content">
@@ -275,7 +320,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
-			<!-- Modal Edit Group -->
 
 				    <div class="modal fade" id="editgroup" tabindex="-1" role="dialog" aria-labelledby="editgroupLabel" aria-hidden="true">
 				      <div class="modal-dialog modal-dialog-centered  modal-sm" role="document">
@@ -304,9 +348,6 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
-					
-						<!-- Modal Edit Update Informtion Test -->
-
 
 						<div class="modal fade" id="updateAssignedTest" tabindex="-1" role="dialog" aria-labelledby="updateAssignedTestLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered " role="document">
@@ -365,4 +406,4 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
   <?php
 		define('ContainsDatatables', true);
 		require_once 'footer.php';
-?>
+		?>
