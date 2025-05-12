@@ -54,6 +54,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 								} ?>
 							</tbody>
 						</table>
+						<!-- Modal Generate Code  -->
 							<div class="modal fade" id="createGroupInvites" tabindex="-1" role="dialog">
 							  <div class="modal-dialog" role="document">
 							    <div class="modal-content">
@@ -80,6 +81,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 							    </div>
 							  </div>
 							</div>
+							<!-- Modal Add Student Group  -->
 							<div class="modal fade" id="addstudent" tabindex="-1" role="dialog">
 							  <div class="modal-dialog" role="document">
 							    <div class="modal-content">
@@ -107,6 +109,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 							</div>
 
 						<?php
+						// valdtion student [group,no group]
 						}elseif (isset($_GET['viewMembers']) && isset($_GET['id'])) {
 						if(isset($_SESSION['valid']) || isset($_SESSION['nonValid'])){?>
 						<script>
@@ -294,6 +297,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
                 </table>
               </div>
             </div>
+			<!-- Modal Add Group -->
 						<div class="modal fade" id="addnewgroup" tabindex="-1" role="dialog" aria-labelledby="addnewgroupLabel" aria-hidden="true">
 				      <div class="modal-dialog modal-dialog-centered  modal-sm" role="document">
 				        <div class="modal-content">
@@ -320,6 +324,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
+					<!-- Modal Edit Group  -->
 
 				    <div class="modal fade" id="editgroup" tabindex="-1" role="dialog" aria-labelledby="editgroupLabel" aria-hidden="true">
 				      <div class="modal-dialog modal-dialog-centered  modal-sm" role="document">
@@ -348,6 +353,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
+					<!-- update setting test =>group  -->
 
 						<div class="modal fade" id="updateAssignedTest" tabindex="-1" role="dialog" aria-labelledby="updateAssignedTestLabel" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered " role="document">
@@ -406,4 +412,4 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
   <?php
 		define('ContainsDatatables', true);
 		require_once 'footer.php';
-		?>
+?>

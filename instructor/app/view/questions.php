@@ -324,7 +324,7 @@ $question = new question;
     <div class="row m-0">
       <div class="col-lg-6">
         <div class="card">
-          <div class="card-header text-center">
+          <div class="card-header text-center bg-primary text-light">
             <strong class="card-title">Import Questions To Database</strong>
           </div>
           <div class="card-body">
@@ -364,7 +364,7 @@ $question = new question;
       </div>
       <div class="col-lg-6">
         <div class="card">
-          <div class="card-header text-center">
+          <div class="card-header text-center  bg-primary text-light">
             <strong class="card-title">Export Questions</strong>
           </div>
           <div class="card-body">
