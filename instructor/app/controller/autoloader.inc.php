@@ -1,7 +1,7 @@
 <?php
 spl_autoload_register('myAutoLoader');
   function myAutoLoader ($className){
-    $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+    $url = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']; // Domain +  Primary query
     if (strpos($url,'controller') !== false){
       $path = '../model/';
     }else{
