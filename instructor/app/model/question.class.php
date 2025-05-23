@@ -1,7 +1,7 @@
 <?php
 class question extends dbh {
 
-    // الحصول على جميع الأسئلة
+    // . الحصول على جميع الأسئلة
     public function getAll($courseID = null) {
         $db = $this->connect();
         
