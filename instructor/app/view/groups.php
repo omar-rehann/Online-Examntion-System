@@ -109,7 +109,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 							</div>
 
 						<?php
-						// valdtion student [group,no group]
+						// valdtion student [group,no groupp]
 						}elseif (isset($_GET['viewMembers']) && isset($_GET['id'])) {
 						if(isset($_SESSION['valid']) || isset($_SESSION['nonValid'])){?>
 						<script>
