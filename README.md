@@ -49,21 +49,43 @@ Once a student logs in using the provided credentials, they can access the exams
 ## Simple flow shart
 ```mermaid
 flowchart TD
-    A[Login Page] -->|Student| B[Exam Interface]
-    A -->|Instructor| C[Admin Panel]
-    B --> D{Take Exam}
-    C --> E{Create Exam}
-    D --> F[Submit Answers]
-    E --> G[Publish Exam]
-    F --> I[groups.php]
-    I -->|POST: groupID, testID| J[group.inc.php]
-    J -->|Validate groupID| H[(Database)]
-    J -->|Error: The Group is not valid| I
-    G --> J
-    H -->|Return Data| J
-    J -->|Success Response| I
-    I -->|Update UI| B
-    I -->|Update UI| C
+    A[<b>Login</b>] -->|Admin| B[<b>Admin Panel</b>]
+    A -->|Doctor| C[<b>Doctor Panel</b>]
+    A -->|Student| D[<b>Student Panel</b>]
+
+    %% Admin
+    B --> B1[➕ Add Users]
+    B --> B2[📤 Import/Export]
+    B --> B3[📊 Results]
+    B --> B4[👤 Profile]
+
+    %% Doctor
+    C --> C1[👥 Groups]
+    C1 --> C1a[🖊️ Manual Add]
+    C1 --> C1b[🔢 Join Code]
+    
+    C --> C2[📝 Questions]
+    C2 --> C2a[📜 Essay]
+    C2 --> C2b[✅ True/False]
+    C2 --> C2c[🔘 MCQ]
+    C2 --> C2d[🔗 Matching]
+    C2 --> C2e[∑ Math]
+    C2 --> C2f[📤 Import/Export]
+
+    C --> C3[🛠️ Create Exam]
+    C --> C4[📈 View Results]
+    C --> C5[👤 Profile]
+
+    %% Student
+    D --> D1[✏️ Take Exam]
+    D --> D2[📊 Results]
+    D --> D3[👥 Join Group]
+    D3 --> D3a[🔢 Enter Code]
+    D3 --> D3b[➕ Added by Doctor]
+    D --> D4[👤 Profile]
+
+    %% Database Links
+    B1 & B2 & C1a & C1b & C2f & D1 & D3a & D3b --> H[(🛢️ Database)]
 
 
 
