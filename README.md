@@ -46,6 +46,24 @@ Once a student logs in using the provided credentials, they can access the exams
 1. Clone the project to your web folder (www)
 2. excute the attached sql database file
 3. login as instructor using admin using default email and password
+## Simple flow shart
+```mermaid
+flowchart TD
+    A[Login Page] -->|Student| B[Exam Interface]
+    A -->|Instructor| C[Admin Panel]
+    B --> D{Take Exam}
+    C --> E{Create Exam}
+    D --> F[Submit Answers]
+    E --> G[Publish Exam]
+    F --> I[groups.php]
+    I -->|POST: groupID, testID| J[group.inc.php]
+    J -->|Validate groupID| H[(Database)]
+    J -->|Error: The Group is not valid| I
+    G --> J
+    H -->|Return Data| J
+    J -->|Success Response| I
+    I -->|Update UI| B
+    I -->|Update UI| C
 
 
 
