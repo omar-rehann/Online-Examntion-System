@@ -5,7 +5,7 @@ The platform was developed to streamline the student assessment process in an or
 https://github.com/omar-rehann/Online-Examntion-System.git
 ## Team
 
-1. Omar Rehan &nbsp;&nbsp;&nbsp;&nbsp;  2-Bassem Ibrahim &nbsp;&nbsp;&nbsp;&nbsp; 3-Mahmoud Elzonfly  
+1. Omar Rehann &nbsp;&nbsp;&nbsp;&nbsp;  2-Bassem Ibrahim &nbsp;&nbsp;&nbsp;&nbsp; 3-Mahmoud Elzonfly  
 4. Maryam Rabei &nbsp;&nbsp;&nbsp;&nbsp;5-Maryam Rashad &nbsp;&nbsp;&nbsp;&nbsp;   6-Reem Adel  &nbsp;&nbsp;&nbsp;&nbsp;7. Esraa Soliman
 
 
