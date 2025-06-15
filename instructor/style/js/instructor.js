@@ -242,28 +242,6 @@ function customConfirm(lnk, conf, succ) {
         }
     });
 
-    // تحديث بيانات الاختبار المعين عند عرض النافذة
-    $('#updateAssignedTest').on('show.bs.modal', function(e) {
-        var gID = $(e.relatedTarget).data('id');
-        var tID = $(e.relatedTarget).data('testid');
-        var startTime = $(e.relatedTarget).data('starttime');
-        var endTime = $(e.relatedTarget).data('endtime');
-        var duration = $(e.relatedTarget).data('duration');
-        var viewAnswers = $(e.relatedTarget).data('viewanswers');
-        $(e.currentTarget).find('input[name="testID"]').val(tID);
-        $(e.currentTarget).find('input[name="groupID"]').val(gID);
-        $(e.currentTarget).find('input[name="startTime"]').val(startTime);
-        $(e.currentTarget).find('input[name="endTime"]').val(endTime);
-        $(e.currentTarget).find('input[name="duration"]').val(duration);
-        if (viewAnswers == 2) {
-            $(e.currentTarget).find('#sh1').prop("checked", 1);
-        } else if (viewAnswers == 1) {
-            $(e.currentTarget).find('#sh2').prop("checked", 1);
-        } else {
-            $(e.currentTarget).find('#sh3').prop("checked", 1);
-        }
-    });
-
     // حذف الاختبار المعين مع طلب التأكيد
     $('.deleteAssignedTest').on('click', function(e) {
         var gID = $(this).data('gid');

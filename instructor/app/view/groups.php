@@ -353,57 +353,7 @@ $allGroups = $group->getAll($_SESSION['mydata']->id);
 				        </div>
 				      </div>
 				    </div>
-					<!-- update setting test =>group  -->
-
-						<div class="modal fade" id="updateAssignedTest" tabindex="-1" role="dialog" aria-labelledby="updateAssignedTestLabel" aria-hidden="true">
-						  <div class="modal-dialog modal-dialog-centered " role="document">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h5 class="modal-title" id="updateAssignedTestLabel">Update Assigned Test</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						        </button>
-						      </div>
-						      <div class="modal-body">
-						        <form action="app/controller/group.inc.php?updateAssignedTest" id="updateAssignedTestForm" method="post">
-											<input type="hidden" name="testID">
-											<input type="hidden" name="groupID">
-						          <div class="form-group">
-						            <label for="startTime" class="col-form-label">Start Time:</label>
-												<input type="datetime-local" class="form-control" name="startTime">
-						          </div>
-						          <div class="form-group">
-						            <label for="endTime" class="col-form-label">End Time:</label>
-												<input type="datetime-local" class="form-control" name="endTime">
-						          </div>
-						          <div class="form-group">
-						            <label for="duration" class="col-form-label">Duration:</label>
-												<input type="number" class="form-control" name="duration" min="1">
-						          </div>
-						          <div class="form-group">
-						            <label for="recipient-name" class="col-form-label">End Time:</label>
-												<div class="radio icheck-info">
-														<input type="radio" id="sh1" name="showAnswers" value="2" checked/>
-														<label for="sh1">Show Directly After Submit</label>
-												</div>
-												<div class="radio icheck-info">
-														<input type="radio" id="sh2" name="showAnswers" value="1" />
-														<label for="sh2">Show After Test Session</label>
-												</div>
-												<div class="radio icheck-info">
-														<input type="radio" id="sh3" name="showAnswers" value="0"/>
-														<label for="sh3">Don't Show Answers</label>
-												</div>
-						          </div>
-						        </form>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						        <button type="submit" form="updateAssignedTestForm" class="btn btn-primary">Update</button>
-						      </div>
-						    </div>
-						  </div>
-						</div>
+		
 						<?php } ?>
         </div>
     </div>

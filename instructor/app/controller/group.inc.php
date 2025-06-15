@@ -31,24 +31,6 @@ if (isset($_GET['addGroup'])){
     }
     header('Location: ' . $_SERVER['HTTP_REFERER']);
 
-}else if (isset($_GET['updateAssignedTest'])){
-  $testID = isset($_POST['testID']) ? trim($_POST['testID']) : null;
-  $groupID = isset($_POST['groupID']) ? trim($_POST['groupID']) : null;
-  $startTime = isset($_POST['startTime']) ? trim($_POST['startTime']) : null;
-  $endTime = isset($_POST['endTime']) ? trim($_POST['endTime']) : null;
-  $duration = isset($_POST['duration']) ? trim($_POST['duration']) : 0;
-  $showAnswers = isset($_POST['showAnswers']) ? trim($_POST['showAnswers']) : null;
-  if($testID == null || empty($testID))
-    $_SESSION['error'][] = 'The Test ID is not valid.';
-  if($groupID == null || empty($groupID))
-    $_SESSION['error'][] = 'The Group is not valid.';
-  if(empty($_SESSION['error'])){
-    $Group = new group();
-    $Group->AssignTest($groupID,$testID,$startTime,$endTime,$showAnswers,$duration);
-    $_SESSION['info'][] = 'Assigned Test Has successfully updated';
-  }
-  header('Location: ' . $_SERVER['HTTP_REFERER']);
-
 }else if (isset($_GET['deleteGroup'])){
   $id = !empty($_GET['deleteGroup']) ? trim($_GET['deleteGroup']) : null;
   $newGroup = new group();
