@@ -5,7 +5,7 @@ class dbh {
      private $port = "3306";     
     private $username = "root"; 
     private $password = "";  
-  private $dbName = "online_exam";  
+  private $dbName = "online_examm";  
 
     // دالة الاتصال بقاعدة البيانات
     public function connect() {

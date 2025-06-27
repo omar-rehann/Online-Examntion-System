@@ -188,6 +188,7 @@ if (isset($_GET['needsReview'])) {
                                 <label class="control-label mb-1"><span class="badge badge-<?php echo ($result->passPercent < $precent) ? 'success' : 'danger' ?>"><?php echo round($precent) ?>%</span></label>
                             </div>
                         </div>
+                        <!-- the student sumbit before (timer stop)  -->
                         <?php if ($result->Questions != 0) { ?>
                             <div class="card mb-4 shadow-sm no-print">
                                 <div class="card-header bg-white">
